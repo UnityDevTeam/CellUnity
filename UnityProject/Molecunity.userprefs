@@ -1,0 +1,23 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Editor\Molecunity\CellUnityWindow.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Molecunity\Model\Pdb\PdbImport.cs" Line="1" Column="1" />
+      <File FileName="Assets\Editor\Molecunity\CellUnityWindow.cs" Line="24" Column="2" />
+      <File FileName="Assets\Editor\Molecunity\PdbImportWindow.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Molecunity\MoleculeSpecies.cs" Line="1" Column="1" />
+      <File FileName="Assets\Editor\Molecunity\MoleculeEditor.cs" Line="1" Column="1" />
+      <File FileName="Assets\Editor\Molecunity\CueEditor.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Molecunity\Model\Pdb\Atom.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Molecunity\CUE.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\daniel\Projects\Unity\Molecunity\Molecunity\Assets\Scripts\Molecunity\Model\Pdb\PdbImport.cs" line="45" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="Assets\Editor\Molecunity\MolecunityWindow.cs" line="30" offsetX="397" offsetY="493" expression="mue.Species" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+</Properties>
