@@ -30,6 +30,14 @@ namespace CellUnity
 			}
 		}
 
+		//[SerializeField]
+		private MoleculeCollection molecules = new MoleculeCollection();
+		public MoleculeCollection Molecules { get { return molecules; } }
+
+		//[SerializeField]
+		private ReactionManager reactionManager = new ReactionManager();
+		public ReactionManager ReactionManager { get { return reactionManager; } }
+
 		[SerializeField]
 		private List<MoleculeSpecies> species;
 

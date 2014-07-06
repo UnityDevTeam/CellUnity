@@ -8,7 +8,7 @@ using CellUnity;
 public class CellUnityWindow : EditorWindow
 {
 	[MenuItem ("Window/CellUnity")]
-	static void Init () {
+	public static void Init () {
 		EditorWindow.GetWindow <CellUnityWindow>();
 	}
 	

@@ -3,16 +3,17 @@ using System.Collections;
 
 namespace CellUnity.Reaction
 {
-	public class ReactionPrep : MonoBehaviour {
+	public class ReactionPrep {
 
-		// Use this for initialization
-		void Start () {
-		
+		public ReactionPrep(ReactionType t, Molecule a, Molecule b)
+		{
+			this.ReactionType = t;
+			this.A = a;
+			this.B = b;
 		}
-		
-		// Update is called once per frame
-		void Update () {
-		
-		}
+
+		public ReactionType ReactionType;
+		public Molecule A;
+		public Molecule B;
 	}
 }

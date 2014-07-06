@@ -55,7 +55,9 @@
      <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\PdbImport.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\PdbParser.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Molecule.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\MoleculeCollection.cs" />
      <Compile Include="Assets\Scripts\CellUnity\MoleculeSpecies.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionPrep.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionType.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Utility\ScriptableObjectUtility.cs" />

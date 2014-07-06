@@ -16,5 +16,9 @@ public class MoleculeEditor : Editor
 		t.Species = speciesPopup.Popup (t.Species);
 
 		EditorUtility.SetDirty (t);
+
+		if (GUILayout.Button("show CellUnity Editor")) {
+			CellUnityWindow.Init();
+		}
 	}
 }
