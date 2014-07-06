@@ -90,13 +90,13 @@ namespace CellUnity
 
 				Object asset = Resources.Load("CUE");
 				Debug.Log("loaded: "+(asset == null ? "null" : asset.ToString()));
-				CUE loadedCUE = asset as CUE;
-				if (loadedCUE == null)
+				CUE loadedCue = asset as CUE;
+				if (loadedCue == null)
 				{
 					Debug.Log ("creating new CUE...");
-					CUE CUE = ScriptableObject.CreateInstance<CUE>();
-					UnityEditor.AssetDatabase.CreateAsset(CUE, "Assets/Resources/CUE.asset");
-					//UnityEditor.AssetDatabase.AddObjectToAsset(CUE, "Assets/Resources/CUE.asset");
+					CUE cue = ScriptableObject.CreateInstance<CUE>();
+					UnityEditor.AssetDatabase.CreateAsset(cue, "Assets/Resources/CUE.asset");
+					//UnityEditor.AssetDatabase.AddObjectToAsset(cue, "Assets/Resources/CUE.asset");
 					UnityEditor.AssetDatabase.SaveAssets();
 				}
 			}

@@ -20,10 +20,10 @@ public class MoleculeSpeciesListView : ListView<MoleculeSpecies>
 		EditorUtility.SetDirty (item);
 
 		if (GUILayout.Button ("remove")) {
-			CUE CUE = CUE.GetInstance();
-			CUE.RemoveSpecies(item);
+			CUE cue = CUE.GetInstance();
+			cue.RemoveSpecies(item);
 
-			EditorUtility.SetDirty(CUE);
+			EditorUtility.SetDirty(cue);
 		}
 	}
 }
@@ -32,21 +32,32 @@ public class ReactionTypeListView : ListView<ReactionType>
 {
 	protected override void OnItemGui (ReactionType item)
 	{
+		CUE cue = CUE.GetInstance ();
+		
 		if (item == null) {
 			base.OnItemGui(item);
 			return;
 		}
 		
-		item.Name = EditorGUILayout.TextField ("Name", item.Name);
+		//item.Name = EditorGUILayout.TextField ("Name", item.Name);
 		//EditorGUILayout.LabelField("ID", item.GetInstanceID().ToString());
+
+		MoleculeSpeciesPopup speciesPopup = new MoleculeSpeciesPopup (cue);
+
+		EditorGUILayout.BeginHorizontal ();
+		item.Reagent1 = speciesPopup.Popup (item.Reagent1);
+		EditorGUILayout.LabelField (" + ", GUILayout.MaxWidth(20));
+		item.Reagent2 = speciesPopup.Popup (item.Reagent2);
+		EditorGUILayout.LabelField (" \u2192 ", GUILayout.MaxWidth(30));
+		item.Product = speciesPopup.Popup (item.Product);
+		EditorGUILayout.EndHorizontal ();
 
 		EditorUtility.SetDirty (item);
 
 		if (GUILayout.Button ("remove")) {
-			CUE CUE = CUE.GetInstance();
-			CUE.RemoveReaction(item);
+			cue.RemoveReaction(item);
 
-			EditorUtility.SetDirty(CUE);
+			EditorUtility.SetDirty(cue);
 		}
 	}
 }

@@ -19,13 +19,13 @@ public class CueEditor : Editor
 		GUILayout.Space (10);
 	}
 
-	public static void CueGui(CUE CUE) {
+	public static void CueGui(CUE cue) {
 
-		EditorGUILayout.LabelField ("ID", CUE.ID.ToString());
+		EditorGUILayout.LabelField ("ID", cue.ID.ToString());
 		
 		GUILayout.Label ("Molecule Species", EditorStyles.boldLabel);
 		
-		listViewMolecules.Gui (CUE.Species);
+		listViewMolecules.Gui (cue.Species);
 
 		Space ();
 		
@@ -34,10 +34,10 @@ public class CueEditor : Editor
 		GUILayout.BeginHorizontal ();
 		if (GUILayout.Button ("From Selected")) {
 			
-			var item = CUE.CreateMoleculeSpecies();
-			CUE.AddSpecies(item);
+			var item = cue.CreateMoleculeSpecies();
+			cue.AddSpecies(item);
 			
-			EditorUtility.SetDirty (CUE);
+			EditorUtility.SetDirty (cue);
 			EditorUtility.SetDirty (item);
 			
 			listViewMolecules.FoldOpen(item);
@@ -59,14 +59,14 @@ public class CueEditor : Editor
 		Space ();
 		GUILayout.Label ("Reactions", EditorStyles.boldLabel);
 		
-		listViewReactions.Gui (CUE.ReactionTypes);
+		listViewReactions.Gui (cue.ReactionTypes);
 		
 		Space ();
 		GUILayout.Label ("Add Reaction", EditorStyles.miniLabel);
 		if (GUILayout.Button ("Add Reaction")) {
-			var item = CUE.CreateReactionType();
-			CUE.AddReaction (item);
-			EditorUtility.SetDirty (CUE);
+			var item = cue.CreateReactionType();
+			cue.AddReaction (item);
+			EditorUtility.SetDirty (cue);
 			
 			listViewReactions.FoldOpen(item);
 		}
@@ -80,7 +80,7 @@ public class CueEditor : Editor
 		Space ();
 
 		if (GUILayout.Button ("Reset")) {
-			CUE.ResetData();
+			cue.ResetData();
 		}
 	}
 }

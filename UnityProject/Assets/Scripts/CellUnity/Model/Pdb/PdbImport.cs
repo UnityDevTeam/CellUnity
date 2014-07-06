@@ -61,10 +61,10 @@ namespace CellUnity.Model.Pdb
 
 			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Creating Species...", 0.3f);
 
-			CUE CUE = CUE.GetInstance ();
-			MoleculeSpecies species = CUE.CreateMoleculeSpecies ();
+			CUE cue = CUE.GetInstance ();
+			MoleculeSpecies species = cue.CreateMoleculeSpecies ();
 			species.Name = molName;
-			CUE.AddSpecies (species);
+			cue.AddSpecies (species);
 
 			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Creating Species...", 0.5f);
 

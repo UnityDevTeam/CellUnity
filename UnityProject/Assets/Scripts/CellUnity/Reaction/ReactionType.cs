@@ -7,16 +7,28 @@ namespace CellUnity.Reaction
 	[System.Serializable]
 	public class ReactionType : ScriptableObject {
 
-		public string Name = "";
+		//public string Name = "";
+
+		public MoleculeSpecies Reagent1;
+		public MoleculeSpecies Reagent2;
+		public MoleculeSpecies Product;
 
 		void OnEnable ()
 		{
 			hideFlags = HideFlags.HideInHierarchy;
 		}
 
+		private string SpeciesToString(MoleculeSpecies species)
+		{
+			if (species == null) { return "?"; }
+			return species.Name;
+		}
+
 		public override string ToString ()
 		{
-			return Name;
+			return SpeciesToString (Reagent1) + " + " +
+				SpeciesToString (Reagent2) + " \u2192 " +
+				SpeciesToString (Product);
 		}
 
 		public override int GetHashCode ()
@@ -31,7 +43,9 @@ namespace CellUnity.Reaction
 
 				return 
 					(GetInstanceID() == other.GetInstanceID()) &&
-					(Name == other.Name);
+						(Object.Equals(Reagent1, other.Reagent1)) &&
+						(Object.Equals(Reagent2, other.Reagent2)) &&
+						(Object.Equals(Product, other.Product));
 
 			} else { return false; }
 		}
