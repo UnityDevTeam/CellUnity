@@ -1,17 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\MoleculeSpecies.cs">
     <Files>
-      <File FileName="Assets\Scripts\CellUnity\MoleculeSpecies.cs" Line="18" Column="3" />
-      <File FileName="Assets\Scripts\CellUnity\Reaction\ReactionType.cs" Line="16" Column="1" />
-      <File FileName="Assets\Scripts\CellUnity\Molecule.cs" Line="36" Column="36" />
-      <File FileName="Assets\Scripts\CellUnity\CUE.cs" Line="34" Column="64" />
-      <File FileName="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" Line="28" Column="93" />
-      <File FileName="Assets\Scripts\CellUnity\MoleculeCollection.cs" Line="23" Column="52" />
+      <File FileName="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" Line="32" Column="77" />
+      <File FileName="Assets\Scripts\CellUnity\MoleculeCollection.cs" Line="65" Column="12" />
+      <File FileName="Assets\Scripts\CellUnity\Model\Pdb\PdbImport.cs" Line="85" Column="4" />
+      <File FileName="Assets\Scripts\CellUnity\CUE.cs" Line="22" Column="1" />
+      <File FileName="Assets\Scripts\CellUnity\MoleculeSpecies.cs" Line="33" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\daniel\Projects\Unity\CellUnity\UnityProject\Assets\Scripts\CellUnity\MoleculeSpecies.cs" line="28" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
