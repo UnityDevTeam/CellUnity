@@ -6,9 +6,9 @@ namespace CellUnity.Model.Pdb
 {
 	public class PdbImport {
 
-		private static int molCounter = 1;
+		//private static int molCounter = 1;
 		public void UserSelectFile() {
-			string molName = "mol" + (molCounter++).ToString ();
+			//string molName = "mol" + (molCounter++).ToString ();
 			string filename = EditorUtility.OpenFilePanel ("PDB File", "", "pdb");
 			
 			PdbParser p = PdbParser.FromFile (filename);
@@ -73,14 +73,15 @@ namespace CellUnity.Model.Pdb
 			script.Species = species;
 			
 			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Creating Prefab...", 0.1f);
-			
-			Object prefab = PrefabUtility .CreateEmptyPrefab("Assets/Molecules/"+molName+".prefab");
+
+			string assetPath = "Assets/Molecules/" + molName + ".prefab";
+			Object prefab = PrefabUtility.CreateEmptyPrefab(assetPath);
 			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Creating Prefab...", 0.2f);
 			PrefabUtility.ReplacePrefab(mol, prefab);
 			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Refresh...", 0.9f);
 			AssetDatabase.Refresh();
 
-			species.Prefab = prefab;
+			species.PrefabPath = assetPath;
 
 			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Done", 1f);
 			Debug.Log ("done");

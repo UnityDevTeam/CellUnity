@@ -76,7 +76,11 @@ public class CueEditor : Editor
 		if (GUILayout.Button ("Save Assets")) {
 			AssetDatabase.SaveAssets();
 		}
-		
+		if (GUILayout.Button ("Start Reaction")) {
+			cue.Molecules.ResetAllReactions();
+			cue.ReactionManager.PerformReaction(cue.ReactionTypes[0]);
+		}
+
 		Space ();
 
 		if (GUILayout.Button ("Reset")) {

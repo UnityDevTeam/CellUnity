@@ -20,12 +20,23 @@ namespace CellUnity
 		public string Name = "Molecule";
 
 		[SerializeField]
-		public Object Prefab;
+		public string PrefabPath;
 
-		public void Delete() {
+		private Object prefabObject = null;
+		public Object GetPrefabObject()
+		{
+			if (prefabObject == null)
+			{
+				prefabObject = Resources.LoadAssetAtPath(PrefabPath, typeof(GameObject));
+			}
 
-			if (Prefab != null) {
+			return prefabObject;
+		}
 
+		public void Delete()
+		{
+			if (PrefabPath != null) {
+				AssetDatabase.DeleteAsset(PrefabPath);
 			}
 		}
 

@@ -6,25 +6,31 @@ using CellUnity.Utility;
 
 namespace CellUnity
 {
-	[System.Serializable]
-	public class MoleculeCollection : ScriptableObject {
+	public class MoleculeCollection {
 		
 		public MoleculeCollection() { }
 		
-		void OnEnable ()
-		{
-			hideFlags = HideFlags.HideInHierarchy;
-		}
+		//void OnEnable ()
+		//{
+		//	hideFlags = HideFlags.HideInHierarchy;
+		//}
 
 		//private Dictionary<MoleculeSpecies, HashSet<Molecule>> collection = new Dictionary<MoleculeSpecies, HashSet<Molecule>>();
 		private HashSet<Molecule> collection = new HashSet<Molecule>();
 
 		public void Add(Molecule molecule) {
 			collection.Add (molecule);
+			Debug.Log ("MC++ m "+molecule.Species.ToString());
 		}
 
 		public void Remove(Molecule molecule) {
 			collection.Remove (molecule);
+		}
+
+		public void ResetAllReactions() {
+			foreach (Molecule item in collection) {
+				item.ReactionPrep = null;
+			}
 		}
 
 		public Molecule FindNearestMoleculeForReaction(Molecule reference, MoleculeSpecies species)
@@ -56,6 +62,7 @@ namespace CellUnity
 				if (species.Equals(m.Species) && (m.ReactionPrep == null))
 				{
 					list.Add(m);
+					break;
 				}
 			}
 
