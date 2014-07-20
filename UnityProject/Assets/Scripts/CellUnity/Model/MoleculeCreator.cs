@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using System;
 
 namespace CellUnity.Model
 {
@@ -19,6 +20,8 @@ namespace CellUnity.Model
 			GameObject mol = new GameObject(name);
 			mol.transform.position = Vector3.zero;
 
+			float colliderRadius = 0;
+
 			Vector3 center = Vector3.zero;
 
 			foreach (var obj in gameObjects) {
@@ -37,6 +40,13 @@ namespace CellUnity.Model
 			foreach (var obj in gameObjects) {
 				
 				obj.transform.position -= center;
+
+				colliderRadius = Math.Max(colliderRadius, Math.Abs(obj.renderer.bounds.min.x));
+				colliderRadius = Math.Max(colliderRadius, Math.Abs(obj.renderer.bounds.min.y));
+				colliderRadius = Math.Max(colliderRadius, Math.Abs(obj.renderer.bounds.min.z));
+				colliderRadius = Math.Max(colliderRadius, Math.Abs(obj.renderer.bounds.max.x));
+				colliderRadius = Math.Max(colliderRadius, Math.Abs(obj.renderer.bounds.max.y));
+				colliderRadius = Math.Max(colliderRadius, Math.Abs(obj.renderer.bounds.max.z));
 			}
 			
 			CUE cue = CUE.GetInstance ();
@@ -48,12 +58,13 @@ namespace CellUnity.Model
 			CellUnity.Molecule script = mol.GetComponent<CellUnity.Molecule> ();
 			script.Species = species;
 
-			mol.AddComponent<SphereCollider> ();
+			SphereCollider sphereCollider = mol.AddComponent<SphereCollider> ();
 			Rigidbody rigidbody = mol.AddComponent<Rigidbody> ();
 			rigidbody.useGravity = false;
+			sphereCollider.radius = colliderRadius;
 
 			string assetPath = "Assets/Molecules/" + name + ".prefab";
-			Object prefab = PrefabUtility.CreateEmptyPrefab(assetPath);
+			UnityEngine.Object prefab = PrefabUtility.CreateEmptyPrefab(assetPath);
 			PrefabUtility.ReplacePrefab(mol, prefab);
 			AssetDatabase.Refresh();
 			
