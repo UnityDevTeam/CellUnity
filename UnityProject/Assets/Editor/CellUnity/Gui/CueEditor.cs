@@ -35,10 +35,12 @@ public class CueEditor : Editor
 		if (GUILayout.Button ("From Selection")) {
 
 			GameObject mol = Selection.activeGameObject;
+
 			string molName = mol.name;
 
 			MoleculeSpecies species = cue.CreateMoleculeSpecies ();
 			species.Name = molName;
+			cue.AddSpecies (species);
 
 			mol.AddComponent<CellUnity.Molecule>();
 			CellUnity.Molecule script = mol.GetComponent<CellUnity.Molecule> ();
@@ -53,8 +55,6 @@ public class CueEditor : Editor
 			
 			EditorUtility.SetDirty (cue);
 			EditorUtility.SetDirty (mol);
-
-			cue.AddSpecies (species);
 			
 			listViewMolecules.FoldOpen(species);
 		}

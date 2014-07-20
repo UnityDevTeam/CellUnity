@@ -15,5 +15,15 @@ namespace CellUnity.Reaction
 		public ReactionType ReactionType;
 		public Molecule A;
 		public Molecule B;
+
+		public Molecule GetOther(Molecule me)
+		{
+			if (A == me)
+			{ return B;	}
+			else if (B == me)
+			{ return A; }
+			else
+			{ return null; }
+		}
 	}
 }

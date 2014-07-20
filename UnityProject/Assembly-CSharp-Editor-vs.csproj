@@ -53,6 +53,7 @@
      <Compile Include="Assets\Editor\CellUnity\ListView.cs" />
      <Compile Include="Assets\Editor\CellUnity\MoleculeEditor.cs" />
      <Compile Include="Assets\Editor\CellUnity\PdbImportWindow.cs" />
+     <Compile Include="Assets\Editor\CellUnity\Utilities\CombineMeshes.cs" />
      <Compile Include="Assets\Editor\CellUnity\Utilities\MoleculeSpeciesPopup.cs" />
      <Compile Include="Assets\Editor\Test.cs" />
      <Compile Include="Assets\Editor\Test2.cs" />

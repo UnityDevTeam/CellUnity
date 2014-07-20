@@ -34,5 +34,26 @@ namespace CellUnity
 
 		[System.NonSerialized]
 		public ReactionPrep ReactionPrep;
+
+		public Vector3 Position
+		{
+			get { return gameObject.transform.position; }
+			set { gameObject.transform.position = value; }
+		}
+
+		void FixedUpdate() {
+			ReactionPrep r = ReactionPrep;
+
+			if (r != null) 
+			{
+				Molecule other = r.GetOther(this);
+
+				Vector3 force = Vector3.Normalize(other.Position - Position);
+			
+				rigidbody.AddForce(force);
+			
+				Debug.Log(force);
+			}
+		}
 	}
 }

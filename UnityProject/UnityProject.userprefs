@@ -1,18 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\MoleculeSpecies.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Editor\CellUnity\CueEditor.cs">
     <Files>
-      <File FileName="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" Line="32" Column="77" />
-      <File FileName="Assets\Scripts\CellUnity\MoleculeCollection.cs" Line="65" Column="12" />
-      <File FileName="Assets\Scripts\CellUnity\Model\Pdb\PdbImport.cs" Line="85" Column="4" />
-      <File FileName="Assets\Scripts\CellUnity\CUE.cs" Line="22" Column="1" />
-      <File FileName="Assets\Scripts\CellUnity\MoleculeSpecies.cs" Line="33" Column="1" />
+      <File FileName="Assets\Editor\CellUnity\PdbImportWindow.cs" Line="25" Column="2" />
+      <File FileName="Assets\Editor\CellUnity\CueEditor.cs" Line="37" Column="47" />
+      <File FileName="Assets\Editor\CellUnity\Utilities\CombineMeshes.cs" Line="57" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\daniel\Projects\Unity\CellUnity\UnityProject\Assets\Scripts\CellUnity\MoleculeSpecies.cs" line="28" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
