@@ -49,6 +49,8 @@ namespace CellUnity.Model
 			script.Species = species;
 
 			mol.AddComponent<SphereCollider> ();
+			Rigidbody rigidbody = mol.AddComponent<Rigidbody> ();
+			rigidbody.useGravity = false;
 
 			string assetPath = "Assets/Molecules/" + name + ".prefab";
 			Object prefab = PrefabUtility.CreateEmptyPrefab(assetPath);
@@ -59,10 +61,10 @@ namespace CellUnity.Model
 
 			EditorUtility.SetDirty (cue);
 
-			foreach (var obj in gameObjects) {
+			/*foreach (var obj in gameObjects) {
 				GameObject.DestroyImmediate(obj);
 			}
-			GameObject.DestroyImmediate (mol);
+			GameObject.DestroyImmediate (mol);*/
 
 			return species;
 		}

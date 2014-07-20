@@ -35,8 +35,6 @@ namespace CellUnity
 
 		public Molecule FindNearestMoleculeForReaction(Molecule reference, MoleculeSpecies species)
 		{
-			//reference.gameObject.transform.position
-
 			Vector3 position = reference.transform.position;
 
 			float minDistance = float.MaxValue;
@@ -44,7 +42,7 @@ namespace CellUnity
 			foreach (var m in collection) {
 
 				float distance = Vector3.Distance(position, m.transform.position);
-				if ((species.Equals(m.Species)) && (m.ReactionPrep == null) && (distance < minDistance))
+				if ((species.Equals(m.Species)) && (m.ReactionPrep == null) && (distance < minDistance) && (reference != m))
 				{
 					minDistance = distance;
 					result = m;
@@ -62,13 +60,15 @@ namespace CellUnity
 				if (species.Equals(m.Species) && (m.ReactionPrep == null))
 				{
 					list.Add(m);
-					break;
 				}
 			}
 
+
 			if (list.Count > 0)
 			{
-				return list[(int)(Random.value * list.Count)];
+				int i = (int)(Random.value * list.Count);
+				Debug.Log("random: "+i+" /"+list.Count);
+				return list[i];
 			}
 			else
 			{ return null; }

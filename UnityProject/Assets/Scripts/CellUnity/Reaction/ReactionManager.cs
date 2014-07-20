@@ -55,6 +55,8 @@ namespace CellUnity
 
 			a.ReactionPrep = reactionPrep;
 			b.ReactionPrep = reactionPrep;
+
+			Debug.Log ("Reaction: "+a.name+" + "+b.name);
 		
 			//activeReactions.Add (reactionPrep);
 		}

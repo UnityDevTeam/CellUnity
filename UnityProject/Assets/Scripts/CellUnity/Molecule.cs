@@ -52,7 +52,7 @@ namespace CellUnity
 			
 				rigidbody.AddForce(force);
 			
-				Debug.Log(force);
+				//Debug.Log(force);
 			}
 		}
 	}

@@ -54,6 +54,12 @@ public class ReactionTypeListView : ListView<ReactionType>
 
 		EditorUtility.SetDirty (item);
 
+		if (Application.isPlaying) {
+			if (GUILayout.Button ("start reaction")) {
+				cue.ReactionManager.PerformReaction(item);
+			}
+		}
+
 		if (GUILayout.Button ("remove")) {
 			cue.RemoveReaction(item);
 

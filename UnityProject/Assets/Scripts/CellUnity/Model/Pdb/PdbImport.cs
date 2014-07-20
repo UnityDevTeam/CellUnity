@@ -45,7 +45,6 @@ namespace CellUnity.Model.Pdb
 			string molName = m.Name;
 			Debug.Log ("Imported: " + m.Atoms.Length + "atoms / " + m.Bonds.Length + "bonds");
 			
-			GameObject mol = new GameObject(molName);
 			Debug.Log ("About to add atoms...");
 
 			int i = 0;
