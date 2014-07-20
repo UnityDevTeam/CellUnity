@@ -46,13 +46,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Editor\CellUnity\CellUnityWindow.cs" />
-     <Compile Include="Assets\Editor\CellUnity\CueEditor.cs" />
-     <Compile Include="Assets\Editor\CellUnity\CustomGUI.cs" />
-     <Compile Include="Assets\Editor\CellUnity\CustomListViews.cs" />
-     <Compile Include="Assets\Editor\CellUnity\ListView.cs" />
-     <Compile Include="Assets\Editor\CellUnity\MoleculeEditor.cs" />
-     <Compile Include="Assets\Editor\CellUnity\PdbImportWindow.cs" />
+     <Compile Include="Assets\Editor\CellUnity\Gui\CellUnityWindow.cs" />
+     <Compile Include="Assets\Editor\CellUnity\Gui\CueEditor.cs" />
+     <Compile Include="Assets\Editor\CellUnity\Gui\CustomGUI.cs" />
+     <Compile Include="Assets\Editor\CellUnity\Gui\CustomListViews.cs" />
+     <Compile Include="Assets\Editor\CellUnity\Gui\ListView.cs" />
+     <Compile Include="Assets\Editor\CellUnity\Gui\MoleculeEditor.cs" />
+     <Compile Include="Assets\Editor\CellUnity\Gui\PdbImportWindow.cs" />
      <Compile Include="Assets\Editor\CellUnity\Utilities\CombineMeshes.cs" />
      <Compile Include="Assets\Editor\CellUnity\Utilities\MoleculeSpeciesPopup.cs" />
      <Compile Include="Assets\Editor\Test.cs" />

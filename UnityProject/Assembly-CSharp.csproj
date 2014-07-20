@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\CellUnity\CUE.cs" />
      <Compile Include="Assets\Scripts\CellUnity\InitialPlacement\Placement.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Model\MoleculeCreator.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Atom.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Bond.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Element.cs" />

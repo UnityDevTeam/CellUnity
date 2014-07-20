@@ -49,56 +49,42 @@ namespace CellUnity.Model.Pdb
 			Debug.Log ("About to add atoms...");
 
 			int i = 0;
-			foreach (Atom atom in m.Atoms) {
-				i++;
-				EditorUtility.DisplayProgressBar ("Creating Molecule...", "Atom "+i+"/"+m.Atoms.Length, i*1f/m.Atoms.Length);
+			GameObject[] gameObjects = new GameObject[m.Atoms.Length];
 
-				AddAtom(
-					atom,
-					mol.transform
-					);
+			foreach (Atom atom in m.Atoms) {
+				EditorUtility.DisplayProgressBar ("Creating Molecule...", "Atom "+(i+1)+"/"+m.Atoms.Length, (i+1)*1f/m.Atoms.Length);
+
+				gameObjects[i] = AddAtom(atom);
+
+				i++;
 			}
 
-			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Creating Species...", 0.3f);
-
-			CUE cue = CUE.GetInstance ();
-			MoleculeSpecies species = cue.CreateMoleculeSpecies ();
-			species.Name = molName;
-			cue.AddSpecies (species);
-
-			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Creating Species...", 0.5f);
-
-			mol.AddComponent<CellUnity.Molecule>();
-			CellUnity.Molecule script = mol.GetComponent<CellUnity.Molecule> ();
-			script.Species = species;
-			
-			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Creating Prefab...", 0.1f);
-
-			string assetPath = "Assets/Molecules/" + molName + ".prefab";
-			Object prefab = PrefabUtility.CreateEmptyPrefab(assetPath);
 			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Creating Prefab...", 0.2f);
-			PrefabUtility.ReplacePrefab(mol, prefab);
-			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Refresh...", 0.9f);
-			AssetDatabase.Refresh();
 
-			species.PrefabPath = assetPath;
+			MoleculeCreator creator = new MoleculeCreator ();
+			creator.gameObjects = gameObjects;
+			creator.name = molName;
+			creator.Create ();
+
+			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Refresh...", 0.9f);
 
 			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Done", 1f);
 			Debug.Log ("done");
 			EditorUtility.ClearProgressBar ();
 		}
 		
-		static void AddAtom(Atom atom, Transform transform)
+		static GameObject AddAtom(Atom atom)
 		{
 			var sphere = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-			sphere.transform.parent = transform;
-			
+
 			float scale = atom.Element.Radius * 4;
 			sphere.transform.localScale = new Vector3 (scale, scale, scale);
 			sphere.transform.position = new Vector3 (atom.X, atom.Y, atom.Z);
 			Material m = Resources.Load<Material> ("Atoms/Material" + atom.Element.Symbol);
 			if (m != null)
 			{ sphere.renderer.material = m; }
+
+			return sphere;
 		}
 	}
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEditor;
 using CellUnity;
+using CellUnity.Model;
 using CellUnity.Model.Pdb;
 
 [CustomEditor(typeof(CUE))]
@@ -34,27 +35,9 @@ public class CueEditor : Editor
 		GUILayout.BeginHorizontal ();
 		if (GUILayout.Button ("From Selection")) {
 
-			GameObject mol = Selection.activeGameObject;
-
-			string molName = mol.name;
-
-			MoleculeSpecies species = cue.CreateMoleculeSpecies ();
-			species.Name = molName;
-			cue.AddSpecies (species);
-
-			mol.AddComponent<CellUnity.Molecule>();
-			CellUnity.Molecule script = mol.GetComponent<CellUnity.Molecule> ();
-			script.Species = species;
-
-			string assetPath = "Assets/Molecules/" + molName + ".prefab";
-			Object prefab = PrefabUtility.CreateEmptyPrefab(assetPath);
-			PrefabUtility.ReplacePrefab(mol, prefab);
-			AssetDatabase.Refresh();
-
-			species.PrefabPath = assetPath;
-			
-			EditorUtility.SetDirty (cue);
-			EditorUtility.SetDirty (mol);
+			MoleculeCreator creator = new MoleculeCreator();
+			creator.gameObjects = Selection.gameObjects;
+			MoleculeSpecies species = creator.Create();
 			
 			listViewMolecules.FoldOpen(species);
 		}
