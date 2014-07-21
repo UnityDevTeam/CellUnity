@@ -29,7 +29,11 @@ namespace CellUnity
 				m1.ReactionPrep = null;
 				m2.ReactionPrep = null;
 
-				GameObject.Instantiate(reactionPrep.ReactionType.Product.GetPrefabObject(), m1.transform.position, Quaternion.identity);
+				Vector3 center = (m1.transform.position + m2.transform.position) / 2;
+
+				GameObject product = (GameObject)GameObject.Instantiate(reactionPrep.ReactionType.Product.GetPrefabObject(), center, Quaternion.identity);
+				GameObject flash = (GameObject)GameObject.Instantiate(Resources.LoadAssetAtPath("Assets/FusionFlash.prefab", typeof(GameObject)), Vector3.Lerp(center, Camera.mainCamera.gameObject.transform.position, 0.5f), Quaternion.identity);
+				//flash.transform.parent = product.transform;
 			}
 		}
 
