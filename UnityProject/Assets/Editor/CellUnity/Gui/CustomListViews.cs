@@ -15,7 +15,9 @@ public class MoleculeSpeciesListView : ListView<MoleculeSpecies>
 		}
 
 		item.Name = EditorGUILayout.TextField ("Name", item.Name);
+		item.InitialConcentration = EditorGUILayout.FloatField("Initial Concentration", item.InitialConcentration);
 		item.Mass = EditorGUILayout.FloatField("Mass", item.Mass);
+		EditorGUILayout.LabelField("Size", item.Size.ToString());
 		EditorGUILayout.LabelField("ID", item.GetInstanceID().ToString());
 
 		EditorUtility.SetDirty (item);

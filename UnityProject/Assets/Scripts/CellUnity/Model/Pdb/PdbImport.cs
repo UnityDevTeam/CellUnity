@@ -86,6 +86,7 @@ namespace CellUnity.Model.Pdb
 			Material m = Resources.Load<Material> ("Atoms/Material" + atom.Element.Symbol);
 			if (m != null)
 			{ sphere.renderer.material = m; }
+			sphere.name = atom.Element.Symbol;
 
 			return sphere;
 		}

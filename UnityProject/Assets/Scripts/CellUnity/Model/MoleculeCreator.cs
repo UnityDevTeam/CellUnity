@@ -75,10 +75,10 @@ namespace CellUnity.Model
 
 			EditorUtility.SetDirty (cue);
 
-			/*foreach (var obj in gameObjects) {
+			foreach (var obj in gameObjects) {
 				GameObject.DestroyImmediate(obj);
 			}
-			GameObject.DestroyImmediate (mol);*/
+			GameObject.DestroyImmediate (mol);
 
 			return species;
 		}
