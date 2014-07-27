@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace CellUnity.Model.Dispensing
+namespace CellUnity.Dispensing
 {
 	public class MoleculeSizeQueue : IEnumerable<Molecule>
 	{

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace CellUnity.Model.Dispensing
+namespace CellUnity.Dispensing
 {
 	public class DispenserBoxGridCube : DispenserBoxGrid
 	{

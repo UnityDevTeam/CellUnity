@@ -58,7 +58,7 @@ namespace CellUnity.Model
 			CellUnity.Molecule script = mol.AddComponent<CellUnity.Molecule>();
 			script.Species = species;
 			species.Mass = mass;
-			species.Size = colliderRadius;
+			species.Size = colliderRadius * 2;
 
 			SphereCollider sphereCollider = mol.AddComponent<SphereCollider> ();
 			Rigidbody rigidbody = mol.AddComponent<Rigidbody> ();

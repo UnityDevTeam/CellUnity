@@ -1,4 +1,4 @@
-namespace CellUnity.Model.Dispensing
+namespace CellUnity.Dispensing
 {
 	public class BoxLocation
 	{

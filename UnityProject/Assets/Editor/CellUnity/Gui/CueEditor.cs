@@ -4,6 +4,7 @@ using UnityEditor;
 using CellUnity;
 using CellUnity.Model;
 using CellUnity.Model.Pdb;
+using CellUnity.Dispensing;
 
 [CustomEditor(typeof(CUE))]
 public class CueEditor : Editor 
@@ -72,6 +73,9 @@ public class CueEditor : Editor
 		
 		Space ();
 		GUILayout.Label ("Debug", EditorStyles.boldLabel);
+		if (GUILayout.Button ("Place Molecules")) {
+			Dispenser.Test();
+		}
 		if (GUILayout.Button ("Save Assets")) {
 			AssetDatabase.SaveAssets();
 		}

@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CellUnity.Model.Dispensing
+namespace CellUnity.Dispensing
 {
-	public class Dispener
+	public class Dispenser
 	{
 		private MoleculeSizeQueue molecules = new MoleculeSizeQueue();
 		private List<DispenserBox> boxesAvailable;
@@ -82,6 +82,24 @@ namespace CellUnity.Model.Dispensing
 				else
 				{ throw new System.Exception("no space left, should not be possible"); }
 			}
+		}
+		
+		public static void Test()
+		{
+			CUE cue = CUE.GetInstance();
+		
+			Dispenser d = new Dispenser();
+			
+			d.BoxSize = 0;
+			d.MinimumBoxSize = 0.1f;
+			d.MoleculeBoxDistance = 0f;
+			
+			foreach (var species in cue.Species) {
+				d.AddMolecules(species, species.InitialQuantity);
+				d.BoxSize = Mathf.Max(d.BoxSize, species.Size);
+			}
+			
+			d.Place();
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace CellUnity
 		
 		public float Size;
 		public float Mass;
-		public float InitialConcentration;
+		public int InitialQuantity;
 
 		[SerializeField]
 		public string PrefabPath;
