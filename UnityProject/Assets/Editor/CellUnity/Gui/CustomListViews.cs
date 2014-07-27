@@ -15,6 +15,7 @@ public class MoleculeSpeciesListView : ListView<MoleculeSpecies>
 		}
 
 		item.Name = EditorGUILayout.TextField ("Name", item.Name);
+		item.Mass = EditorGUILayout.FloatField("Mass", item.Mass);
 		EditorGUILayout.LabelField("ID", item.GetInstanceID().ToString());
 
 		EditorUtility.SetDirty (item);

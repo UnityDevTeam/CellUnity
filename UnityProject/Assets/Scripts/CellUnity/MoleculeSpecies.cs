@@ -18,6 +18,9 @@ namespace CellUnity
 
 		[SerializeField]
 		public string Name = "Molecule";
+		
+		public float Size;
+		public float Mass;
 
 		[SerializeField]
 		public string PrefabPath;

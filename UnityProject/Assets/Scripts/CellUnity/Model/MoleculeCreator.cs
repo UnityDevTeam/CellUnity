@@ -12,6 +12,7 @@ namespace CellUnity.Model
 
 		public GameObject[] gameObjects;
 		public string name = null;
+		public float mass = 1f;
 
 		public MoleculeSpecies Create()
 		{
@@ -54,13 +55,15 @@ namespace CellUnity.Model
 			species.Name = name;
 			cue.AddSpecies (species);
 
-			mol.AddComponent<CellUnity.Molecule>();
-			CellUnity.Molecule script = mol.GetComponent<CellUnity.Molecule> ();
+			CellUnity.Molecule script = mol.AddComponent<CellUnity.Molecule>();
 			script.Species = species;
+			species.Mass = mass;
+			species.Size = colliderRadius;
 
 			SphereCollider sphereCollider = mol.AddComponent<SphereCollider> ();
 			Rigidbody rigidbody = mol.AddComponent<Rigidbody> ();
 			rigidbody.useGravity = false;
+			rigidbody.mass = mass;
 			sphereCollider.radius = colliderRadius;
 
 			string assetPath = "Assets/Molecules/" + name + ".prefab";

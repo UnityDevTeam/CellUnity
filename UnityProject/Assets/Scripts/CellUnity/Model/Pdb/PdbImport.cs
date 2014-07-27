@@ -48,12 +48,15 @@ namespace CellUnity.Model.Pdb
 			Debug.Log ("About to add atoms...");
 
 			int i = 0;
+			float mass = 0;
 			GameObject[] gameObjects = new GameObject[m.Atoms.Length];
 
 			foreach (Atom atom in m.Atoms) {
 				EditorUtility.DisplayProgressBar ("Creating Molecule...", "Atom "+(i+1)+"/"+m.Atoms.Length, (i+1)*1f/m.Atoms.Length);
 
 				gameObjects[i] = AddAtom(atom);
+				
+				mass += atom.Element.Mass;
 
 				i++;
 			}
@@ -63,6 +66,7 @@ namespace CellUnity.Model.Pdb
 			MoleculeCreator creator = new MoleculeCreator ();
 			creator.gameObjects = gameObjects;
 			creator.name = molName;
+			creator.mass = mass;
 			creator.Create ();
 
 			EditorUtility.DisplayProgressBar ("Creating Molecule...", "Refresh...", 0.9f);
