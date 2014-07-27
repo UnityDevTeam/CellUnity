@@ -8,7 +8,6 @@ public class LightFlash : MonoBehaviour {
 		gameObject.light.intensity = 0;
 		gameObject.light.enabled = true;
 		mode = 0;
-		Debug.Log ("Explosion");
 	}
 	
 	public float FadeInTime = 0.1f;
@@ -31,6 +30,21 @@ public class LightFlash : MonoBehaviour {
 				mode = 2;
 				gameObject.light.intensity = 0;
 			}
+		} else if (mode == 2)
+		{
+			mode = 3;
+			GameObject.Destroy(gameObject);
 		}
+	}
+	
+	private static GameObject prefabObject = null;
+	public static GameObject GetPrefabObject()
+	{
+		if (prefabObject == null)
+		{
+			prefabObject = Resources.LoadAssetAtPath<GameObject>("Assets/FusionFlash.prefab");
+		}
+		
+		return prefabObject;
 	}
 }
