@@ -21,6 +21,7 @@ namespace CellUnity
 		
 		public float Size;
 		public float Mass;
+		public float InitialConcentration;
 
 		[SerializeField]
 		public string PrefabPath;
@@ -38,6 +39,15 @@ namespace CellUnity
 
 		public void Delete()
 		{
+			Molecule[] molecules = GameObject.FindObjectsOfType<Molecule>();
+			
+			foreach (var m in molecules) {
+				if (Equals(m.Species))
+				{
+					GameObject.DestroyImmediate(m.gameObject);
+				}
+			}
+		
 			if (PrefabPath != null) {
 				AssetDatabase.DeleteAsset(PrefabPath);
 			}
