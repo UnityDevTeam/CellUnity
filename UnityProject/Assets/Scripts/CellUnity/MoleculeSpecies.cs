@@ -52,6 +52,12 @@ namespace CellUnity
 				AssetDatabase.DeleteAsset(PrefabPath);
 			}
 		}
+		
+		public Molecule CreateMolecule()
+		{
+			GameObject gameObject = (GameObject)GameObject.Instantiate(GetPrefabObject(), Vector3.zero, Quaternion.identity);
+			return gameObject.GetComponent<Molecule>();
+		}
 
 		public override string ToString ()
 		{

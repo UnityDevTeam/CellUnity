@@ -47,7 +47,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CellUnity\CUE.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\InitialPlacement\Placement.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Dispensing\BoxLocation.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Dispensing\Dispenser.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBox.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBoxGrid.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBoxGridCube.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Dispensing\MoleculeSizeQueue.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Model\MoleculeCreator.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Atom.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Bond.cs" />
