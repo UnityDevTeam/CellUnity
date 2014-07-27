@@ -29,10 +29,20 @@ namespace CellUnity
 				m1.ReactionPrep = null;
 				m2.ReactionPrep = null;
 
-				Vector3 center = (m1.transform.position + m2.transform.position) / 2;
+				Vector3 center = (m1.transform.position * m1.Species.Size + m2.transform.position * m2.Species.Size) / (m1.Species.Size + m2.Species.Size);
 
-				GameObject product = (GameObject)GameObject.Instantiate(reactionPrep.ReactionType.Product.GetPrefabObject(), center, Quaternion.identity);
-				GameObject flash = (GameObject)GameObject.Instantiate(Resources.LoadAssetAtPath("Assets/FusionFlash.prefab", typeof(GameObject)), Vector3.Lerp(center, Camera.mainCamera.gameObject.transform.position, 0.5f), Quaternion.identity);
+				MoleculeSpecies productSpecies = reactionPrep.ReactionType.Product;
+				GameObject product = (GameObject)GameObject.Instantiate(productSpecies.GetPrefabObject(), center, Quaternion.identity);
+				GameObject flash = (GameObject)GameObject.Instantiate(LightFlash.GetPrefabObject(), Vector3.Lerp(center, Camera.main.gameObject.transform.position, 0.5f), Quaternion.identity);
+				
+				float intensity = 2f * (float)System.Math.Sqrt(productSpecies.Size);
+				flash.GetComponent<LightFlash>().FinalIntensity = intensity;
+				
+				// momentum conservation
+				
+				Vector3 productVelocity = (m1.rigidbody.velocity * m1.Species.Mass + m2.rigidbody.velocity * m2.Species.Mass) / productSpecies.Mass;
+				product.rigidbody.velocity = productVelocity;
+				
 				//flash.transform.parent = product.transform;
 			}
 		}
