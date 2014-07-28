@@ -7,7 +7,7 @@ namespace CellUnity.Dispensing
 	{
 		protected override void OnCreate(List<DispenserBox> boxes)
 		{
-			long side = (long)System.Math.Ceiling(System.Math.Pow(MinBoxCount, 1.0 / 3.0));
+			long side = (long)Mathf.Ceil(Mathf.Pow(MinBoxCount, 1.0f / 3.0f));
 			float a = Size * (side-1) / 2f;
 			
 			for (long z = 0; z < side; z++)

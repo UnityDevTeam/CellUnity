@@ -6,6 +6,13 @@ namespace CellUnity.Dispensing
 {
 	public class Dispenser
 	{
+		public Dispenser()
+		{
+			BoxSize = 0;
+			MinimumBoxSize = 0.5f;
+			MoleculeBoxDistance = 0.05f;
+		}
+	
 		private MoleculeSizeQueue molecules = new MoleculeSizeQueue();
 		private List<DispenserBox> boxesAvailable;
 		
@@ -31,6 +38,9 @@ namespace CellUnity.Dispensing
 		{
 			double minBoxCount = 0;
 			double boxesNeeded = 1;
+			
+			BoxSize = Mathf.Max(BoxSize, MinimumBoxSize);
+			
 			DispenserBox testBox = new DispenserBox(new Vector3(0, 0, 0), BoxSize);
 			
 			foreach (var m in molecules)
@@ -49,10 +59,12 @@ namespace CellUnity.Dispensing
 				minBoxCount += boxesNeeded;
 			}
 			
-			DispenserBoxGrid grid = new DispenserBoxGridCube();
+			DispenserBoxGrid grid = new DispenserBoxGridSphere();
 			
 			grid.Size = BoxSize;
 			grid.MinBoxCount = (long)System.Math.Ceiling(minBoxCount);
+			
+			Debug.Log("Boxes: " + grid.MinBoxCount.ToString());
 			
 			boxesAvailable = grid.Create();
 		}
@@ -81,26 +93,6 @@ namespace CellUnity.Dispensing
 				else
 				{ throw new System.Exception("no space left, should not be possible"); }
 			}
-		}
-		
-		public static void Test()
-		{
-			CUE cue = CUE.GetInstance();
-		
-			Dispenser d = new Dispenser();
-			
-			d.BoxSize = 0;
-			d.MinimumBoxSize = 1f;
-			d.MoleculeBoxDistance = 0f;
-			
-			foreach (var species in cue.Species) {
-				d.AddMolecules(species, species.InitialQuantity);
-				d.BoxSize = Mathf.Max(d.BoxSize, species.Size + d.MoleculeBoxDistance*2);
-			}
-			
-			Debug.Log("BoxSize "+d.BoxSize);
-			
-			d.Place();
 		}
 	}
 }

@@ -19,8 +19,8 @@ namespace CellUnity
 		private HashSet<Molecule> collection = new HashSet<Molecule>();
 
 		public void Add(Molecule molecule) {
+			if (molecule == null) { throw new System.ArgumentException("molecule must not be null"); }
 			collection.Add (molecule);
-			Debug.Log ("MC++ m "+molecule.Species.ToString());
 		}
 
 		public void Remove(Molecule molecule) {

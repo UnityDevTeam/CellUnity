@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBox.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBoxGrid.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBoxGridCube.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBoxGridSphere.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Dispensing\MoleculeSizeQueue.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Model\MoleculeCreator.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Atom.cs" />

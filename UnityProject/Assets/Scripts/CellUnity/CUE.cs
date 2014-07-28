@@ -66,6 +66,28 @@ namespace CellUnity
 			ScriptableObject.DestroyImmediate (s, true);
 		}
 
+		public void RemoveMolecules ()
+		{
+			RemoveMolecules(null, true);
+		}
+
+		public void RemoveMolecules (MoleculeSpecies moleculeSpecies)
+		{
+			RemoveMolecules(moleculeSpecies, false);
+		}
+
+		private void RemoveMolecules (MoleculeSpecies moleculeSpecies, bool all)
+		{
+			Molecule[] molecules = GameObject.FindObjectsOfType<Molecule>();
+			
+			foreach (var m in molecules) {
+				if (all || Equals(m.Species))
+				{
+					GameObject.DestroyImmediate(m.gameObject);
+				}
+			}
+		}
+
 		[SerializeField]
 		private List<ReactionType> reactionTypes;
 

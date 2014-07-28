@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using CellUnity.Utility;
+using CellUnity;
 
 namespace CellUnity
 {
@@ -39,14 +40,8 @@ namespace CellUnity
 
 		public void Delete()
 		{
-			Molecule[] molecules = GameObject.FindObjectsOfType<Molecule>();
-			
-			foreach (var m in molecules) {
-				if (Equals(m.Species))
-				{
-					GameObject.DestroyImmediate(m.gameObject);
-				}
-			}
+			CUE cue = CUE.GetInstance();
+			cue.RemoveMolecules(this);
 		
 			if (PrefabPath != null) {
 				AssetDatabase.DeleteAsset(PrefabPath);

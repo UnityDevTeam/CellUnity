@@ -20,6 +20,8 @@ public class CueEditor : Editor
 	private static void Space() {
 		GUILayout.Space (10);
 	}
+	
+	private static Dispenser dispenser = new Dispenser();
 
 	public static void CueGui(CUE cue) {
 
@@ -72,11 +74,28 @@ public class CueEditor : Editor
 		}
 		
 		Space ();
-		GUILayout.Label ("Debug", EditorStyles.boldLabel);
-		if (GUILayout.Button ("Place Molecules")) {
-			Dispenser.Test();
+		GUILayout.Label ("Placing", EditorStyles.boldLabel);
+		
+		dispenser.BoxSize = EditorGUILayout.FloatField("Box Size:", dispenser.BoxSize);
+		dispenser.MinimumBoxSize = EditorGUILayout.FloatField("Minimum Box Size:", dispenser.MinimumBoxSize);
+		dispenser.MoleculeBoxDistance = EditorGUILayout.FloatField("Molecule-Box Distance:", dispenser.MoleculeBoxDistance);
+		
+		if (GUILayout.Button ("Remove all Molecules")) {
+			cue.RemoveMolecules();
 		}
 		
+		if (GUILayout.Button ("Place Molecules")) {
+			
+			foreach (var species in cue.Species) {
+				dispenser.AddMolecules(species, species.InitialQuantity);
+				dispenser.BoxSize = Mathf.Max(dispenser.BoxSize, species.Size + dispenser.MoleculeBoxDistance*2);
+			}
+			
+			dispenser.Place();
+		}
+		
+		Space ();
+		GUILayout.Label ("Debug", EditorStyles.boldLabel);
 		if (GUILayout.Button ("Auto Run Reactions")) {
 			GameObject autoRun = new GameObject("AutoRun");
 			autoRun.AddComponent<AutoReaction>();
