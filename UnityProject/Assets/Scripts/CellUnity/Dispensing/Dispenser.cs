@@ -32,7 +32,7 @@ namespace CellUnity.Dispensing
 		{
 			double minBoxCount = 0;
 			double boxesNeeded = 1;
-			DispenserBox testBox = new DispenserBox(new BoxLocation(0, 0, 0), BoxSize);
+			DispenserBox testBox = new DispenserBox(new Vector3(0, 0, 0), BoxSize);
 			
 			foreach (var m in molecules)
 			{
@@ -91,13 +91,15 @@ namespace CellUnity.Dispensing
 			Dispenser d = new Dispenser();
 			
 			d.BoxSize = 0;
-			d.MinimumBoxSize = 0.1f;
+			d.MinimumBoxSize = 0f;
 			d.MoleculeBoxDistance = 0f;
 			
 			foreach (var species in cue.Species) {
 				d.AddMolecules(species, species.InitialQuantity);
-				d.BoxSize = Mathf.Max(d.BoxSize, species.Size);
+				d.BoxSize = Mathf.Max(d.BoxSize, species.Size + d.MoleculeBoxDistance*2);
 			}
+			
+			Debug.Log("BoxSize "+d.BoxSize);
 			
 			d.Place();
 		}

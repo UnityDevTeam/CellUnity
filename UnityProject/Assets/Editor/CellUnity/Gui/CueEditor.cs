@@ -76,6 +76,12 @@ public class CueEditor : Editor
 		if (GUILayout.Button ("Place Molecules")) {
 			Dispenser.Test();
 		}
+		
+		if (GUILayout.Button ("Auto Run Reactions")) {
+			GameObject autoRun = new GameObject("AutoRun");
+			autoRun.AddComponent<AutoReaction>();
+		}
+		
 		if (GUILayout.Button ("Save Assets")) {
 			AssetDatabase.SaveAssets();
 		}

@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CellUnity\CUE.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Dispensing\BoxLocation.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Dispensing\Dispenser.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBox.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBoxGrid.cs" />
@@ -69,6 +68,8 @@
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionType.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Utility\ScriptableObjectUtility.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Utility\Utils.cs" />
+     <Compile Include="Assets\Scripts\Test\AutoReaction.cs" />
+     <Compile Include="Assets\Scripts\Test\DispenserGridGizmos.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

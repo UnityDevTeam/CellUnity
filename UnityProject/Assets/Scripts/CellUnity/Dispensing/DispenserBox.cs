@@ -5,17 +5,17 @@ namespace CellUnity.Dispensing
 {
 	public class DispenserBox
 	{
-		public DispenserBox(BoxLocation location, float size)
+		public DispenserBox(Vector3 location, float size)
 			: this(null, location, size)
 		{ }
 		
-		private DispenserBox(DispenserBox parent, BoxLocation location)
-			: this(parent, location, parent.SubSize)
+		private DispenserBox(DispenserBox parent, Vector3 relativeLocation)
+			: this(parent, relativeLocation, parent.SubSize)
 		{ }
 		
-		private DispenserBox(DispenserBox parent, BoxLocation location, float size)
+		private DispenserBox(DispenserBox parent, Vector3 relativeLocation, float size)
 		{
-			this.Location = location;
+			this.RelativeLocation = relativeLocation;
 			this.parent = parent;
 			
 			this.Size = size;
@@ -29,7 +29,7 @@ namespace CellUnity.Dispensing
 		public float SubSize { get { return Size / 2f; } }
 		public float AvailableSize { get; private set; }
 		public BoxOccupation Occupation { get; private set; }
-		public BoxLocation Location { get; private set; }
+		public Vector3 RelativeLocation { get; private set; }
 		
 		private DispenserBox[] subBoxes;
 		
@@ -39,16 +39,18 @@ namespace CellUnity.Dispensing
 			{
 				if (subBoxes == null)
 				{
+					float a = SubSize / 2f;
+				
 					subBoxes = new DispenserBox[] { 
-						new DispenserBox(this, new BoxLocation(1,1,1)),
-						new DispenserBox(this, new BoxLocation(-1,1,1)),
-						new DispenserBox(this, new BoxLocation(1,-1,1)),
-						new DispenserBox(this, new BoxLocation(-1,-1,1)),
+						new DispenserBox(this, new Vector3(a,a,a)),
+						new DispenserBox(this, new Vector3(-a,a,a)),
+						new DispenserBox(this, new Vector3(a,-a,a)),
+						new DispenserBox(this, new Vector3(-a,-a,a)),
 						
-						new DispenserBox(this, new BoxLocation(1,1,-1)),
-						new DispenserBox(this, new BoxLocation(-1,1,-1)),
-						new DispenserBox(this, new BoxLocation(1,-1,-1)),
-						new DispenserBox(this, new BoxLocation(-1,-1,-1))
+						new DispenserBox(this, new Vector3(a,a,-a)),
+						new DispenserBox(this, new Vector3(-a,a,-a)),
+						new DispenserBox(this, new Vector3(a,-a,-a)),
+						new DispenserBox(this, new Vector3(-a,-a,-a))
 					};
 				}
 				
@@ -118,35 +120,19 @@ namespace CellUnity.Dispensing
 			}
 		}
 		
-		private Vector3 GetLocation()
+		public Vector3 GetLocation()
 		{
 			if (parent == null)
 			{
 				return 
-					new Vector3(
-						Size * Location.X,
-						Size * Location.Y,
-						Size * Location.Z
-						);
+					RelativeLocation;
 			}
 			else
 			{
 				return
 					parent.GetLocation() +
-						new Vector3(
-							Size * Location.X,
-							Size * Location.Y,
-							Size * Location.Z
-							);
+					RelativeLocation;
 			}
-		}
-		
-		public int GetDepth()
-		{
-			if (parent == null)
-			{ return 0; }
-			else
-			{ return parent.GetDepth() + 1; }
 		}
 		
 		private void OccupySubBox()
