@@ -16,17 +16,22 @@ public class DispenserGridGizmos : MonoBehaviour {
 	
 	}
 	
+	public int MinBoxCount;
+	public bool ShowBoxes = true;
+	public bool ShowSubBoxes = true;
+	
 	void OnDrawGizmos() {
 	
 		CUE cue = CUE.GetInstance();
 				
 		DispenserBoxGridCube x = new DispenserBoxGridCube();
 		
-		x.MinBoxCount = 0;
 		foreach (var species in cue.Species) {
 			x.Size = Mathf.Max(species.Size, x.Size);
-			x.MinBoxCount += species.InitialQuantity;
 		}
+		
+		x.MinBoxCount = this.MinBoxCount;
+		
 		
 		List<DispenserBox> boxes = x.Create();
 		
@@ -42,16 +47,20 @@ public class DispenserGridGizmos : MonoBehaviour {
 		
 		int i = 0;
 		foreach (var item in boxes) {
-			Vector3 loc = item.GetLocation();
-			
-			Gizmos.color = colors[i++%colors.Length];
-			Gizmos.DrawCube(loc, new Vector3(item.Size, item.Size, item.Size));
-			
-			/*foreach (var subBox in item.SubBoxes) {
+			if (ShowBoxes)
+			{
+				Vector3 loc = item.GetLocation();
 				Gizmos.color = colors[i++%colors.Length];
-				Gizmos.DrawCube(subBox.GetLocation(), new Vector3(subBox.Size, subBox.Size, subBox.Size));
+				Gizmos.DrawCube(loc, new Vector3(item.Size, item.Size, item.Size));
 			}
-			// */
+			
+			if (ShowSubBoxes)
+			{
+				foreach (var subBox in item.SubBoxes) {
+					Gizmos.color = colors[i++%colors.Length];
+					Gizmos.DrawCube(subBox.GetLocation(), new Vector3(subBox.Size, subBox.Size, subBox.Size));
+				}
+			}
 		}
 	}
 }
