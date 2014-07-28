@@ -107,7 +107,15 @@ namespace CellUnity.Dispensing
 					// have to occupy this whole box
 					Occupy();
 					
-					location = GetLocation();
+					// randomize Location inside of this box
+					float freeSpace = (this.Size - size);
+					
+					Vector3 boxCenter = GetLocation();
+					location = new Vector3(
+						boxCenter.x + (float)(freeSpace*(random.NextDouble() - 0.5)),
+						boxCenter.y + (float)(freeSpace*(random.NextDouble() - 0.5)),
+						boxCenter.z + (float)(freeSpace*(random.NextDouble() - 0.5))
+					);					
 					
 					return true;
 				}

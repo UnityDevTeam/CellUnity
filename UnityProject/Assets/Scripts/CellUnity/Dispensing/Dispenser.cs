@@ -17,8 +17,7 @@ namespace CellUnity.Dispensing
 		{
 			for (int i = 0; i < count; i++)
 			{
-				Molecule m = species.CreateMolecule();
-				molecules.Enqueue(m);
+				molecules.Enqueue(species);
 			}
 		}
 		
@@ -36,7 +35,7 @@ namespace CellUnity.Dispensing
 			
 			foreach (var m in molecules)
 			{
-				float size = m.Species.Size + 2 * MoleculeBoxDistance;
+				float size = m.Size + 2 * MoleculeBoxDistance;
 				
 				while (testBox.SubSize >= size && testBox.SubSize >= MinimumBoxSize)
 				{
@@ -64,15 +63,15 @@ namespace CellUnity.Dispensing
 			
 			while (molecules.Count > 0)
 			{
-				Molecule m = molecules.Dequeue();
+				MoleculeSpecies s = molecules.Dequeue();
 				
 				int boxIndex = random.Next(0, boxesAvailable.Count);
 				DispenserBox box = boxesAvailable[boxIndex];
 				
 				Vector3 location;
-				if (box.FindSpace(m.Species.Size, MinimumBoxSize, random, out location))
+				if (box.FindSpace(s.Size, MinimumBoxSize, random, out location))
 				{
-					m.Position = location;
+					s.CreateMolecule(location);
 					
 					if (box.Occupation == BoxOccupation.Occupied)
 					{
@@ -91,7 +90,7 @@ namespace CellUnity.Dispensing
 			Dispenser d = new Dispenser();
 			
 			d.BoxSize = 0;
-			d.MinimumBoxSize = 0f;
+			d.MinimumBoxSize = 1f;
 			d.MoleculeBoxDistance = 0f;
 			
 			foreach (var species in cue.Species) {

@@ -4,9 +4,9 @@ using System.Collections;
 
 namespace CellUnity.Dispensing
 {
-	public class MoleculeSizeQueue : IEnumerable<Molecule>
+	public class MoleculeSizeQueue : IEnumerable<MoleculeSpecies>
 	{
-		private SortedList<float, Queue<Molecule>> queueList = new SortedList<float, Queue<Molecule>>(new MoleculeSizeComparer());
+		private SortedList<float, Queue<MoleculeSpecies>> queueList = new SortedList<float, Queue<MoleculeSpecies>>(new MoleculeSizeComparer());
 		
 		private class MoleculeSizeComparer : IComparer<float>
 		{
@@ -22,31 +22,31 @@ namespace CellUnity.Dispensing
 		private int count = 0;
 		public int Count { get { return count; } }
 		
-		public void Enqueue(Molecule molecule)
+		public void Enqueue(MoleculeSpecies species)
 		{
-			float key = molecule.Species.Size;
+			float key = species.Size;
 			
-			Queue<Molecule> queue;
+			Queue<MoleculeSpecies> queue;
 			if (queueList.TryGetValue(key, out queue))
 			{
-				queue.Enqueue(molecule);
+				queue.Enqueue(species);
 			}
 			else
 			{
-				queue = new Queue<Molecule>();
-				queue.Enqueue(molecule);
+				queue = new Queue<MoleculeSpecies>();
+				queue.Enqueue(species);
 				queueList.Add(key, queue);
 			}
 			
 			count++;
 		}
 		
-		public Molecule Dequeue()
+		public MoleculeSpecies Dequeue()
 		{
 			if (count > 0)
 			{
-				Molecule result = null;
-				Queue<Molecule> queue = null;
+				MoleculeSpecies result = null;
+				Queue<MoleculeSpecies> queue = null;
 				
 				foreach (var item in queueList)
 				{
@@ -68,7 +68,7 @@ namespace CellUnity.Dispensing
 			{ return null; }
 		}
 		
-		private class Enumerator : IEnumerator<Molecule>
+		private class Enumerator : IEnumerator<MoleculeSpecies>
 		{
 			public Enumerator(MoleculeSizeQueue queue)
 			{
@@ -77,11 +77,11 @@ namespace CellUnity.Dispensing
 			}
 			
 			private MoleculeSizeQueue queue;
-			private IEnumerator<KeyValuePair<float, Queue<Molecule>>> queueListEnumerator;
-			private IEnumerator<Molecule> queueEnumerator;
-			private Molecule current;
+			private IEnumerator<KeyValuePair<float, Queue<MoleculeSpecies>>> queueListEnumerator;
+			private IEnumerator<MoleculeSpecies> queueEnumerator;
+			private MoleculeSpecies current;
 			
-			public Molecule Current
+			public MoleculeSpecies Current
 			{
 				get { return current; }
 			}
@@ -141,7 +141,7 @@ namespace CellUnity.Dispensing
 			}
 		}
 		
-		public IEnumerator<Molecule> GetEnumerator()
+		public IEnumerator<MoleculeSpecies> GetEnumerator()
 		{
 			return new Enumerator(this);
 		}

@@ -53,9 +53,9 @@ namespace CellUnity
 			}
 		}
 		
-		public Molecule CreateMolecule()
+		public Molecule CreateMolecule(Vector3 location)
 		{
-			GameObject gameObject = (GameObject)GameObject.Instantiate(GetPrefabObject(), Vector3.zero, Quaternion.identity);
+			GameObject gameObject = (GameObject)GameObject.Instantiate(GetPrefabObject(), location, Quaternion.identity);
 			return gameObject.GetComponent<Molecule>();
 		}
 
