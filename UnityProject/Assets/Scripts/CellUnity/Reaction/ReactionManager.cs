@@ -61,7 +61,7 @@ namespace CellUnity
 			
 			float productMassSum = 0;
 			float productSizeSum = 0;
-			MoleculeSpecies[] productSpecies = reactionPrep.ReactionType.GetProducts();
+			MoleculeSpecies[] productSpecies = reactionPrep.ReactionType.Products;
 			
 			foreach (MoleculeSpecies productS in productSpecies) {
 				productMassSum += productS.Mass;
@@ -89,7 +89,7 @@ namespace CellUnity
 		{
 			CUE cue = CUE.GetInstance ();
 
-			MoleculeSpecies[] reagents = reaction.GetReagents();
+			MoleculeSpecies[] reagents = reaction.Reagents;
 			Molecule[] molecules; 
 			
 			if (cue.Molecules.FindMolecuelsForReaction(reagents, out molecules))

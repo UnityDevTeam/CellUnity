@@ -49,15 +49,13 @@ public class ReactionTypeListView : ListView<ReactionType>
 		MoleculeSpeciesPopup speciesPopupNullable = new MoleculeSpeciesPopup (cue, true);
 
 		EditorGUILayout.BeginHorizontal ();
-		item.Reagent1 = speciesPopup.Popup (item.Reagent1);
-		EditorGUILayout.LabelField (" + ", GUILayout.MaxWidth(20));
-		item.Reagent2 = speciesPopupNullable.Popup (item.Reagent2);
-		EditorGUILayout.LabelField (" + ", GUILayout.MaxWidth(20));
-		item.Reagent3 = speciesPopupNullable.Popup (item.Reagent3);
+		
+		item.Reagents = GuiSpeciesList(cue, item.Reagents);
+		
 		EditorGUILayout.LabelField (" \u2192 ", GUILayout.MaxWidth(30));
-		item.Product1 = speciesPopup.Popup (item.Product1);
-		EditorGUILayout.LabelField (" + ", GUILayout.MaxWidth(20));
-		item.Product2 = speciesPopupNullable.Popup (item.Product2);
+		
+		item.Products = GuiSpeciesList(cue, item.Products);
+		
 		EditorGUILayout.EndHorizontal ();
 		
 		item.Rate = EditorGUILayout.FloatField("Rate", item.Rate);
@@ -75,5 +73,25 @@ public class ReactionTypeListView : ListView<ReactionType>
 
 			EditorUtility.SetDirty(cue);
 		}
+	}
+	
+	private MoleculeSpecies[] GuiSpeciesList(CUE cue, MoleculeSpecies[] speciesArray)
+	{
+		MoleculeSpeciesPopup speciesPopup = new MoleculeSpeciesPopup (cue, speciesArray.Length > 0);
+	
+		List<MoleculeSpecies> species = new List<MoleculeSpecies>(speciesArray);
+		species.Add(null);
+		
+		for (int i = 0; i < species.Count; i++) {
+			if (i != 0) { EditorGUILayout.LabelField ("+", GUILayout.MaxWidth(10)); }
+			
+			species[i] = speciesPopup.Popup (species[i]);
+		}
+		
+		while (species.Contains(null)) {
+			species.Remove(null);
+		}
+		
+		return species.ToArray();
 	}
 }

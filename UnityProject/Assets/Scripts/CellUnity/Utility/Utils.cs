@@ -1,3 +1,4 @@
+using System;
 
 namespace CellUnity.Utility
 {
@@ -36,6 +37,22 @@ namespace CellUnity.Utility
 					return false;
 				}
 			}
+		}
+		
+		public static bool ArrayEquals<T>(T[] a, T[] b)
+		{
+			if (a.Length == b.Length)
+			{
+				for (int i = 0; i < a.Length; i++) {
+					if (!Object.Equals(a[i], b[i]))
+					{
+						return false;
+					}
+				}
+				
+				return true;
+			}
+			else { return false; }
 		}
 	}
 }
