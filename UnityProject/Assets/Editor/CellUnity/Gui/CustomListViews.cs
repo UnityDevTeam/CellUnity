@@ -41,12 +41,8 @@ public class ReactionTypeListView : ListView<ReactionType>
 			base.OnItemGui(item);
 			return;
 		}
-		
-		//item.Name = EditorGUILayout.TextField ("Name", item.Name);
-		//EditorGUILayout.LabelField("ID", item.GetInstanceID().ToString());
 
-		MoleculeSpeciesPopup speciesPopup = new MoleculeSpeciesPopup (cue, false);
-		MoleculeSpeciesPopup speciesPopupNullable = new MoleculeSpeciesPopup (cue, true);
+		item.Name = EditorGUILayout.TextField ("Name", item.Name);
 
 		EditorGUILayout.BeginHorizontal ();
 		

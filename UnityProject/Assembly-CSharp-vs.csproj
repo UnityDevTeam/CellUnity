@@ -67,10 +67,15 @@
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionPrep.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionType.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Simulation\ISimulator.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Utility\ScriptableObjectUtility.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Utility\Utils.cs" />
      <Compile Include="Assets\Scripts\Test\AutoReaction.cs" />
      <Compile Include="Assets\Scripts\Test\DispenserGridGizmos.cs" />
+ <Reference Include="copasicsP">
+ <HintPath>C:/Users/daniel/Projects/Unity/CellUnity/UnityProject/Assets/copasicsP.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

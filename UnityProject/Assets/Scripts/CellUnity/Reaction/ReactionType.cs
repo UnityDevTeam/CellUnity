@@ -9,7 +9,7 @@ namespace CellUnity.Reaction
 	[System.Serializable]
 	public class ReactionType : ScriptableObject {
 
-		//public string Name = "";
+		public string Name = "";
 
 		public float Rate;
 
@@ -49,7 +49,20 @@ namespace CellUnity.Reaction
 				addPlus = true;
 			}
 			
-			return s.ToString();
+			if (string.IsNullOrEmpty(Name))
+			{
+				return s.ToString();
+			}
+			else
+			{
+				return Name + " ("+s.ToString()+")";
+			}
+			
+		}
+		
+		public string GetAutoName()
+		{
+			return Name + "_reaction"+this.GetInstanceID().ToString();	
 		}
 
 		public override int GetHashCode ()
