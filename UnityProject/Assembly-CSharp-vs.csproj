@@ -69,6 +69,11 @@
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionType.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\ISimulator.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Simulation\ReactionCount.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Simulation\SimpleSimulator.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationManager.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationStep.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulatorScript.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Utility\ScriptableObjectUtility.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Utility\Utils.cs" />
      <Compile Include="Assets\Scripts\Test\AutoReaction.cs" />

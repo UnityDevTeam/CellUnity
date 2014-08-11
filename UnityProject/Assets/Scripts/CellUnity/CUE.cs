@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using CellUnity.Reaction;
+using CellUnity.Simulation;
 
 namespace CellUnity
 {
@@ -37,9 +38,15 @@ namespace CellUnity
 		//[SerializeField]
 		private ReactionManager reactionManager = new ReactionManager();
 		public ReactionManager ReactionManager { get { return reactionManager; } }
+		
+		private SimulationManager simulationManager = new SimulationManager();
+		public SimulationManager SimulationManager { get { return simulationManager; } }
 
 		[SerializeField]
 		private List<MoleculeSpecies> species;
+		
+		public float SimulationStep = 1;
+		public float VisualizationStep = 1;
 
 		[SerializeField]
 		public int ID = System.DateTime.Now.Millisecond;

@@ -244,7 +244,7 @@ namespace CellUnity.Simulation.Copasi
 			
 		}
 		
-		public void Step(double stepDuration)
+		public SimulationStep Step(double stepDuration)
 		{
 			CTrajectoryProblem problem = (CTrajectoryProblem)trajectoryTask.getProblem();
 			
@@ -271,6 +271,8 @@ namespace CellUnity.Simulation.Copasi
 			UpdateSimulation();
 			
 			trajectoryTask.restore();
+			
+			return new SimulationStep(null);
 		}
 		
 		private void UpdateSimulation()
@@ -304,7 +306,7 @@ namespace CellUnity.Simulation.Copasi
 		}
 		
 		private static bool initCopasiCalled = false;
-		public static void InitCopasi()
+		private static void InitCopasi()
 		{
 			if (!initCopasiCalled)
 			{

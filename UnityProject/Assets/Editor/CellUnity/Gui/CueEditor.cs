@@ -98,24 +98,25 @@ public class CueEditor : Editor
 		
 		Space();
 		
-		/*
 		GUILayout.Label ("Simulation", EditorStyles.boldLabel);
 		
-		EditorGUILayout.FloatField("Simulation Interval:", 0.01f);
-		EditorGUILayout.FloatField("Visualization Interval:", 2);
+		cue.SimulationStep = Mathf.Max (0, EditorGUILayout.FloatField("Simulation Interval:", (float)cue.SimulationStep));
+		cue.VisualizationStep = Mathf.Max (0, EditorGUILayout.FloatField("Visualization Interval:", (float)cue.VisualizationStep));
 		
 		GUILayout.BeginHorizontal ();
 		
+		if (GUILayout.Button ("Reset")) {
+			cue.SimulationManager.Reset();
+		}
+		
 		if (GUILayout.Button ("Start")) {
-			PdbImport pdbImport = new PdbImport();
-			pdbImport.UserSelectFile();
+			cue.SimulationManager.Start();
 		}
 		
 		if (GUILayout.Button ("Stop")) {
-			PdbImportWindow.UserDownload();
+			cue.SimulationManager.Stop();
 		}
 		GUILayout.EndHorizontal ();
-		*/
 		
 		Space ();
 		GUILayout.Label ("Debug", EditorStyles.boldLabel);
