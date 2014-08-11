@@ -33,26 +33,42 @@ namespace CellUnity
 			}
 		}
 
-		public Molecule FindNearestMoleculeForReaction(Molecule reference, MoleculeSpecies species)
+		public bool FindMolecuelsForReaction(MoleculeSpecies[] species, out Molecule[] molecules)
+		{
+			molecules = new Molecule[species.Length];
+			
+			if (species.Length > 0)
+			{
+				if (!FindRandomMoleculeForReaction(species[0], out molecules[0])) { return false; }
+				for (int i = 1; i < molecules.Length; i++) {
+					if (!FindRandomMoleculeForReaction(species[i], out molecules[i])) { return false; }
+				}
+			}
+			
+			return true;
+		}
+
+		private bool FindNearestMoleculeForReaction(Molecule reference, MoleculeSpecies species, out Molecule molecule)
 		{
 			Vector3 position = reference.transform.position;
 
 			float minDistance = float.MaxValue;
-			Molecule result = null;
 			foreach (var m in collection) {
 
 				float distance = Vector3.Distance(position, m.transform.position);
 				if ((species.Equals(m.Species)) && (m.ReactionPrep == null) && (distance < minDistance) && (reference != m))
 				{
 					minDistance = distance;
-					result = m;
+					molecule = m;
+					return true;
 				}
 			}
 
-			return result;
+			molecule = null;
+			return false;
 		}
 
-		public Molecule FindRandomMoleculeForReaction(MoleculeSpecies species)
+		private bool FindRandomMoleculeForReaction(MoleculeSpecies species, out Molecule molecule)
 		{
 			List<Molecule> list = new List<Molecule> ();
 			foreach (var m in collection)
@@ -63,15 +79,18 @@ namespace CellUnity
 				}
 			}
 
-
 			if (list.Count > 0)
 			{
 				int i = (int)(Random.value * list.Count);
 				Debug.Log("random: "+i+" /"+list.Count);
-				return list[i];
+				molecule = list[i];
+				return true;
 			}
 			else
-			{ return null; }
+			{
+				molecule = null;
+				return false;
+		  	}
 		}
 	}
 }

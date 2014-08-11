@@ -11,7 +11,7 @@ public class MoleculeEditor : Editor
 		Molecule t = (Molecule)target;
 		CUE cue = CUE.GetInstance ();
 
-		MoleculeSpeciesPopup speciesPopup = new MoleculeSpeciesPopup (cue);
+		MoleculeSpeciesPopup speciesPopup = new MoleculeSpeciesPopup (cue, false);
 
 		t.Species = speciesPopup.Popup (t.Species);
 

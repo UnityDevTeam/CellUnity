@@ -45,14 +45,19 @@ public class ReactionTypeListView : ListView<ReactionType>
 		//item.Name = EditorGUILayout.TextField ("Name", item.Name);
 		//EditorGUILayout.LabelField("ID", item.GetInstanceID().ToString());
 
-		MoleculeSpeciesPopup speciesPopup = new MoleculeSpeciesPopup (cue);
+		MoleculeSpeciesPopup speciesPopup = new MoleculeSpeciesPopup (cue, false);
+		MoleculeSpeciesPopup speciesPopupNullable = new MoleculeSpeciesPopup (cue, true);
 
 		EditorGUILayout.BeginHorizontal ();
 		item.Reagent1 = speciesPopup.Popup (item.Reagent1);
 		EditorGUILayout.LabelField (" + ", GUILayout.MaxWidth(20));
-		item.Reagent2 = speciesPopup.Popup (item.Reagent2);
+		item.Reagent2 = speciesPopupNullable.Popup (item.Reagent2);
+		EditorGUILayout.LabelField (" + ", GUILayout.MaxWidth(20));
+		item.Reagent3 = speciesPopupNullable.Popup (item.Reagent3);
 		EditorGUILayout.LabelField (" \u2192 ", GUILayout.MaxWidth(30));
-		item.Product = speciesPopup.Popup (item.Product);
+		item.Product1 = speciesPopup.Popup (item.Product1);
+		EditorGUILayout.LabelField (" + ", GUILayout.MaxWidth(20));
+		item.Product2 = speciesPopupNullable.Popup (item.Product2);
 		EditorGUILayout.EndHorizontal ();
 		
 		item.Rate = EditorGUILayout.FloatField("Rate", item.Rate);
@@ -61,7 +66,7 @@ public class ReactionTypeListView : ListView<ReactionType>
 
 		if (Application.isPlaying) {
 			if (GUILayout.Button ("start reaction")) {
-				cue.ReactionManager.PerformReaction(item);
+				cue.ReactionManager.InitiateReaction(item);
 			}
 		}
 

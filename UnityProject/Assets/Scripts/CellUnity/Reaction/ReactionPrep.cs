@@ -5,25 +5,65 @@ namespace CellUnity.Reaction
 {
 	public class ReactionPrep {
 
-		public ReactionPrep(ReactionType t, Molecule a, Molecule b)
+		public ReactionPrep(ReactionType t, Molecule[] molecules)
 		{
-			this.ReactionType = t;
-			this.A = a;
-			this.B = b;
+			this.reactionType = t;
+			this.molecules = molecules;
+			this.ready = new bool[molecules.Length];
+			for (int i = 0; i < molecules.Length; i++) {
+				ready[i] = false;
+				molecules[i].ReactionPrep = this;
+			}
 		}
 
-		public ReactionType ReactionType;
-		public Molecule A;
-		public Molecule B;
-
-		public Molecule GetOther(Molecule me)
+		private ReactionType reactionType;
+		private Molecule[] molecules;
+		private bool[] ready;
+		
+		private bool performed = false;
+		
+		public ReactionType ReactionType { get{ return reactionType; } }
+		public Molecule[] Molecules { get { return molecules; } }
+		
+		public Vector3 GetExpectedReactionLocation()
 		{
-			if (A == me)
-			{ return B;	}
-			else if (B == me)
-			{ return A; }
-			else
-			{ return null; }
+			Vector3 center = Vector3.zero;
+			float centerSum = 0;
+			
+			// calculate center
+			
+			foreach (Molecule m in molecules) {				
+				center += m.Position * m.Species.Mass;
+				centerSum += m.Species.Mass;
+			}
+			
+			center = center / centerSum;
+			
+			return center;
+		}
+		
+		public void Ready(Molecule molecule)
+		{
+			bool allReady = true;
+		
+			for (int i = 0; i < molecules.Length; i++) {
+				if (molecule == molecules[i])
+				{
+					ready[i] = true;
+					
+					if (!allReady) { break; }
+				}
+				
+				allReady = allReady & ready[i];
+			}
+			
+			if (allReady && !performed)
+			{
+				performed = true;
+				
+				CUE cue = CUE.GetInstance();
+				cue.ReactionManager.PerformReaction(this);
+			}
 		}
 	}
 }

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using CellUnity.Utility;
+using System.Text;
 
 namespace CellUnity.Reaction
 {
@@ -13,7 +15,25 @@ namespace CellUnity.Reaction
 
 		public MoleculeSpecies Reagent1;
 		public MoleculeSpecies Reagent2;
-		public MoleculeSpecies Product;
+		public MoleculeSpecies Reagent3;
+		public MoleculeSpecies Product1;
+		public MoleculeSpecies Product2;
+		
+		public MoleculeSpecies[] GetReagents() {
+			if (Reagent2 == null)
+			{ return new MoleculeSpecies[]{ Reagent1 }; }
+			else if (Reagent3 == null)
+			{ return new MoleculeSpecies[]{ Reagent1, Reagent2 }; }
+			else
+			{ return new MoleculeSpecies[]{ Reagent1, Reagent2, Reagent3 }; }
+		}
+		
+		public MoleculeSpecies[] GetProducts() {
+			if (Product2 == null)
+			{ return new MoleculeSpecies[]{ Product1 }; }
+			else
+			{ return new MoleculeSpecies[]{ Product1, Product2 }; }
+		}
 
 		void OnEnable ()
 		{
@@ -28,9 +48,27 @@ namespace CellUnity.Reaction
 
 		public override string ToString ()
 		{
-			return SpeciesToString (Reagent1) + " + " +
-				SpeciesToString (Reagent2) + " \u2192 " +
-				SpeciesToString (Product);
+			StringBuilder s = new StringBuilder();
+			
+			bool addPlus = false;
+			foreach (MoleculeSpecies reagent in GetReagents()) {
+				if (addPlus) { s.Append(" + "); }
+				s.Append(SpeciesToString(reagent));
+			
+				addPlus = true;
+			}
+			
+			s.Append(" \u2192 ");
+			
+			addPlus = false;
+			foreach (MoleculeSpecies product in GetProducts()) {
+				if (addPlus) { s.Append(" + "); }
+				s.Append(SpeciesToString(product));
+				
+				addPlus = true;
+			}
+			
+			return s.ToString();
 		}
 
 		public override int GetHashCode ()
@@ -47,7 +85,8 @@ namespace CellUnity.Reaction
 					(GetInstanceID() == other.GetInstanceID()) &&
 						(Object.Equals(Reagent1, other.Reagent1)) &&
 						(Object.Equals(Reagent2, other.Reagent2)) &&
-						(Object.Equals(Product, other.Product));
+						(Object.Equals(Product1, other.Product1)) &&
+						(Object.Equals(Product2, other.Product2));
 
 			} else { return false; }
 		}

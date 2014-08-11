@@ -46,9 +46,9 @@ namespace CellUnity
 
 			if (r != null) 
 			{
-				Molecule other = r.GetOther(this);
+				Vector3 destination = r.GetExpectedReactionLocation();
 
-				Vector3 force = Vector3.Normalize(other.Position - Position);
+				Vector3 force = Vector3.Normalize(destination - Position);
 			
 				rigidbody.AddForce(force);
 			

@@ -7,13 +7,27 @@ using CellUnity.Reaction;
 
 public class MoleculeSpeciesPopup {
 	
-	public MoleculeSpeciesPopup(CUE cue)
+	public MoleculeSpeciesPopup(CUE cue, bool nullPossible)
 	{
-		moleculeSpecies = cue.Species;
+		MoleculeSpecies[] cueSpecies = cue.Species;
+		
+		moleculeSpecies = new MoleculeSpecies[cueSpecies.Length + (nullPossible ? 1 : 0)];
 		
 		moleculeSpeciesString = new string[moleculeSpecies.Length];
-		for (int i = 0; i < moleculeSpecies.Length; i++) {
-			moleculeSpeciesString[i] = moleculeSpecies[i].Name;
+		
+		int i = 0;
+		
+		if (nullPossible)
+		{
+			moleculeSpecies[i] = null;
+			moleculeSpeciesString[i] = "none";
+			i++;
+		}
+		
+		foreach (var item in cueSpecies) {
+			moleculeSpecies[i] = item;
+			moleculeSpeciesString[i] = item.Name;
+			i++;
 		}
 	}
 	

@@ -15,64 +15,94 @@ namespace CellUnity
 
 		public void Collision(Molecule m1, Molecule m2)
 		{
-			//Debug.Log ("Collision: " + m1.ToString () + "; " + m2.ToString ());
-
 			if ((m1.ReactionPrep != null) && (m1.ReactionPrep == m2.ReactionPrep))
 			{
-				Debug.Log ("Reaction "+m1.Species+" + "+m2.Species);
-
-				GameObject.Destroy(m1.gameObject);
-				GameObject.Destroy(m2.gameObject);
-
 				ReactionPrep reactionPrep = m1.ReactionPrep;
-
-				m1.ReactionPrep = null;
-				m2.ReactionPrep = null;
-
-				Vector3 center = (m1.transform.position * m1.Species.Size + m2.transform.position * m2.Species.Size) / (m1.Species.Size + m2.Species.Size);
-
-				MoleculeSpecies productSpecies = reactionPrep.ReactionType.Product;
-				GameObject product = (GameObject)GameObject.Instantiate(productSpecies.GetPrefabObject(), center, Quaternion.identity);
-				GameObject flash = (GameObject)GameObject.Instantiate(LightFlash.GetPrefabObject(), Vector3.Lerp(center, Camera.main.gameObject.transform.position, 0.5f), Quaternion.identity);
 				
-				float intensity = 2f * (float)System.Math.Sqrt(productSpecies.Size);
-				flash.GetComponent<LightFlash>().FinalIntensity = intensity;
-				
-				// momentum conservation
-				
-				Vector3 productVelocity = (m1.rigidbody.velocity * m1.Species.Mass + m2.rigidbody.velocity * m2.Species.Mass) / productSpecies.Mass;
-				product.rigidbody.velocity = productVelocity;
-				
-				//flash.transform.parent = product.transform;
+				reactionPrep.Ready(m1);
+				reactionPrep.Ready(m2);
 			}
 		}
+		
+		private GameObject CreateProduct(MoleculeSpecies productSpecies, Vector3 position, Vector3 velocity)
+		{
+			GameObject product = null;
+		
 
-		//private List<ReactionPrep> activeReactions = new List<ReactionPrep> ();
+			
+			return product;
+		}
 
-		public void PerformReaction(ReactionType reaction)
+		public void PerformReaction(ReactionPrep reactionPrep)
+		{
+			// calculate center
+			
+			Vector3 center = Vector3.zero;
+			float centerSum = 0;
+		
+			foreach (Molecule m in reactionPrep.Molecules) {
+				m.ReactionPrep = null;
+				
+				center += m.Position * m.Species.Size;
+				centerSum += m.Species.Size;
+				
+				GameObject.Destroy(m.gameObject);
+			}
+
+			center = center / centerSum;
+			
+			// momentum conservation
+			
+			Vector3 momentum = Vector3.zero;
+			
+			foreach (Molecule m in reactionPrep.Molecules) {
+				momentum += m.rigidbody.velocity * m.Species.Mass;
+			}
+			
+			float productMassSum = 0;
+			float productSizeSum = 0;
+			MoleculeSpecies[] productSpecies = reactionPrep.ReactionType.GetProducts();
+			
+			foreach (MoleculeSpecies productS in productSpecies) {
+				productMassSum += productS.Mass;
+				productSizeSum += productS.Size;
+			}
+			
+			Vector3 productVelocity = momentum / productMassSum;
+			
+			// create products
+			
+			foreach (MoleculeSpecies productS in productSpecies) {
+				GameObject product = (GameObject)GameObject.Instantiate(productS.GetPrefabObject(), center, Quaternion.identity);
+				product.rigidbody.velocity = productVelocity;
+			}			
+			
+			// flash
+			
+			GameObject flash = (GameObject)GameObject.Instantiate(LightFlash.GetPrefabObject(), Vector3.Lerp(center, Camera.main.gameObject.transform.position, 0.5f), Quaternion.identity);
+			
+			float intensity = 2f * (float)System.Math.Sqrt(productSizeSum);
+			flash.GetComponent<LightFlash>().FinalIntensity = intensity;
+		}
+
+		public void InitiateReaction(ReactionType reaction)
 		{
 			CUE cue = CUE.GetInstance ();
 
-			Molecule a = cue.Molecules.FindRandomMoleculeForReaction (reaction.Reagent1);
-			if (a == null) {
-				Debug.LogError("no free Molecule for Reagent1 found");
-				return;
+			MoleculeSpecies[] reagents = reaction.GetReagents();
+			Molecule[] molecules; 
+			
+			if (cue.Molecules.FindMolecuelsForReaction(reagents, out molecules))
+			{
+				ReactionPrep reactionPrep = new ReactionPrep(reaction, molecules);
+				
+				if (molecules.Length == 1)
+				{
+					reactionPrep.Ready(molecules[0]); // necessary if only one reagent in reaction
+				}
 			}
-
-			Molecule b = cue.Molecules.FindNearestMoleculeForReaction (a, reaction.Reagent2);
-			if (b == null) {
-				Debug.LogError("no free Molecule for Reagent2 found");
-				return;
-			}
-
-			ReactionPrep reactionPrep = new ReactionPrep (reaction, a, b);
-
-			a.ReactionPrep = reactionPrep;
-			b.ReactionPrep = reactionPrep;
-
-			Debug.Log ("Reaction: "+a.name+" + "+b.name);
-		
-			//activeReactions.Add (reactionPrep);
+			else
+			{ Debug.LogError("not sufficent Molecules for "+reaction.ToString()); }
 		}
 	}
 }
