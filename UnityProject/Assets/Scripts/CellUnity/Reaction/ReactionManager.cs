@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CellUnity.Reaction;
 
-namespace CellUnity
+namespace CellUnity.Reaction
 {
 	[System.Serializable]
 	public class ReactionManager {
