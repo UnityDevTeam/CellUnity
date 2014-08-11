@@ -9,6 +9,8 @@ namespace CellUnity.Reaction
 
 		//public string Name = "";
 
+		public float Rate;
+
 		public MoleculeSpecies Reagent1;
 		public MoleculeSpecies Reagent2;
 		public MoleculeSpecies Product;

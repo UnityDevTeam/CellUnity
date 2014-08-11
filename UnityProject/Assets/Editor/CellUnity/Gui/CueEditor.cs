@@ -35,7 +35,7 @@ public class CueEditor : Editor
 		
 		GUILayout.Label ("Add Molecule", EditorStyles.miniLabel);
 		
-		GUILayout.BeginHorizontal ();
+		/*GUILayout.BeginHorizontal ();
 		if (GUILayout.Button ("From Selection")) {
 
 			MoleculeCreator creator = new MoleculeCreator();
@@ -44,7 +44,7 @@ public class CueEditor : Editor
 			
 			listViewMolecules.FoldOpen(species);
 		}
-		GUILayout.EndHorizontal ();
+		GUILayout.EndHorizontal ();*/
 		
 		GUILayout.BeginHorizontal ();
 
@@ -76,6 +76,8 @@ public class CueEditor : Editor
 		Space ();
 		GUILayout.Label ("Placing", EditorStyles.boldLabel);
 		
+		//EditorGUILayout.FloatField("Radius:", 10);
+		
 		dispenser.BoxSize = EditorGUILayout.FloatField("Box Size:", dispenser.BoxSize);
 		dispenser.MinimumBoxSize = EditorGUILayout.FloatField("Minimum Box Size:", dispenser.MinimumBoxSize);
 		dispenser.MoleculeBoxDistance = EditorGUILayout.FloatField("Molecule-Box Distance:", dispenser.MoleculeBoxDistance);
@@ -93,6 +95,27 @@ public class CueEditor : Editor
 			
 			dispenser.Place();
 		}
+		
+		Space();
+		
+		/*
+		GUILayout.Label ("Simulation", EditorStyles.boldLabel);
+		
+		EditorGUILayout.FloatField("Simulation Interval:", 0.01f);
+		EditorGUILayout.FloatField("Visualization Interval:", 2);
+		
+		GUILayout.BeginHorizontal ();
+		
+		if (GUILayout.Button ("Start")) {
+			PdbImport pdbImport = new PdbImport();
+			pdbImport.UserSelectFile();
+		}
+		
+		if (GUILayout.Button ("Stop")) {
+			PdbImportWindow.UserDownload();
+		}
+		GUILayout.EndHorizontal ();
+		*/
 		
 		Space ();
 		GUILayout.Label ("Debug", EditorStyles.boldLabel);

@@ -18,7 +18,7 @@ public class MoleculeSpeciesListView : ListView<MoleculeSpecies>
 		item.InitialQuantity = EditorGUILayout.IntField("Initial Quantity", item.InitialQuantity);
 		item.Mass = EditorGUILayout.FloatField("Mass", item.Mass);
 		EditorGUILayout.LabelField("Size", item.Size.ToString());
-		EditorGUILayout.LabelField("ID", item.GetInstanceID().ToString());
+		//EditorGUILayout.LabelField("ID", item.GetInstanceID().ToString());
 
 		EditorUtility.SetDirty (item);
 
@@ -54,6 +54,8 @@ public class ReactionTypeListView : ListView<ReactionType>
 		EditorGUILayout.LabelField (" \u2192 ", GUILayout.MaxWidth(30));
 		item.Product = speciesPopup.Popup (item.Product);
 		EditorGUILayout.EndHorizontal ();
+		
+		item.Rate = EditorGUILayout.FloatField("Rate", item.Rate);
 
 		EditorUtility.SetDirty (item);
 
