@@ -1,14 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Test\DispenserGridGizmos.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\..\..\..\temp\dump\CopasiUnity\CopasiProject\Assets\NewBehaviourScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\Test\AutoReaction.cs" Line="5" Column="26" />
-      <File FileName="Assets\Scripts\Test\DispenserGridGizmos.cs" Line="27" Column="54" />
-      <File FileName="Assets\Scripts\CellUnity\Dispensing\Dispenser.cs" Line="74" Column="22" />
-      <File FileName="c:\Users\daniel\Projects\Unity\CellUnity\UnityProject\Assets\Scripts\CellUnity\Dispensing\MoleculeSizeQueue.cs" Line="144" Column="37" />
-      <File FileName="Assets\Scripts\CellUnity\MoleculeSpecies.cs" Line="63" Column="4" />
-      <File FileName="Assets\Scripts\CellUnity\Dispensing\DispenserBoxGridCube.cs" Line="10" Column="69" />
-      <File FileName="Assets\Scripts\CellUnity\Dispensing\DispenserBoxGridSphere.cs" Line="30" Column="37" />
+      <File FileName="..\..\..\..\..\..\temp\dump\CopasiUnity\CopasiProject\Assets\NewBehaviourScript.cs" Line="25" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

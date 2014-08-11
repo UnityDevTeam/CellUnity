@@ -24,7 +24,7 @@ public class DispenserGridGizmos : MonoBehaviour {
 	
 		CUE cue = CUE.GetInstance();
 				
-		DispenserBoxGridSphere x = new DispenserBoxGridSphere();
+		var x = new DispenserBoxGridSphere();
 		
 		foreach (var species in cue.Species) {
 			x.Size = Mathf.Max(species.Size, x.Size);
@@ -35,7 +35,7 @@ public class DispenserGridGizmos : MonoBehaviour {
 		
 		List<DispenserBox> boxes = x.Create();
 		
-		float alpha = 1f;
+		float alpha = 0.5f;
 		Color[] colors = new Color[]
 		{
 			new Color(1,0,0, alpha),
