@@ -48,7 +48,10 @@ namespace CellUnity.Reaction
 				GameObject.Destroy(m.gameObject);
 			}
 
-			center = center / centerSum;
+			if (centerSum > float.Epsilon) // avoid division by 0
+			{
+				center = center / centerSum;
+			} 
 			
 			// momentum conservation
 			
@@ -95,6 +98,10 @@ namespace CellUnity.Reaction
 			{
 				ReactionPrep reactionPrep = new ReactionPrep(reaction, molecules);
 				
+				if (molecules.Length == 0)
+				{
+					reactionPrep.Ready(null);
+				}
 				if (molecules.Length == 1)
 				{
 					reactionPrep.Ready(molecules[0]); // necessary if only one reagent in reaction
