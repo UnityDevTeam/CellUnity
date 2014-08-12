@@ -10,8 +10,8 @@ namespace CellUnity.Simulation
 	{
 		public SimulationManager()
 		{
-			this.simulator = new SimpleSimulator();
-			//this.simulator = new Copasi.CopasiSimulator();
+			//this.simulator = new SimpleSimulator();
+			this.simulator = new Copasi.CopasiSimulator();
 		}
 		
 		private ISimulator simulator;

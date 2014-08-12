@@ -62,7 +62,7 @@ namespace CellUnity.Reaction
 		
 		public string GetAutoName()
 		{
-			return Name + "_reaction"+this.GetInstanceID().ToString();	
+			return Name + "reaction"+Mathf.Abs(this.GetInstanceID()).ToString();	
 		}
 
 		public override int GetHashCode ()

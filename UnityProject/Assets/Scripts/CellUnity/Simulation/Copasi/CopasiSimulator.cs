@@ -48,7 +48,7 @@ namespace CellUnity.Simulation.Copasi
 			
 			// create a compartment with the name cell and an initial volume of 5.0
 			// microliter
-			CCompartment compartment = model.createCompartment("cell", 5.0); // TODO: remove static value
+			CCompartment compartment = model.createCompartment("cell", 0.000001); // TODO: remove static value
 			CCopasiObject obj = compartment.getInitialValueReference();
 			changedObjects.Add(obj);
 			
@@ -56,7 +56,7 @@ namespace CellUnity.Simulation.Copasi
 			
 			foreach (var s in species)
 			{
-				CMetab metab = AddSpecies(changedObjects, s.Name, compartment, 10.0, CMetab.REACTIONS); // TODO: set particle number instead of concentration
+				CMetab metab = AddSpecies(changedObjects, s.Name, compartment, (int)s.InitialQuantity, CMetab.REACTIONS); // TODO: read out the real global quantity (there are maybe manual created molecules in the environment)
 				copasiMetabBySpecies.Add(s, metab);
 			}
 			
@@ -67,7 +67,7 @@ namespace CellUnity.Simulation.Copasi
 			for (int i = 0; i < reactions.Length; i++)
 			{
 				ReactionType r = reactions[i];
-			
+				
 				AddReaction(
 					changedObjects,
 					r
@@ -119,11 +119,11 @@ namespace CellUnity.Simulation.Copasi
 			return result;
 		}
 		
-		private CMetab AddSpecies(ObjectStdVector changedObjects, string name, CCompartment compartment, double iconc, int status)
+		private CMetab AddSpecies(ObjectStdVector changedObjects, string name, CCompartment compartment, double quantity, int status)
 		{
-			// TODO: add; use setInitialValue for Number (not Concentration) see Doc 1.5.2.3 metabolites 
-			
-			CMetab metab = model.createMetabolite(name, compartment.getObjectName(), iconc, status);
+			CMetab metab = model.createMetabolite(name, compartment.getObjectName());
+			metab.setInitialValue(quantity); // use setInitialValue for Number (not Concentration) see Doc 1.5.2.3 metabolites 
+			metab.setStatus(status);
 			CCopasiObject obj = metab.getInitialValueReference();
 			changedObjects.Add(obj);
 			
@@ -133,7 +133,7 @@ namespace CellUnity.Simulation.Copasi
 		private CReaction AddReaction(ObjectStdVector changedObjects, ReactionType reactionType)
 		{
 			string name = reactionType.GetAutoName();
-		
+			
 			// now we create a reaction
 			CReaction reaction = model.createReaction(name);
 			
@@ -172,7 +172,7 @@ namespace CellUnity.Simulation.Copasi
 			
 			for (int i = 0; i < suitableFunctions.Count; i++)
 			{
-				// we just assume that the only suitable function with Constant in
+				// we just assume that the only suitable function with mass action in
 				// it's name is the one we want
 				if (suitableFunctions[i].getObjectName().ToLower().Contains("mass action"))
 				{
@@ -194,11 +194,20 @@ namespace CellUnity.Simulation.Copasi
 				parameter.setDblValue(reactionType.Rate);
 				CCopasiObject obj = parameter.getValueReference();
 				changedObjects.Add(obj);
+				
+				foreach (var substrate in substrates)
+				{
+					reaction.addParameterMapping("substrate", substrate.getKey());   
+				}
 			}
 			else
 			{
 				throw new System.Exception("Error. Could not find a kinetic law that conatins the term \"Constant\".");
 			}
+			
+			
+			
+			// create global quantity value
 			
 			CModelValue modelValue = model.createModelValue(name);
 			
@@ -213,7 +222,7 @@ namespace CellUnity.Simulation.Copasi
 			string expression = "<CN=" + modelValue.getCN().getObjectName() + ",Model=" + model.getObjectName() + ",Vector=Reactions[" + reaction.getObjectName() + "],Reference=ParticleFlux>";
 			modelValue.setExpression(expression);
 			
-			reactionList.Add(new CopasiReactionGroup(reaction, reactionType, modelValue));  
+			reactionList.Add(new CopasiReactionGroup(reaction, reactionType, modelValue));
 			
 			return reaction;
 		}
@@ -295,11 +304,14 @@ namespace CellUnity.Simulation.Copasi
 			// Update the species properties that have changed
 			ReactionCount[] reactionCount = new ReactionCount[reactionList.Count];
 			
-			for (int i = 0; i < reactionList.Count; i++) {
+			for (int i = 0; i < reactionList.Count; i++)
+			{
 				CopasiReactionGroup r = reactionList[i];
 				
-				reactionCount[i] = r.CalcParticleFlux();	
+				reactionCount[i] = r.CalcParticleFlux();
 			}
+			
+			UpdateSimulation();
 			
 			// clean up
 			trajectoryTask.restore();
@@ -307,7 +319,7 @@ namespace CellUnity.Simulation.Copasi
 			return new SimulationStep(reactionCount);
 		}
 		
-		/*
+		
 		private void UpdateSimulation()
 		{
 			for (uint i = 0; i < model.getMetabolites().size(); i++)
@@ -316,7 +328,7 @@ namespace CellUnity.Simulation.Copasi
 				Console.WriteLine(m.getObjectName() + ":\t" + m.getValue().ToString() + "\t { initial:  " + m.getInitialValue() + " }");
 			}
 		}
-		*/
+		
 		
 		public void ExportSbml()
 		{
