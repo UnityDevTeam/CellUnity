@@ -174,7 +174,7 @@ namespace CellUnity.Simulation.Copasi
 			{
 				// we just assume that the only suitable function with Constant in
 				// it's name is the one we want
-				if (suitableFunctions[i].getObjectName().IndexOf("Constant") != -1)
+				if (suitableFunctions[i].getObjectName().ToLower().Contains("mass action"))
 				{
 					function = suitableFunctions[i];
 					break;
