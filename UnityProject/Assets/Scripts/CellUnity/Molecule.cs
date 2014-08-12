@@ -31,6 +31,10 @@ namespace CellUnity
 				cue.ReactionManager.Collision(this, otherMolecule);
 			}
 		}
+		
+		void OnMouseDown() {
+			Camera.main.transform.parent = gameObject.transform;
+		}
 
 		[System.NonSerialized]
 		public ReactionPrep ReactionPrep;

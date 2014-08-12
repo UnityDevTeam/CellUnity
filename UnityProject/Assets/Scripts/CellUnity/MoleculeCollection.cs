@@ -82,7 +82,6 @@ namespace CellUnity
 			if (list.Count > 0)
 			{
 				int i = (int)(Random.value * list.Count);
-				Debug.Log("random: "+i+" /"+list.Count);
 				molecule = list[i];
 				return true;
 			}

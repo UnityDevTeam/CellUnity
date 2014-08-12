@@ -109,6 +109,9 @@ public class CueEditor : Editor
 			cue.SimulationManager.Reset();
 		}
 		
+		GUILayout.Toggle(cue.SimulationManager.IsRunning, "Start");
+		GUILayout.Toggle(!cue.SimulationManager.IsRunning, "Stop");
+		
 		if (GUILayout.Button ("Start")) {
 			cue.SimulationManager.Start();
 		}
