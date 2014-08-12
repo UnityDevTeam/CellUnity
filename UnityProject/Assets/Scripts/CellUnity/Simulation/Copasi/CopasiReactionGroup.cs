@@ -7,12 +7,12 @@ namespace CellUnity.Simulation.Copasi
 		{
 				public CopasiReactionGroup (CReaction copasiReaction, ReactionType reactionType, CModelValue modelValueParticleFlux)
 				{
-					this.copasiReaction = copasiReaction;
+					//this.copasiReaction = copasiReaction;
 					this.reactionType = reactionType;
 					this.modelValueParticleFlux = modelValueParticleFlux;
 				}
 				
-				private CReaction copasiReaction;
+				//private CReaction copasiReaction;
 				private ReactionType reactionType;
 				private CModelValue modelValueParticleFlux;
 				

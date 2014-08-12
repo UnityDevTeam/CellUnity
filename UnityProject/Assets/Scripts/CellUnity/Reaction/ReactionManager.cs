@@ -5,7 +5,6 @@ using CellUnity.Reaction;
 
 namespace CellUnity.Reaction
 {
-	[System.Serializable]
 	public class ReactionManager {
 
 		//void OnEnable ()
@@ -102,7 +101,7 @@ namespace CellUnity.Reaction
 				}
 			}
 			else
-			{ Debug.LogError("not sufficent Molecules for "+reaction.ToString()); }
+			{ Debug.Log("not sufficent Molecules for "+reaction.ToString()); }
 		}
 	}
 }

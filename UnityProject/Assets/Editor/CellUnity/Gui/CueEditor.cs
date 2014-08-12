@@ -105,18 +105,19 @@ public class CueEditor : Editor
 		
 		GUILayout.BeginHorizontal ();
 		
-		if (GUILayout.Button ("Reset")) {
+		if (GUILayout.Button ("Reset",  GUILayout.MaxWidth(80))) {
 			cue.SimulationManager.Reset();
 		}
 		
-		GUILayout.Toggle(cue.SimulationManager.IsRunning, "Start");
-		GUILayout.Toggle(!cue.SimulationManager.IsRunning, "Stop");
-		
-		if (GUILayout.Button ("Start")) {
+		bool simulationRunning = cue.SimulationManager.IsRunning;
+		int simulaorSelection =
+			GUILayout.SelectionGrid(simulationRunning ? 0 : 1, new string[] {"Start", "Stop"} , 2 );
+
+		if (simulaorSelection == 0 && !simulationRunning) {
 			cue.SimulationManager.Start();
 		}
 		
-		if (GUILayout.Button ("Stop")) {
+		if (simulaorSelection == 1 && simulationRunning) {
 			cue.SimulationManager.Stop();
 		}
 		GUILayout.EndHorizontal ();

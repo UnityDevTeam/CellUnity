@@ -1,10 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\daniel\Projects\Unity\CellUnity\UnityProject\Assets\Scripts\CellUnity\Simulation\SimulationManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\Simulation\SimulationManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" Line="150" Column="62" />
-      <File FileName="c:\Users\daniel\Projects\Unity\CellUnity\UnityProject\Assets\Scripts\CellUnity\Simulation\SimpleSimulator.cs" Line="17" Column="4" />
-      <File FileName="c:\Users\daniel\Projects\Unity\CellUnity\UnityProject\Assets\Scripts\CellUnity\Simulation\SimulationManager.cs" Line="128" Column="16" />
+      <File FileName="Assets\Scripts\CellUnity\Simulation\SimulationManager.cs" Line="13" Column="40" />
+      <File FileName="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" Line="7" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

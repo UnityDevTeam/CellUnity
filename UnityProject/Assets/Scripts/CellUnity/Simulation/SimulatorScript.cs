@@ -8,8 +8,6 @@ public class SimulatorScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.cue = CUE.GetInstance();
-		
-		cue.SimulationManager.Start();
 	}
 	
 	void OnDisable()

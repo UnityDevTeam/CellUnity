@@ -28,11 +28,11 @@ namespace CellUnity.Simulation
 				GameObject simulatorScriptGameObject = new GameObject("SimulatorScript");
 				simulatorScriptGameObject.AddComponent<CellUnity.Simulation.SimulatorScript>();
 			}
-		
+			
 			Stop ();
 			
 			simulationThread = new Thread(new ThreadStart(RunSimulation));
-			simulationThread.IsBackground = true;
+			//simulationThread.IsBackground = true;
 		
 			CUE cue = CUE.GetInstance();
 			simulator.Init(cue.Species, cue.ReactionTypes);
@@ -58,13 +58,15 @@ namespace CellUnity.Simulation
 		
 		public void Stop()
 		{
-			if (simulationThread != null)
+			if (running && simulationThread != null)
 			{
 				simulationThread.Abort();
 				simulationThread.Join();
 				simulationThread = null;
 				
-				// do not set running = false. this is done in the thread
+				running = false;
+				
+				Debug.Log("Simulation stop");
 			}
 		}
 		
@@ -75,26 +77,26 @@ namespace CellUnity.Simulation
 			try
 			{
 				while (true)
-				{				
+				{
 					while (nextStep > DateTime.Now) {
 						int sleepTime = System.Math.Max (0, (int)((nextStep - DateTime.Now).TotalMilliseconds * 0.95));
 						Thread.Sleep(sleepTime);
 					}
-
 					SimulationStep step = simulator.Step(cue.SimulationStep);
 					EnqueueStep(step);
-					
 					nextStep = nextStep.AddSeconds(cue.VisualizationStep);
 				}
 			}
 			catch (ThreadAbortException)
 			{
-			
+				Debug.Log("Thread abort");
+				// is never executed, I don't know why
+				// is Unity not supporting Threading?
 			}
 			finally
 			{
-				running = false;
-				Debug.Log("Simulation stop");
+				// is never executed, I don't know why
+				// is Unity not supporting Threading?
 			}
 		}
 		
@@ -123,7 +125,7 @@ namespace CellUnity.Simulation
 				
 				CUE cue = CUE.GetInstance();
 				
-				System.Text.StringBuilder info = new System.Text.StringBuilder();
+				System.Text.StringBuilder info = new System.Text.StringBuilder(); // TODO: remove
 				
 				foreach (ReactionCount item in step.Reactions)
 				{
@@ -135,7 +137,7 @@ namespace CellUnity.Simulation
 					}
 				}
 				
-				Debug.Log(info.ToString());
+				//Debug.Log(info.ToString());
 			}
 		}
 	}
