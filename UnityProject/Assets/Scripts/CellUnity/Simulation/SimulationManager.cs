@@ -11,11 +11,12 @@ namespace CellUnity.Simulation
 		public SimulationManager()
 		{
 			this.simulator = new SimpleSimulator();
-			
+			//this.simulator = new Copasi.CopasiSimulator();
 		}
 		
 		private ISimulator simulator;
 		private CUE cue;
+		private bool running = false;
 		
 		public void Reset()
 		{
@@ -37,14 +38,22 @@ namespace CellUnity.Simulation
 			simulator.Init(cue.Species, cue.ReactionTypes);
 		}
 		
+		public bool IsRunning { get { return running; } }
+		
 		public void Start()
 		{
-			if (simulationThread == null)
+			if (!running)
 			{
-				Reset();
+				running = true;
+				if (simulationThread == null)
+				{
+					Reset();
+				}
+			
+				simulationThread.Start();
+				
+				Debug.Log("Simulation start");
 			}
-		
-			simulationThread.Start();
 		}
 		
 		public void Stop()
@@ -54,6 +63,8 @@ namespace CellUnity.Simulation
 				simulationThread.Abort();
 				simulationThread.Join();
 				simulationThread = null;
+				
+				// do not set running = false. this is done in the thread
 			}
 		}
 		
@@ -64,13 +75,12 @@ namespace CellUnity.Simulation
 			try
 			{
 				while (true)
-				{
+				{				
 					while (nextStep > DateTime.Now) {
 						int sleepTime = System.Math.Max (0, (int)((nextStep - DateTime.Now).TotalMilliseconds * 0.95));
 						Thread.Sleep(sleepTime);
 					}
-				
-					Debug.Log("Step "+nextStep.ToLongTimeString());
+
 					SimulationStep step = simulator.Step(cue.SimulationStep);
 					EnqueueStep(step);
 					
@@ -80,6 +90,11 @@ namespace CellUnity.Simulation
 			catch (ThreadAbortException)
 			{
 			
+			}
+			finally
+			{
+				running = false;
+				Debug.Log("Simulation stop");
 			}
 		}
 		
@@ -108,13 +123,19 @@ namespace CellUnity.Simulation
 				
 				CUE cue = CUE.GetInstance();
 				
+				System.Text.StringBuilder info = new System.Text.StringBuilder();
+				
 				foreach (ReactionCount item in step.Reactions)
 				{
-					for (int i = 0; i < item.Count; i++)
+					info.Append(item.ReactionType.ToString()+": "+item.Count+";   ");
+				
+					for (ulong i = 0; i < item.Count; i++)
 					{
 						cue.ReactionManager.InitiateReaction(item.ReactionType);	
 					}
 				}
+				
+				Debug.Log(info.ToString());
 			}
 		}
 	}

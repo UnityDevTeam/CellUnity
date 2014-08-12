@@ -10,7 +10,7 @@ namespace CellUnity.Simulation
 		{
 			this.reactions = reactions;
 			
-			lastReactionQuantity = new long[reactions.Length];
+			lastReactionQuantity = new ulong[reactions.Length];
 			for (int i = 0; i < reactions.Length; i++) {
 				lastReactionQuantity[i] = 0;
 			}
@@ -19,7 +19,7 @@ namespace CellUnity.Simulation
 		}
 		
 		private ReactionType[] reactions;
-		private long[] lastReactionQuantity;
+		private ulong[] lastReactionQuantity;
 		private	double time;
 		
 		public SimulationStep Step(double stepDuration)
@@ -31,10 +31,10 @@ namespace CellUnity.Simulation
 			for (int i = 0; i < reactions.Length; i++) {
 				ReactionType reaction = reactions[i];
 			
-				long q = (long)System.Math.Floor(reaction.Rate * time);
-				long lastQ = lastReactionQuantity[i];
+				ulong q = (ulong)System.Math.Floor(reaction.Rate * time);
+				ulong lastQ = lastReactionQuantity[i];
 				
-				long count = q - lastQ;
+				ulong count = q - lastQ;
 				
 				lastReactionQuantity[i] = q;
 				

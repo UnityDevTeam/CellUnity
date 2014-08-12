@@ -35,7 +35,8 @@ namespace CellUnity.Simulation.Copasi
 		
 		private double currentTime;
 		
-		private Dictionary<CReaction, ReactionType> reactionTypeByCopasiReaction = new Dictionary<CReaction, ReactionType>();
+		private List<CopasiReactionGroup> reactionList = new List<CopasiReactionGroup>();
+		Dictionary<MoleculeSpecies, CMetab> copasiMetabBySpecies = new Dictionary<MoleculeSpecies, CMetab>();
 		
 		public void Init(MoleculeSpecies[] species, ReactionType[] reactions)
 		{
@@ -53,25 +54,24 @@ namespace CellUnity.Simulation.Copasi
 			
 			// create metabolites
 			
-			Dictionary<MoleculeSpecies, CMetab> copasiMetabBySpecies = new Dictionary<MoleculeSpecies, CMetab>();
-			
-			foreach (var s in species) {
+			foreach (var s in species)
+			{
 				CMetab metab = AddSpecies(changedObjects, s.Name, compartment, 10.0, CMetab.REACTIONS); // TODO: set particle number instead of concentration
 				copasiMetabBySpecies.Add(s, metab);
 			}
 			
 			// create a reactions
 			
-			foreach (var r in reactions) {
-				CReaction reaction = AddReaction(
-					changedObjects, 
-					r.GetAutoName(), 
-					MetabsBySpecies(copasiMetabBySpecies, r.Reagents),
-					MetabsBySpecies(copasiMetabBySpecies, r.Products), 
-					r.Rate
-				);	
-				
-				reactionTypeByCopasiReaction.Add(reaction, r);
+			reactionList = new List<CellUnity.Simulation.Copasi.CopasiReactionGroup>(reactions.Length);
+			
+			for (int i = 0; i < reactions.Length; i++)
+			{
+				ReactionType r = reactions[i];
+			
+				AddReaction(
+					changedObjects,
+					r
+					);
 			}
 			
 			// finally compile the model
@@ -84,7 +84,7 @@ namespace CellUnity.Simulation.Copasi
 			model.updateInitialValues(changedObjects);
 			changedObjects.Dispose();
 			changedObjects = null;
-
+			
 			InitSimulation();
 			
 			// save the model to a COPASI file
@@ -107,11 +107,12 @@ namespace CellUnity.Simulation.Copasi
 			}
 		}
 		
-		private CMetab[] MetabsBySpecies(Dictionary<MoleculeSpecies, CMetab> copasiMetabBySpecies, MoleculeSpecies[] species)
+		private CMetab[] MetabsBySpecies(MoleculeSpecies[] species)
 		{
 			CMetab[] result = new CMetab[species.Length];
 			
-			for (int i = 0; i < species.Length; i++) {
+			for (int i = 0; i < species.Length; i++)
+			{
 				result[i] = copasiMetabBySpecies[species[i]];
 			}
 			
@@ -129,20 +130,24 @@ namespace CellUnity.Simulation.Copasi
 			return metab;
 		}
 		
-		private CReaction AddReaction(ObjectStdVector changedObjects, string name, CMetab[] substrates, CMetab[] products, double rate)
+		private CReaction AddReaction(ObjectStdVector changedObjects, ReactionType reactionType)
 		{
+			string name = reactionType.GetAutoName();
+		
 			// now we create a reaction
 			CReaction reaction = model.createReaction(name);
 			
 			// we can set these on the chemical equation of the reaction
 			CChemEq chemEq = reaction.getChemEq();
 			
+			CMetab[] substrates = MetabsBySpecies(reactionType.Reagents);
 			foreach (CMetab item in substrates)
 			{
 				// add substrate with stoichiometry 1
 				chemEq.addMetabolite(item.getKey(), 1.0, CChemEq.SUBSTRATE);
 			}
 			
+			CMetab[] products = MetabsBySpecies(reactionType.Products);
 			foreach (CMetab item in products)
 			{
 				// add product with stoichiometry 1
@@ -186,7 +191,7 @@ namespace CellUnity.Simulation.Copasi
 				System.Diagnostics.Debug.Assert(reaction.isLocalParameter(parameter.getObjectName()));
 				// now we set the value of the parameter to 0.5
 				System.Diagnostics.Debug.Assert(parameter.getType() == CCopasiParameter.DOUBLE);
-				parameter.setDblValue(rate);
+				parameter.setDblValue(reactionType.Rate);
 				CCopasiObject obj = parameter.getValueReference();
 				changedObjects.Add(obj);
 			}
@@ -195,7 +200,27 @@ namespace CellUnity.Simulation.Copasi
 				throw new System.Exception("Error. Could not find a kinetic law that conatins the term \"Constant\".");
 			}
 			
+			CModelValue modelValue = model.createModelValue(name);
+			
+			modelValue.setInitialValue(0);
+			var obj2 = modelValue.getInitialValueReference();
+			assert(obj2 != null);
+			changedObjects.Add(obj2);
+			
+			// set the status to assignment
+			modelValue.setStatus(CModelValue.ODE);
+			// the assignment does not have to make sense
+			string expression = "<CN=" + modelValue.getCN().getObjectName() + ",Model=" + model.getObjectName() + ",Vector=Reactions[" + reaction.getObjectName() + "],Reference=ParticleFlux>";
+			modelValue.setExpression(expression);
+			
+			reactionList.Add(new CopasiReactionGroup(reaction, reactionType, modelValue));  
+			
 			return reaction;
+		}
+		
+		private void assert(bool p)
+		{
+			if (!p) { throw new Exception("assert"); }
 		}
 		
 		private void InitSimulation()
@@ -268,13 +293,21 @@ namespace CellUnity.Simulation.Copasi
 			}
 			
 			// Update the species properties that have changed
-			UpdateSimulation();
+			ReactionCount[] reactionCount = new ReactionCount[reactionList.Count];
 			
+			for (int i = 0; i < reactionList.Count; i++) {
+				CopasiReactionGroup r = reactionList[i];
+				
+				reactionCount[i] = r.CalcParticleFlux();	
+			}
+			
+			// clean up
 			trajectoryTask.restore();
 			
-			return new SimulationStep(null);
+			return new SimulationStep(reactionCount);
 		}
 		
+		/*
 		private void UpdateSimulation()
 		{
 			for (uint i = 0; i < model.getMetabolites().size(); i++)
@@ -282,23 +315,8 @@ namespace CellUnity.Simulation.Copasi
 				CMetab m = (CMetab)model.getMetabolites().get(i);
 				Console.WriteLine(m.getObjectName() + ":\t" + m.getValue().ToString() + "\t { initial:  " + m.getInitialValue() + " }");
 			}
-			
-			for (uint j = 0; j < model.getModelValues().size(); ++j)
-			{
-				CModelValue modelValue = (CModelValue)model.getModelValues().get(j);
-				string modelValueName = modelValue.getObjectName();
-				
-				Console.WriteLine("mv "+modelValueName+":\t"+modelValue.getValue().ToString());
-				
-				//if(reactionName == modelValueName)
-	            //{
-	            //    reaction->update(modelValue->getValue());
-	            //    reactionUpdated = true;
-	            //    break;
-	            //}
-	            
-			}
 		}
+		*/
 		
 		public void ExportSbml()
 		{

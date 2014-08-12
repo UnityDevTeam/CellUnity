@@ -67,6 +67,7 @@
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionPrep.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionType.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiReactionGroup.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\ISimulator.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\ReactionCount.cs" />
@@ -79,6 +80,7 @@
      <Compile Include="Assets\Scripts\CellUnity\View\CameraControl.cs" />
      <Compile Include="Assets\Scripts\Test\AutoReaction.cs" />
      <Compile Include="Assets\Scripts\Test\DispenserGridGizmos.cs" />
+     <Compile Include="Assets\Scripts\Test\MenuScript.cs" />
  <Reference Include="copasicsP">
  <HintPath>C:/Users/daniel/Projects/Unity/CellUnity/UnityProject/Assets/copasicsP.dll</HintPath>
  </Reference>

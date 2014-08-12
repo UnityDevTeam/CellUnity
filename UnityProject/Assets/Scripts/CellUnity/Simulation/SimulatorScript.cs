@@ -8,11 +8,17 @@ public class SimulatorScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.cue = CUE.GetInstance();
+		
+		cue.SimulationManager.Start();
+	}
+	
+	void OnDisable()
+	{
+		cue.SimulationManager.Stop();
 	}
 	
 	private CUE cue;
 	
-	// Update is called once per frame
 	void FixedUpdate() {
 		cue.SimulationManager.Update();
 	}
