@@ -17,10 +17,10 @@ namespace CellUnity.View
 		private float moveFastSpeed = 10.0F;
 		
 		void Update() {
-			if (!Input.GetKey("left ctrl"))
+			if (Input.GetKey("mouse 1"))
 			{
 				float h = horizontalSpeed * Input.GetAxis("Mouse X");
-				float v = verticalSpeed * Input.GetAxis("Mouse Y");
+				float v = - verticalSpeed * Input.GetAxis("Mouse Y");
 				transform.Rotate(v, h, 0);
 			}
 			
