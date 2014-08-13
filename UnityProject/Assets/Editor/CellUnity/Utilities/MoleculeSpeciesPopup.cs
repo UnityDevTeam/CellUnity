@@ -40,10 +40,13 @@ public class MoleculeSpeciesPopup {
 		return species [index];
 	}
 	
-	public MoleculeSpecies Popup(MoleculeSpecies selected)
+	public MoleculeSpecies Popup(MoleculeSpecies selected, bool small)
 	{
 		int i = ArrayUtility.IndexOf<MoleculeSpecies> (moleculeSpecies, selected);
-		i = EditorGUILayout.Popup (i, moleculeSpeciesString);
+		if (small)
+		{ i = EditorGUILayout.Popup (i, moleculeSpeciesString, GUILayout.MaxWidth(40)); }
+		else
+		{ i = EditorGUILayout.Popup (i, moleculeSpeciesString); }
 		return GetSelection (moleculeSpecies, i);
 	}
 }

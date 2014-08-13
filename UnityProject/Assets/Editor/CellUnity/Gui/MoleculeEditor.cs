@@ -13,7 +13,7 @@ public class MoleculeEditor : Editor
 
 		MoleculeSpeciesPopup speciesPopup = new MoleculeSpeciesPopup (cue, false);
 
-		t.Species = speciesPopup.Popup (t.Species);
+		t.Species = speciesPopup.Popup (t.Species, false);
 
 		EditorUtility.SetDirty (t);
 

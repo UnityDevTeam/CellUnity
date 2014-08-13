@@ -81,7 +81,7 @@ public class ReactionTypeListView : ListView<ReactionType>
 		for (int i = 0; i < species.Count; i++) {
 			if (i != 0) { EditorGUILayout.LabelField ("+", GUILayout.MaxWidth(10)); }
 			
-			species[i] = speciesPopup.Popup (species[i]);
+			species[i] = speciesPopup.Popup (species[i], (species[i] == null && i > 0));
 		}
 		
 		while (species.Contains(null)) {
