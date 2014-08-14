@@ -11,9 +11,6 @@ namespace CellUnity.Simulation
 	{
 		public SimulationManager()
 		{
-			//this.simulator = new SimpleSimulator();
-			this.simulator = new Copasi.CopasiSimulator();
-			simulator.Init(GetNewUpdateQueue());
 		}
 		
 		private ISimulator simulator;
@@ -23,7 +20,13 @@ namespace CellUnity.Simulation
 		public void Reset()
 		{
 			this.cue = CUE.GetInstance();
-			
+
+			if (simulator == null)
+			{
+				this.simulator = new Copasi.CopasiSimulator();
+				simulator.Init(GetNewUpdateQueue());
+			}
+
 			SimulatorScript simulatorScript = GameObject.FindObjectOfType<SimulatorScript>();
 			if (simulatorScript == null)
 			{
