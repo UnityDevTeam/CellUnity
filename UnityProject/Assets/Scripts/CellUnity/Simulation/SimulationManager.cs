@@ -11,16 +11,15 @@ namespace CellUnity.Simulation
 	{
 		public SimulationManager()
 		{
+			runInMainThread = true;
 		}
 		
 		private ISimulator simulator;
-		private CUE cue;
 		private SimulationState state;
+		private readonly bool runInMainThread;
 		
 		public void Reset()
 		{
-			this.cue = CUE.GetInstance();
-
 			if (simulator == null)
 			{
 				this.simulator = new Copasi.CopasiSimulator();
@@ -53,7 +52,10 @@ namespace CellUnity.Simulation
 
 				state = SimulationState.Running;
 
-				simulationThread.Start();
+				if (!runInMainThread)
+				{
+					simulationThread.Start();
+				}
 				
 				Debug.Log("Simulation start");
 			}
@@ -80,8 +82,11 @@ namespace CellUnity.Simulation
 		{
 			if ((state == SimulationState.Running || state == SimulationState.Paused) && simulationThread != null)
 			{
-				simulationThread.Abort();
-				simulationThread.Join();
+				if (!runInMainThread)
+				{
+					simulationThread.Abort();
+					simulationThread.Join();
+				}
 				simulationThread = null;
 				
 				state = SimulationState.Stopped;
@@ -89,11 +94,40 @@ namespace CellUnity.Simulation
 				Debug.Log("Simulation stop");
 			}
 		}
-		
+
+		private void SimulateStep()
+		{
+			CUE cue = CUE.GetInstance ();
+
+			SimulationStep step = simulator.Step(cue.SimulationStep);
+			EnqueueStep(step);
+			nextStep = nextStep.AddSeconds(cue.VisualizationStep);
+		}
+
+		public void MainThreadRunSimulation()
+		{
+			if (state == SimulationState.Paused)
+			{
+				nextStep = DateTime.Now.AddSeconds(0.5);
+			}
+			else if (state == SimulationState.Stopped)
+			{
+				return;
+			}
+			else if (state == SimulationState.Running)
+			{
+				if (nextStep > DateTime.Now)
+				{
+					SimulateStep();
+				}
+			}
+		}
+
+		DateTime nextStep;
+
 		private void RunSimulation()
 		{
-			DateTime nextStep = DateTime.Now;
-		
+			nextStep = DateTime.Now;
 			try
 			{
 				while (true)
@@ -109,21 +143,19 @@ namespace CellUnity.Simulation
 						nextStep = DateTime.Now;
 					}
 
-					SimulationStep step = simulator.Step(cue.SimulationStep);
-					EnqueueStep(step);
-					nextStep = nextStep.AddSeconds(cue.VisualizationStep);
+					SimulateStep();
 				}
 			}
 			catch (ThreadAbortException)
 			{
 				Debug.Log("Thread abort");
 				// is never executed, I don't know why
-				// is Unity not supporting Threading?
+				// doesn't Unity support threading?
 			}
 			finally
 			{
 				// is never executed, I don't know why
-				// is Unity not supporting Threading?
+				// doesn't Unity support threading?
 			}
 		}
 
@@ -174,6 +206,11 @@ namespace CellUnity.Simulation
 		
 		public void Update()
 		{
+			if (runInMainThread)
+			{
+				MainThreadRunSimulation();
+			}
+
 			while (true) {
 				SimulationStep step;
 				lock (stepsQueueLock)
