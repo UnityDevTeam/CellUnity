@@ -29,7 +29,7 @@ namespace CellUnity.Reaction
 		}
 
 		[SerializeField]
-		public MoleculeSpecies[] reagents = new MoleculeSpecies[] {};
+		private MoleculeSpecies[] reagents = new MoleculeSpecies[] {};
 
 		public MoleculeSpecies[] Reagents
 		{

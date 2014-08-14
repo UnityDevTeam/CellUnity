@@ -67,11 +67,11 @@
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionPrep.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionType.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\Copasi.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiReactionGroup.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\ISimulator.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\ReactionCount.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Simulation\SimpleSimulator.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationManager.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationState.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationStep.cs" />
