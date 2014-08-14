@@ -6,6 +6,7 @@ namespace CellUnity.Simulation.Update
 	{
 		public CompartmentChangedUpdate (CUE cue)
 		{
+			this.Volume = cue.Volume;
 		}
 
 		public double Volume { get; set; }

@@ -45,7 +45,11 @@ namespace CellUnity.Simulation.Copasi
 				}
 				else if (update is ReactionAddedUpdate)
 				{
-					copasi.AddReaction(((ReactionAddedUpdate)update).Reaction);
+					ReactionType reactionType = ((ReactionAddedUpdate)update).Reaction;
+					CReaction copasiReaction = copasi.AddReaction(reactionType);
+					CModelValue modelValue = copasi.AddReactionParticleFluxValue(copasiReaction);
+
+					reactionList.Add(new CopasiReactionGroup(copasiReaction, reactionType, modelValue));
 				}
 				else if (update is ReactionChangedUpdate)
 				{
@@ -60,7 +64,18 @@ namespace CellUnity.Simulation.Copasi
 				}
 				else if (update is ReactionRemovedUpdate)
 				{
-					copasi.RemoveReaction(((ReactionRemovedUpdate)update).Reaction);
+					ReactionType reactionType = ((ReactionRemovedUpdate)update).Reaction;
+					copasi.RemoveReaction(reactionType);
+
+					for (int i = 0; i < reactionList.Count; i++) {
+						CopasiReactionGroup group = reactionList[i];
+
+						if (group.ReactionType == reactionType)
+						{
+							reactionList.RemoveAt(i);
+							break;
+						}
+					}
 				}
 				else if (update is SpeciesAddedUpdate)
 				{

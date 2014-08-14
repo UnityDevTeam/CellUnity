@@ -100,7 +100,8 @@ public class CueEditor : Editor
 		Space();
 		
 		GUILayout.Label ("Simulation", EditorStyles.boldLabel);
-		
+
+		cue.Volume = Mathf.Max (0, EditorGUILayout.FloatField("Volume:", (float)cue.Volume));
 		cue.SimulationStep = Mathf.Max (0, EditorGUILayout.FloatField("Simulation Interval:", (float)cue.SimulationStep));
 		cue.VisualizationStep = Mathf.Max (0, EditorGUILayout.FloatField("Visualization Interval:", (float)cue.VisualizationStep));
 		

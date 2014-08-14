@@ -1,22 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\Simulation\SimulationManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs">
     <Files>
-      <File FileName="Assets\Scripts\CellUnity\CUE.cs" Line="43" Column="70" />
-      <File FileName="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CellUnity\Export\SbmlExportCopasi.cs" Line="1" Column="1" />
-      <File FileName="Assets\Editor\CellUnity\Gui\CueEditor.cs" Line="27" Column="2" />
-      <File FileName="Assets\Editor\CellUnity\Gui\CellUnityWindow.cs" Line="21" Column="19" />
-      <File FileName="Assets\Scripts\CellUnity\Simulation\SimulationManager.cs" Line="13" Column="4" />
+      <File FileName="Assets\Scripts\CellUnity\Simulation\SimulationManager.cs" Line="107" Column="40" />
+      <File FileName="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" Line="68" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Users\daniel\Projects\Unity\CellUnity\UnityProject\Assets\Scripts\CellUnity\CUE.cs" line="71" />
-      <Breakpoint file="C:\Users\daniel\Projects\CellUnity\UnityProject\Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" line="25" />
-      <Breakpoint file="C:\Users\daniel\Projects\CellUnity\UnityProject\Assets\Scripts\CellUnity\Simulation\Copasi\Copasi.cs" line="184" />
-      <Breakpoint file="C:\Users\daniel\Projects\CellUnity\UnityProject\Assets\Scripts\CellUnity\Simulation\Copasi\Copasi.cs" line="169" />
-      <Breakpoint file="C:\Users\daniel\Projects\CellUnity\UnityProject\Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" line="42" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

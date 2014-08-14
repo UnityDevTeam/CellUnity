@@ -52,6 +52,8 @@ namespace CellUnity.Simulation
 
 				state = SimulationState.Running;
 
+				nextStep = DateTime.Now.AddSeconds(0.5);
+
 				if (!runInMainThread)
 				{
 					simulationThread.Start();
@@ -75,6 +77,7 @@ namespace CellUnity.Simulation
 			if (state == SimulationState.Running)
 			{
 				state = SimulationState.Paused;
+				Debug.Log("Simulation pause");
 			}
 		}
 		
@@ -97,6 +100,8 @@ namespace CellUnity.Simulation
 
 		private void SimulateStep()
 		{
+			Debug.Log ("Step " + nextStep.ToLongTimeString ());
+
 			CUE cue = CUE.GetInstance ();
 
 			SimulationStep step = simulator.Step(cue.SimulationStep);
@@ -116,7 +121,7 @@ namespace CellUnity.Simulation
 			}
 			else if (state == SimulationState.Running)
 			{
-				if (nextStep > DateTime.Now)
+				if (nextStep <= DateTime.Now)
 				{
 					SimulateStep();
 				}
@@ -127,7 +132,6 @@ namespace CellUnity.Simulation
 
 		private void RunSimulation()
 		{
-			nextStep = DateTime.Now;
 			try
 			{
 				while (true)
@@ -233,7 +237,7 @@ namespace CellUnity.Simulation
 					}
 				}
 				
-				//Debug.Log(info.ToString());
+				Debug.Log(info.ToString());
 			}
 		}
 	}

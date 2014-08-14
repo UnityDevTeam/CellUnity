@@ -91,6 +91,7 @@
      <Compile Include="Assets\Scripts\CellUnity\Simulation\UpdateQueue.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Utility\Utils.cs" />
      <Compile Include="Assets\Scripts\CellUnity\View\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\View\VolumeGizmo.cs" />
      <Compile Include="Assets\Scripts\Test\AutoReaction.cs" />
      <Compile Include="Assets\Scripts\Test\DispenserGridGizmos.cs" />
      <Compile Include="Assets\Scripts\Test\MenuScript.cs" />

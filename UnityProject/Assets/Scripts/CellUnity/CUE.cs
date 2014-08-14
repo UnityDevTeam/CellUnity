@@ -46,6 +46,7 @@ namespace CellUnity
 		
 		public float SimulationStep = 1;
 		public float VisualizationStep = 1;
+		public float Volume = 0.00001f;
 
 		[SerializeField]
 		public int ID = System.DateTime.Now.Millisecond;
@@ -151,6 +152,11 @@ namespace CellUnity
 			}
 
 			return instance;
+		}
+
+		public float ScaleNm(float nm)
+		{
+			return nm * 4;
 		}
 
 		public override string ToString ()

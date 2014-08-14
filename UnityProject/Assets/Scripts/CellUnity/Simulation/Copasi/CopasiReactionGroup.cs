@@ -14,6 +14,8 @@ namespace CellUnity.Simulation.Copasi
 				
 				//private CReaction copasiReaction;
 				private ReactionType reactionType;
+				public ReactionType ReactionType { get{ return reactionType; } }
+
 				private CModelValue modelValueParticleFlux;
 				
 				private ulong processedParticleFlux = 0;
