@@ -136,6 +136,14 @@ public class CueEditor : Editor
 		GUILayout.EndHorizontal ();
 		
 		Space ();
+		GUILayout.Label ("Export", EditorStyles.boldLabel);
+		if (GUILayout.Button ("Export SBML...")) {
+
+			string filename = EditorUtility.SaveFilePanel ("Export SBML", "", "model.xml", "xml");
+			new CellUnity.Export.SbmlExportCopasi(cue).Export(filename);
+		}
+ 		Space ();
+
 		GUILayout.Label ("Debug", EditorStyles.boldLabel);
 		if (GUILayout.Button ("Auto Run Reactions")) {
 			GameObject autoRun = new GameObject("AutoRun");
