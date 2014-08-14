@@ -6,7 +6,7 @@ namespace CellUnity.Simulation
 {
 	public interface ISimulator : System.IDisposable
 	{
-		void Init(MoleculeSpecies[] species, ReactionType[] reactions);
+		void Init(UpdateQueue updateQueue);
 		SimulationStep Step(double stepDuration);
 	}
 }

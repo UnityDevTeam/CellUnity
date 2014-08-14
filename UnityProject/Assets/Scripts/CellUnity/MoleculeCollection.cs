@@ -33,6 +33,20 @@ namespace CellUnity
 			}
 		}
 
+		public ulong GetQuantity(MoleculeSpecies species)
+		{
+			ulong count = 0;
+
+			foreach (Molecule item in collection) {
+				if (item.Species == species)
+				{
+					count++;
+				}
+			}
+
+			return count;
+		}
+
 		public bool FindMolecuelsForReaction(MoleculeSpecies[] species, out Molecule[] molecules)
 		{
 			molecules = new Molecule[species.Length];

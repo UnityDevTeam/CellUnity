@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
-using CellUnity.Reaction;
 using System.Threading;
 using System;
+using CellUnity.Reaction;
+using CellUnity.Simulation.Update;
 
 namespace CellUnity.Simulation
 {
@@ -16,7 +17,7 @@ namespace CellUnity.Simulation
 		
 		private ISimulator simulator;
 		private CUE cue;
-		private bool running = false;
+		private SimulationState state;
 		
 		public void Reset()
 		{
@@ -32,39 +33,56 @@ namespace CellUnity.Simulation
 			Stop ();
 			
 			simulationThread = new Thread(new ThreadStart(RunSimulation));
-			//simulationThread.IsBackground = true;
-		
-			CUE cue = CUE.GetInstance();
-			simulator.Init(cue.Species, cue.ReactionTypes);
+			simulationThread.IsBackground = true;
+
+			simulator.Init(GetNewUpdateQueue());
 		}
 		
-		public bool IsRunning { get { return running; } }
+		public SimulationState State { get { return state; } }
 		
 		public void Start()
 		{
-			if (!running)
+			if (state == SimulationState.Stopped)
 			{
-				running = true;
 				if (simulationThread == null)
 				{
 					Reset();
 				}
-			
+
+				state = SimulationState.Running;
+
 				simulationThread.Start();
 				
 				Debug.Log("Simulation start");
+			}
+			else if (state == SimulationState.Paused)
+			{
+				state = SimulationState.Running;
+			}
+		}
+
+		public void Pause()
+		{
+			if (state == SimulationState.Stopped)
+			{
+				Start ();
+			}
+
+			if (state == SimulationState.Running)
+			{
+				state = SimulationState.Paused;
 			}
 		}
 		
 		public void Stop()
 		{
-			if (running && simulationThread != null)
+			if ((state == SimulationState.Running || state == SimulationState.Paused) && simulationThread != null)
 			{
 				simulationThread.Abort();
 				simulationThread.Join();
 				simulationThread = null;
 				
-				running = false;
+				state = SimulationState.Stopped;
 				
 				Debug.Log("Simulation stop");
 			}
@@ -82,6 +100,13 @@ namespace CellUnity.Simulation
 						int sleepTime = System.Math.Max (0, (int)((nextStep - DateTime.Now).TotalMilliseconds * 0.95));
 						Thread.Sleep(sleepTime);
 					}
+
+					while (state == SimulationState.Paused)
+					{
+						Thread.Sleep(500);
+						nextStep = DateTime.Now;
+					}
+
 					SimulationStep step = simulator.Step(cue.SimulationStep);
 					EnqueueStep(step);
 					nextStep = nextStep.AddSeconds(cue.VisualizationStep);
@@ -97,6 +122,38 @@ namespace CellUnity.Simulation
 			{
 				// is never executed, I don't know why
 				// is Unity not supporting Threading?
+			}
+		}
+
+		private List<UpdateQueue> updateQueues = new List<UpdateQueue>();
+		
+		private UpdateQueue GetNewUpdateQueue()
+		{
+			CUE cue = CUE.GetInstance ();
+
+			UpdateQueue updateQueue = new UpdateQueue ();
+
+			updateQueue.Enqueue(new CompartmentChangedUpdate(cue));
+
+			foreach (var item in cue.Species)
+			{
+				updateQueue.Enqueue(new SpeciesAddedUpdate(item));
+				updateQueue.Enqueue(new SpeciesQuantityUpdate(item, cue.Molecules.GetQuantity(item)));
+			}
+			
+			foreach (var item in cue.ReactionTypes) {
+				updateQueue.Enqueue(new ReactionAddedUpdate(item));
+			}
+			
+			updateQueues.Add (updateQueue);
+
+			return updateQueue;
+		}
+		
+		public void UpdateSimulator(CueUpdate update)
+		{
+			foreach (var updateQueue in updateQueues) {
+				updateQueue.Enqueue(update);
 			}
 		}
 		

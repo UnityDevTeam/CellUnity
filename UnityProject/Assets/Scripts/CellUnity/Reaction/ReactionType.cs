@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CellUnity.Utility;
 using System.Text;
+using CellUnity.Simulation.Update;
 
 namespace CellUnity.Reaction
 {
@@ -11,14 +12,62 @@ namespace CellUnity.Reaction
 
 		public string Name = "";
 
-		public float Rate;
+		[SerializeField]
+		private float rate = 1;
 
-		public MoleculeSpecies[] Reagents = new MoleculeSpecies[] {};
-		public MoleculeSpecies[] Products = new MoleculeSpecies[] {};
+		public float Rate
+		{
+			get { return rate; }
+			set
+			{
+				if (value != rate)
+				{
+					this.rate = value;
+					SendUpdate();
+				}
+			}
+		}
+
+		[SerializeField]
+		public MoleculeSpecies[] reagents = new MoleculeSpecies[] {};
+
+		public MoleculeSpecies[] Reagents
+		{
+			get { return reagents; }
+			set
+			{
+				if (!Utils.ArrayEquals<MoleculeSpecies>(reagents, value))
+				{
+					this.reagents = value;
+					SendUpdate();
+				}
+			}
+		}
+
+		[SerializeField]
+		private MoleculeSpecies[] products = new MoleculeSpecies[] {};
+		public MoleculeSpecies[] Products
+		{
+			get { return products; }
+			set
+			{
+				if (!Utils.ArrayEquals<MoleculeSpecies>(products, value))
+				{
+					this.products = value;
+					SendUpdate();
+				}
+			}
+		}
 
 		void OnEnable ()
 		{
 			hideFlags = HideFlags.HideInHierarchy;
+		}
+
+		private void SendUpdate()
+		{
+			CUE cue = CUE.GetInstance();
+			cue.EnvironmentUpdate(new ReactionChangedUpdate(this));
 		}
 
 		private string SpeciesToString(MoleculeSpecies species)

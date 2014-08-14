@@ -22,33 +22,44 @@ namespace CellUnity.Simulation.Copasi
 			
 			// set the units for the model
 			// we want seconds as the time unit
-			// microliter as the volume units
+			// nanoliter as the volume units
 			// and nanomole as the substance units
 			model.setTimeUnit(CUnit.s);
-			model.setVolumeUnit(CUnit.microl);
+			model.setVolumeUnit(CUnit.nl);
 			model.setQuantityUnit(CUnit.nMol);
+			
+			// create a compartment with the name cell and an initial volume of 5.0
+			// microliter
+			compartment = model.createCompartment("cell"); // TODO: remove static value
 		}
 		
 		private CCopasiDataModel dataModel;
 		private CModel model;
 		private CTrajectoryTask trajectoryTask;
+		CCompartment compartment;
 		
 		private double currentTime;
 		
 		private List<CopasiReactionGroup> reactionList = new List<CopasiReactionGroup>();
 		Dictionary<MoleculeSpecies, CMetab> copasiMetabBySpecies = new Dictionary<MoleculeSpecies, CMetab>();
 		
-		public void Init(MoleculeSpecies[] species, ReactionType[] reactions)
+		private UpdateQueue updateQueue;
+		
+		public void Init(UpdateQueue updateQueue)
 		{
+			this.updateQueue = updateQueue;
+		
+			// TODO: implement Sync
+			MoleculeSpecies[] species = new MoleculeSpecies[]{}; // cue.Species;
+			ReactionType[] reactions = new ReactionType[]{}; // cue.ReactionTypes;
+		
 			// we have to keep a set of all the initial values that are changed during
 			// the model building process
 			// They are needed after the model has been built to make sure all initial
 			// values are set to the correct initial value
 			ObjectStdVector changedObjects = new ObjectStdVector();
 			
-			// create a compartment with the name cell and an initial volume of 5.0
-			// microliter
-			CCompartment compartment = model.createCompartment("cell", 0.000001); // TODO: remove static value
+			compartment.setInitialValue(0.000001);
 			CCopasiObject obj = compartment.getInitialValueReference();
 			changedObjects.Add(obj);
 			
@@ -93,18 +104,6 @@ namespace CellUnity.Simulation.Copasi
 			// Default tasks are automatically generated and will always appear in cps
 			// file unless they are explicitley deleted before saving.
 			dataModel.saveModel("model.cps", true);
-			
-			// export the model to an SBML file
-			// we save to a file named example1.xml, we want to overwrite any
-			// existing file with the same name and we want SBML L2V3
-			try
-			{
-				dataModel.exportSBML("model.xml", true, 2, 3);
-			}
-			catch
-			{
-				System.Console.Error.WriteLine("Error. Exporting the model to SBML failed.");
-			}
 		}
 		
 		private CMetab[] MetabsBySpecies(MoleculeSpecies[] species)
@@ -311,7 +310,7 @@ namespace CellUnity.Simulation.Copasi
 				reactionCount[i] = r.CalcParticleFlux();
 			}
 			
-			UpdateSimulation();
+			//UpdateSimulation();
 			
 			// clean up
 			trajectoryTask.restore();
@@ -319,7 +318,7 @@ namespace CellUnity.Simulation.Copasi
 			return new SimulationStep(reactionCount);
 		}
 		
-		
+		/*
 		private void UpdateSimulation()
 		{
 			for (uint i = 0; i < model.getMetabolites().size(); i++)
@@ -328,11 +327,22 @@ namespace CellUnity.Simulation.Copasi
 				Console.WriteLine(m.getObjectName() + ":\t" + m.getValue().ToString() + "\t { initial:  " + m.getInitialValue() + " }");
 			}
 		}
+		*/
 		
-		
-		public void ExportSbml()
+		public void ExportSbml(string filename)
 		{
-			
+			// export the model to an SBML file
+			// we save to a file named example1.xml, we want to overwrite any
+			// existing file with the same name and we want SBML L2V3
+			try
+			{
+				dataModel.exportSBML("model.xml", true, 2, 3);
+				// TODO: it is not possible to export the global quantities to SBML, the export fails. has to be fixed
+			}
+			catch
+			{
+				System.Console.Error.WriteLine("Error. Exporting the model to SBML failed.");
+			}
 		}
 		
 		private static bool initCopasiCalled = false;

@@ -5,6 +5,7 @@ using CellUnity;
 using CellUnity.Model;
 using CellUnity.Model.Pdb;
 using CellUnity.Dispensing;
+using CellUnity.Simulation;
 
 [CustomEditor(typeof(CUE))]
 public class CueEditor : Editor 
@@ -108,18 +109,30 @@ public class CueEditor : Editor
 		if (GUILayout.Button ("Reset",  GUILayout.MaxWidth(80))) {
 			cue.SimulationManager.Reset();
 		}
-		
-		bool simulationRunning = cue.SimulationManager.IsRunning;
-		int simulaorSelection =
-			GUILayout.SelectionGrid(simulationRunning ? 0 : 1, new string[] {"Start", "Stop"} , 2 );
 
-		if (simulaorSelection == 0 && !simulationRunning) {
-			cue.SimulationManager.Start();
+		SimulationState simulationState = cue.SimulationManager.State;
+		int oldSimulatorSelection;
+		if (simulationState == SimulationState.Running)
+		{ oldSimulatorSelection = 0; }
+		else if (simulationState == SimulationState.Paused)
+		{ oldSimulatorSelection = 1; }
+		else if (simulationState == SimulationState.Stopped)
+		{ oldSimulatorSelection = 2; }
+		else { oldSimulatorSelection = -1; }
+
+		int simulaorSelection =
+			GUILayout.SelectionGrid(oldSimulatorSelection, new string[] {"Start", "Pause", "Stop"} , 3 );
+
+		if (simulaorSelection != oldSimulatorSelection)
+		{
+			if (simulaorSelection == 0)
+			{ cue.SimulationManager.Start(); }
+			else if (simulaorSelection == 1)
+			{ cue.SimulationManager.Pause(); }
+			else if (simulaorSelection == 2)
+			{ cue.SimulationManager.Stop(); }
 		}
-		
-		if (simulaorSelection == 1 && simulationRunning) {
-			cue.SimulationManager.Stop();
-		}
+
 		GUILayout.EndHorizontal ();
 		
 		Space ();
