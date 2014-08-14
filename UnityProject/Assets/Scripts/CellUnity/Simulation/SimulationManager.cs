@@ -13,6 +13,7 @@ namespace CellUnity.Simulation
 		{
 			//this.simulator = new SimpleSimulator();
 			this.simulator = new Copasi.CopasiSimulator();
+			simulator.Init(GetNewUpdateQueue());
 		}
 		
 		private ISimulator simulator;
@@ -34,8 +35,6 @@ namespace CellUnity.Simulation
 			
 			simulationThread = new Thread(new ThreadStart(RunSimulation));
 			simulationThread.IsBackground = true;
-
-			simulator.Init(GetNewUpdateQueue());
 		}
 		
 		public SimulationState State { get { return state; } }
