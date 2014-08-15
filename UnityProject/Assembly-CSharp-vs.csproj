@@ -48,11 +48,6 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\CellUnity\CUE.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Dispensing\Dispenser.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBox.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBoxGrid.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBoxGridCube.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Dispensing\DispenserBoxGridSphere.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Dispensing\MoleculeSizeQueue.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Export\SbmlExportCopasi.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Model\MoleculeCreator.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Atom.cs" />
@@ -83,7 +78,6 @@
      <Compile Include="Assets\Scripts\CellUnity\View\VolumeGizmo.cs" />
      <Compile Include="Assets\Scripts\Test\AutoReaction.cs" />
      <Compile Include="Assets\Scripts\Test\Diffusion.cs" />
-     <Compile Include="Assets\Scripts\Test\DispenserGridGizmos.cs" />
      <Compile Include="Assets\Scripts\Test\MenuScript.cs" />
  <Reference Include="copasicsP">
  <HintPath>C:/Users/daniel/Projects/CellUnity/UnityProject/Assets/copasicsP.dll</HintPath>

@@ -80,9 +80,7 @@ public class CueEditor : Editor
 		
 		//EditorGUILayout.FloatField("Radius:", 10);
 		
-		dispenser.BoxSize = EditorGUILayout.FloatField("Box Size:", dispenser.BoxSize);
-		dispenser.MinimumBoxSize = EditorGUILayout.FloatField("Minimum Box Size:", dispenser.MinimumBoxSize);
-		dispenser.MoleculeBoxDistance = EditorGUILayout.FloatField("Molecule-Box Distance:", dispenser.MoleculeBoxDistance);
+		dispenser.Radius = EditorGUILayout.FloatField("Radius [nm]:", dispenser.Radius);
 		
 		if (GUILayout.Button ("Remove all Molecules")) {
 			cue.RemoveMolecules();
@@ -92,7 +90,6 @@ public class CueEditor : Editor
 			
 			foreach (var species in cue.Species) {
 				dispenser.AddMolecules(species, species.InitialQuantity);
-				dispenser.BoxSize = Mathf.Max(dispenser.BoxSize, species.Size + dispenser.MoleculeBoxDistance*2);
 			}
 			
 			dispenser.Place();
