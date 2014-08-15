@@ -44,7 +44,7 @@ namespace CellUnity.Reaction
 				
 				center += m.Position * m.Species.Size;
 				centerSum += m.Species.Size;
-				
+
 				GameObject.Destroy(m.gameObject);
 			}
 
@@ -76,6 +76,7 @@ namespace CellUnity.Reaction
 			
 			foreach (MoleculeSpecies productS in productSpecies) {
 				GameObject product = (GameObject)GameObject.Instantiate(productS.GetPrefabObject(), center, Quaternion.identity);
+				Molecule molecule = product.GetComponent<Molecule>();
 				product.rigidbody.velocity = productVelocity;
 			}			
 			
