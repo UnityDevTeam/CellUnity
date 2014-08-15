@@ -109,8 +109,8 @@ public class CueEditor : Editor
 		
 		GUILayout.BeginHorizontal ();
 		
-		if (GUILayout.Button ("Reset",  GUILayout.MaxWidth(80))) {
-			cue.SimulationManager.Reset();
+		if (GUILayout.Button ("Reload",  GUILayout.MaxWidth(80))) {
+			cue.SimulationManager.Reload();
 		}
 
 		SimulationState simulationState = cue.SimulationManager.State;

@@ -6,7 +6,8 @@ namespace CellUnity.Simulation
 {
 	public interface ISimulator : System.IDisposable
 	{
-		void Init(UpdateQueue updateQueue);
+		void Init(CUE cue);
+		void Reload();
 		SimulationStep Step(double stepDuration);
 	}
 }

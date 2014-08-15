@@ -76,7 +76,6 @@ namespace CellUnity.Reaction
 			
 			foreach (MoleculeSpecies productS in productSpecies) {
 				GameObject product = (GameObject)GameObject.Instantiate(productS.GetPrefabObject(), center, Quaternion.identity);
-				Molecule molecule = product.GetComponent<Molecule>();
 				product.rigidbody.velocity = productVelocity;
 			}			
 			

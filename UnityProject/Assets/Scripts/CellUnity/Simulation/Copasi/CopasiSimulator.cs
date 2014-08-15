@@ -4,7 +4,6 @@ using org.COPASI;
 using System.Diagnostics;
 using System;
 using CellUnity.Reaction;
-using CellUnity.Simulation.Update;
 
 namespace CellUnity.Simulation.Copasi
 {
@@ -16,104 +15,63 @@ namespace CellUnity.Simulation.Copasi
 		}
 
 		private Copasi copasi;
-		private UpdateQueue updateQueue;
+		private CUE cue;
 		private double currentTime;
-		private List<CopasiReactionGroup> reactionList;
+		private List<CopasiReactionGroup> reactionList = new List<CopasiReactionGroup> ();
 		
-		public void Init(UpdateQueue updateQueue)
+		public void Init(CUE cue)
 		{
-			this.updateQueue = updateQueue;
+			this.cue = cue;
 
-			reactionList = new List<CopasiReactionGroup> ();
-		
-			Sync ();
+			Reload ();
+		}
+
+		public void Reload()
+		{
+			reactionList.Clear();
+
+			if (copasi != null)
+			{
+				copasi.Dispose();
+				copasi = null;
+			}
+
+			copasi = new Copasi ();
+
+			copasi.UpdateCompartmentVolume(cue.Volume);
+			
+			foreach (var item in cue.Species)
+			{
+				copasi.AddSpecies(item);
+				
+				copasi.UpdateSpeciesQuantity(
+					copasi.GetMetab(item),
+					cue.Molecules.GetQuantity(item)
+					);
+			}
+			
+			foreach (var item in cue.ReactionTypes)
+			{
+				ReactionType reactionType = item;
+				CReaction copasiReaction = copasi.AddReaction(reactionType);
+				CModelValue modelValue = copasi.AddReactionParticleFluxValue(copasiReaction);
+				
+				reactionList.Add(new CopasiReactionGroup(copasiReaction, reactionType, modelValue));
+			}
 
 			copasi.InitTrajectoryTask ();
+
+			UnityEngine.Debug.Log("copasi: compiling...");
+			copasi.CompileAndUpdate();
+			UnityEngine.Debug.Log("copasi: saving...");
+			copasi.SaveModel("model.cps");
+			UnityEngine.Debug.Log("copasi: model updated");
 
 			currentTime = 0;
 		}
 
-		private void Sync()
-		{
-			CueUpdate update;
-			bool updateCopasi = false;
-			while (updateQueue.Dequeue(out update))
-			{
-				if (update is CompartmentChangedUpdate)
-				{
-					copasi.UpdateCompartmentVolume(((CompartmentChangedUpdate)update).Volume);
-				}
-				else if (update is ReactionAddedUpdate)
-				{
-					ReactionType reactionType = ((ReactionAddedUpdate)update).Reaction;
-					CReaction copasiReaction = copasi.AddReaction(reactionType);
-					CModelValue modelValue = copasi.AddReactionParticleFluxValue(copasiReaction);
-
-					reactionList.Add(new CopasiReactionGroup(copasiReaction, reactionType, modelValue));
-				}
-				else if (update is ReactionChangedUpdate)
-				{
-					ReactionChangedUpdate reactionUpdate = (ReactionChangedUpdate)update;
-
-					copasi.UpdateReaction(
-						copasi.GetReaction(reactionUpdate.Reaction),
-						reactionUpdate.Reagents,
-						reactionUpdate.Products,
-						reactionUpdate.Rate
-						);
-				}
-				else if (update is ReactionRemovedUpdate)
-				{
-					ReactionType reactionType = ((ReactionRemovedUpdate)update).Reaction;
-					copasi.RemoveReaction(reactionType);
-
-					for (int i = 0; i < reactionList.Count; i++) {
-						CopasiReactionGroup group = reactionList[i];
-
-						if (group.ReactionType == reactionType)
-						{
-							reactionList.RemoveAt(i);
-							break;
-						}
-					}
-				}
-				else if (update is SpeciesAddedUpdate)
-				{
-					copasi.AddSpecies(((SpeciesAddedUpdate)update).Species);
-				}
-				else if (update is SpeciesQuantityUpdate)
-				{
-					SpeciesQuantityUpdate speciesUpdate = (SpeciesQuantityUpdate)update;
-
-					copasi.UpdateSpeciesQuantity(
-						copasi.GetMetab(speciesUpdate.Species),
-						speciesUpdate.Quantity
-						);
-				}
-				else if (update is SpeciesRemovedUpdate)
-				{
-					copasi.RemoveSpecies(((SpeciesRemovedUpdate)update).Species);
-				}
-				else
-				{ throw new UpdateNotSupportedException(update); }
-
-				updateCopasi = true;
-			}
-
-			if (updateCopasi)
-			{
-				UnityEngine.Debug.Log("copasi: compiling...");
-				copasi.CompileAndUpdate();
-				UnityEngine.Debug.Log("copasi: saving...");
-				copasi.SaveModel("model.cps");
-				UnityEngine.Debug.Log("copasi: model updated");
-			}
-		}
-
 		public SimulationStep Step(double stepDuration)
 		{
-			Sync ();
-
 			CTrajectoryTask trajectoryTask = copasi.TrajectoryTask;
 
 			CTrajectoryProblem problem = (CTrajectoryProblem)trajectoryTask.getProblem();
@@ -146,9 +104,7 @@ namespace CellUnity.Simulation.Copasi
 				
 				reactionCount[i] = r.CalcParticleFlux();
 			}
-			
-			//UpdateSimulation();
-			
+		
 			// clean up
 			trajectoryTask.restore();
 			
@@ -157,7 +113,11 @@ namespace CellUnity.Simulation.Copasi
 		
 		public void Dispose()
 		{
-
+			if (copasi != null)
+			{
+				copasi.Dispose();
+				copasi = null;
+			}
 		}
 		
 	}

@@ -3,7 +3,6 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using CellUnity.Utility;
-using CellUnity.Simulation.Update;
 
 namespace CellUnity
 {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System;
 using CellUnity.Reaction;
-using CellUnity.Simulation.Update;
 
 namespace CellUnity.Simulation
 {
@@ -18,12 +17,24 @@ namespace CellUnity.Simulation
 		private SimulationState state;
 		private readonly bool runInMainThread;
 		
-		public void Reset()
+		public void Reload()
 		{
+			CUE cue = CUE.GetInstance ();
+
+			SimulationState oldState = state;
+			if (state != SimulationState.Stopped)
+			{
+				Stop();
+			}
+
 			if (simulator == null)
 			{
 				this.simulator = new Copasi.CopasiSimulator();
-				simulator.Init(GetNewUpdateQueue());
+				simulator.Init(cue);
+			}
+			else
+			{
+				simulator.Reload();
 			}
 
 			SimulatorScript simulatorScript = GameObject.FindObjectOfType<SimulatorScript>();
@@ -33,10 +44,15 @@ namespace CellUnity.Simulation
 				simulatorScriptGameObject.AddComponent<CellUnity.Simulation.SimulatorScript>();
 			}
 			
-			Stop ();
-			
 			simulationThread = new Thread(new ThreadStart(RunSimulation));
 			simulationThread.IsBackground = true;
+
+			if (oldState == SimulationState.Running)
+			{ Start(); }
+			else if (oldState == SimulationState.Paused)
+			{ Pause(); }
+			else if (oldState == SimulationState.Stopped)
+			{state = SimulationState.Stopped; }
 		}
 		
 		public SimulationState State { get { return state; } }
@@ -45,10 +61,7 @@ namespace CellUnity.Simulation
 		{
 			if (state == SimulationState.Stopped)
 			{
-				if (simulationThread == null)
-				{
-					Reset();
-				}
+				Reload();
 
 				state = SimulationState.Running;
 
@@ -163,38 +176,6 @@ namespace CellUnity.Simulation
 			}
 		}
 
-		private List<UpdateQueue> updateQueues = new List<UpdateQueue>();
-		
-		private UpdateQueue GetNewUpdateQueue()
-		{
-			CUE cue = CUE.GetInstance ();
-
-			UpdateQueue updateQueue = new UpdateQueue ();
-
-			updateQueue.Enqueue(new CompartmentChangedUpdate(cue));
-
-			foreach (var item in cue.Species)
-			{
-				updateQueue.Enqueue(new SpeciesAddedUpdate(item));
-				updateQueue.Enqueue(new SpeciesQuantityUpdate(item, cue.Molecules.GetQuantity(item)));
-			}
-			
-			foreach (var item in cue.ReactionTypes) {
-				updateQueue.Enqueue(new ReactionAddedUpdate(item));
-			}
-			
-			updateQueues.Add (updateQueue);
-
-			return updateQueue;
-		}
-		
-		public void UpdateSimulator(CueUpdate update)
-		{
-			foreach (var updateQueue in updateQueues) {
-				updateQueue.Enqueue(update);
-			}
-		}
-		
 		private Thread simulationThread;
 		
 		private Queue<SimulationStep> stepsQueue = new Queue<SimulationStep>();

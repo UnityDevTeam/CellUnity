@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using CellUnity.Reaction;
 using CellUnity.Simulation;
-using CellUnity.Simulation.Update;
 
 namespace CellUnity
 {
@@ -61,8 +60,6 @@ namespace CellUnity
 			species.Add (s);
 
 			UnityEditor.AssetDatabase.AddObjectToAsset (s, this);
-
-			EnvironmentUpdate (new SpeciesAddedUpdate (s));
 		}
 
 		public MoleculeSpecies CreateMoleculeSpecies() {
@@ -73,8 +70,6 @@ namespace CellUnity
 			s.Delete ();
 			species.Remove (s);
 			ScriptableObject.DestroyImmediate (s, true);
-
-			EnvironmentUpdate (new SpeciesRemovedUpdate (s));
 		}
 
 		public void RemoveMolecules ()
@@ -116,21 +111,12 @@ namespace CellUnity
 			reactionTypes.Add (r);
 
 			UnityEditor.AssetDatabase.AddObjectToAsset (r, this);
-
-			EnvironmentUpdate (new ReactionAddedUpdate (r));
 		}
 		
 		public void RemoveReaction(ReactionType r) {
 			reactionTypes.Remove (r);
 
 			ScriptableObject.DestroyImmediate (r, true);
-
-			EnvironmentUpdate (new ReactionRemovedUpdate (r));
-		}
-
-		public void EnvironmentUpdate(CueUpdate update)
-		{
-			simulationManager.UpdateSimulator(update);
 		}
 
 		private static CUE instance;

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using CellUnity.Utility;
 using System.Text;
-using CellUnity.Simulation.Update;
 
 namespace CellUnity.Reaction
 {
@@ -23,7 +22,6 @@ namespace CellUnity.Reaction
 				if (value != rate)
 				{
 					this.rate = value;
-					SendUpdate();
 				}
 			}
 		}
@@ -39,7 +37,6 @@ namespace CellUnity.Reaction
 				if (!Utils.ArrayEquals<MoleculeSpecies>(reagents, value))
 				{
 					this.reagents = value;
-					SendUpdate();
 				}
 			}
 		}
@@ -54,7 +51,6 @@ namespace CellUnity.Reaction
 				if (!Utils.ArrayEquals<MoleculeSpecies>(products, value))
 				{
 					this.products = value;
-					SendUpdate();
 				}
 			}
 		}
@@ -62,12 +58,6 @@ namespace CellUnity.Reaction
 		void OnEnable ()
 		{
 			hideFlags = HideFlags.HideInHierarchy;
-		}
-
-		private void SendUpdate()
-		{
-			CUE cue = CUE.GetInstance();
-			cue.EnvironmentUpdate(new ReactionChangedUpdate(this));
 		}
 
 		private string SpeciesToString(MoleculeSpecies species)
