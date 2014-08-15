@@ -18,6 +18,8 @@ namespace CellUnity
 		//private Dictionary<MoleculeSpecies, HashSet<Molecule>> collection = new Dictionary<MoleculeSpecies, HashSet<Molecule>>();
 		private HashSet<Molecule> collection = new HashSet<Molecule>();
 
+
+
 		public void Add(Molecule molecule) {
 			if (molecule == null) { throw new System.ArgumentException("molecule must not be null"); }
 			collection.Add (molecule);

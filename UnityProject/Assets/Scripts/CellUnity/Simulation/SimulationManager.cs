@@ -47,6 +47,8 @@ namespace CellUnity.Simulation
 			simulationThread = new Thread(new ThreadStart(RunSimulation));
 			simulationThread.IsBackground = true;
 
+			// restore old state
+
 			if (oldState == SimulationState.Running)
 			{ Start(); }
 			else if (oldState == SimulationState.Paused)
@@ -59,6 +61,11 @@ namespace CellUnity.Simulation
 		
 		public void Start()
 		{
+			if (!Application.isPlaying) 
+			{
+				throw new System.Exception("can only simulate in Play Mode");
+			}
+
 			if (state == SimulationState.Stopped)
 			{
 				Reload();

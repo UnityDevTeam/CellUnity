@@ -51,7 +51,6 @@ namespace CellUnity
 		public Molecule CreateMolecule(Vector3 location)
 		{
 			GameObject gameObject = (GameObject)GameObject.Instantiate(GetPrefabObject(), location, Quaternion.identity);
-			gameObject.rigidbody.drag = 0.5f;
 			return gameObject.GetComponent<Molecule>();
 		}
 

@@ -10,6 +10,13 @@ namespace CellUnity
 
 		public MoleculeSpecies Species;
 
+		public static readonly float Drag = 1;
+
+		void Start()
+		{
+			rigidbody.drag = Drag;
+		}
+
 		void OnEnable ()
 		{
 			CUE cue = CUE.GetInstance ();
