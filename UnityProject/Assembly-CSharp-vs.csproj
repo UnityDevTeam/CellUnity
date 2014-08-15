@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\PdbParser.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Molecule.cs" />
      <Compile Include="Assets\Scripts\CellUnity\MoleculeCollection.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\MoleculeManager.cs" />
      <Compile Include="Assets\Scripts\CellUnity\MoleculeSpecies.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Reaction\LightFlash.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" />

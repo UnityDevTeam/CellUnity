@@ -12,26 +12,28 @@ namespace CellUnity.Utility
 
 		private Entry root = null;
 
-		public Entry Find(TKey key)
-		{
+		public bool Find(TKey key, out Entry foundEntry)
+ 		{
 			Entry entry = root;
 			while (entry != null)
 			{
 				if (entry.Key == key)
 				{
-					return entry;
+					foundEntry = entry;
+					return true;
 				}
-
+				
 				entry = entry.Next;
 			}
-
-			return null;
+			
+			foundEntry = null;
+			return false;
 		}
 
 		public Entry Set(TKey key, TValue value)
 		{
-			Entry entry = Find (key);
-			if (entry != null)
+			Entry entry;
+			if (Find(key, out entry))
 			{
 				entry.Value = value;
 				return entry;

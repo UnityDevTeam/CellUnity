@@ -1,111 +1,154 @@
 using UnityEngine;
-using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
-using CellUnity.Utility;
 
 namespace CellUnity
 {
-	public class MoleculeCollection {
-		
-		public MoleculeCollection() { }
-		
-		//void OnEnable ()
-		//{
-		//	hideFlags = HideFlags.HideInHierarchy;
-		//}
-
-		//private Dictionary<MoleculeSpecies, HashSet<Molecule>> collection = new Dictionary<MoleculeSpecies, HashSet<Molecule>>();
-		private HashSet<Molecule> collection = new HashSet<Molecule>();
-
-
-
-		public void Add(Molecule molecule) {
-			if (molecule == null) { throw new System.ArgumentException("molecule must not be null"); }
-			collection.Add (molecule);
-		}
-
-		public void Remove(Molecule molecule) {
-			collection.Remove (molecule);
-		}
-
-		public void ResetAllReactions() {
-			foreach (Molecule item in collection) {
-				item.ReactionPrep = null;
-			}
-		}
-
-		public ulong GetQuantity(MoleculeSpecies species)
+	public class MoleculeCollection : IEnumerable<Molecule>
+	{
+		public MoleculeCollection ()
 		{
-			ulong count = 0;
-
-			foreach (Molecule item in collection) {
-				if (item.Species == species)
-				{
-					count++;
-				}
-			}
-
-			return count;
 		}
 
-		public bool FindMolecuelsForReaction(MoleculeSpecies[] species, out Molecule[] molecules)
+		private Molecule root = null;
+		private Molecule last = null;
+
+		private ulong count = 0;
+		public ulong Count { get { return count; } }
+
+		public void Add(Molecule molecule)
 		{
-			molecules = new Molecule[species.Length];
-			
-			if (species.Length > 0)
+			if (molecule.Collection != null)
+			{ throw new System.Exception("molecule already bleongs to another collection (Add called for "+ToString()+", actually is in "+molecule.Collection.ToString()+")"); }
+
+			if (root == null)
 			{
-				if (!FindRandomMoleculeForReaction(species[0], out molecules[0])) { return false; }
-				for (int i = 1; i < molecules.Length; i++) {
-					if (!FindRandomMoleculeForReaction(species[i], out molecules[i])) { return false; }
-				}
-			}
-			
-			return true;
-		}
+				root = molecule;
+				last = molecule;
 
-		private bool FindNearestMoleculeForReaction(Molecule reference, MoleculeSpecies species, out Molecule molecule)
-		{
-			Vector3 position = reference.transform.position;
-
-			float minDistance = float.MaxValue;
-			foreach (var m in collection) {
-
-				float distance = Vector3.Distance(position, m.transform.position);
-				if ((species.Equals(m.Species)) && (m.ReactionPrep == null) && (distance < minDistance) && (reference != m))
-				{
-					minDistance = distance;
-					molecule = m;
-					return true;
-				}
-			}
-
-			molecule = null;
-			return false;
-		}
-
-		private bool FindRandomMoleculeForReaction(MoleculeSpecies species, out Molecule molecule)
-		{
-			List<Molecule> list = new List<Molecule> ();
-			foreach (var m in collection)
-			{
-				if (species.Equals(m.Species) && (m.ReactionPrep == null))
-				{
-					list.Add(m);
-				}
-			}
-
-			if (list.Count > 0)
-			{
-				int i = (int)(Random.value * list.Count);
-				molecule = list[i];
-				return true;
+				molecule.CollectionNext = null;
+				molecule.CollectionPrevious = null;
 			}
 			else
 			{
-				molecule = null;
-				return false;
-		  	}
+				last.CollectionNext = molecule;
+
+				molecule.CollectionPrevious = last;
+				molecule.CollectionNext = null;
+
+				last = molecule;
+			}
+
+			molecule.Collection = this;
+
+			count++;
 		}
+
+		public void Remove(Molecule molecule)
+		{
+			if (molecule.Collection != this)
+			{ throw new System.Exception("molecule already bleongs to another collection (Remove called for "+ToString()+", actually is in "+molecule.Collection.ToString()+")"); }
+
+			if (molecule == root && molecule == last)
+			{
+				root = null;
+				last = null;
+
+				molecule.CollectionNext = null;
+				molecule.CollectionPrevious = null;
+				molecule.Collection = null;
+
+				count--;
+			}
+			else if (molecule == root)
+			{
+				root = molecule.CollectionNext;
+				root.CollectionPrevious = null;
+
+				molecule.CollectionNext = null;
+				molecule.CollectionPrevious = null;
+				molecule.Collection = null;
+
+				count--;
+			}
+			else if (molecule == last)
+			{
+				last = molecule.CollectionPrevious;
+				last.CollectionNext = null;
+
+				molecule.CollectionNext = null;
+				molecule.CollectionPrevious = null;
+				molecule.Collection = null;
+
+				count--;
+			}
+			else
+			{
+				molecule.CollectionPrevious.CollectionNext = molecule.CollectionNext;
+				molecule.CollectionNext.CollectionPrevious = molecule.CollectionPrevious;
+
+				molecule.CollectionNext = null;
+				molecule.CollectionPrevious = null;
+				molecule.Collection = null;
+
+				count--;
+			}
+		}
+
+		private class Enumerator : IEnumerator<Molecule>
+		{
+			public Enumerator(MoleculeCollection collection)
+			{
+				this.collection = collection;
+			}
+
+			private MoleculeCollection collection;
+			private Molecule current = null;
+			private bool first = true;
+
+			public bool MoveNext ()
+			{
+				if (first)
+				{
+					first = false;
+					current = collection.root;
+				}
+				else
+				{
+					current = current.CollectionNext;
+				}
+				return (current != null);
+			}
+			public void Reset ()
+			{
+				throw new System.NotImplementedException ();
+			}
+
+			public void Dispose ()
+			{
+				current = null;
+				collection = null;
+			}
+
+			public Molecule Current { get { return current; } }
+
+			#region IEnumerator implementation
+
+			object IEnumerator.Current  { get { return current; } }
+
+			#endregion
+		}
+
+		public IEnumerator<Molecule> GetEnumerator ()
+		{
+			return new Enumerator (this);
+		}
+
+		IEnumerator IEnumerable.GetEnumerator ()
+		{
+			return new Enumerator (this);
+		}
+
 	}
 }
+

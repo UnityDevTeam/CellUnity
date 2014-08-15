@@ -44,7 +44,40 @@ namespace CellUnity
 		}
 
 		[System.NonSerialized]
-		public ReactionPrep ReactionPrep;
+		private ReactionPrep reactionPrep = null;
+
+		public ReactionPrep ReactionPrep { get { return reactionPrep; } }
+
+		public void AssignReactionPrep(ReactionPrep reactionPrep)
+		{
+			this.reactionPrep = reactionPrep;
+
+			CUE cue = CUE.GetInstance ();
+			cue.Molecules.AssignReactionPrep (this);
+		}
+
+		// must be removed afterwards
+		public void ClearReactionPrep()
+		{
+			if (this.reactionPrep != null)
+			{
+				this.reactionPrep = null;
+
+				CUE cue = CUE.GetInstance ();
+				cue.Molecules.ClearReactionPrep (this);
+			}
+		}
+
+		public void ReleaseReactionPrep()
+		{
+			if (this.reactionPrep != null)
+			{
+				this.reactionPrep = null;
+				
+				CUE cue = CUE.GetInstance ();
+				cue.Molecules.ReleaseReactionPrep (this);
+			}
+		}
 
 		public Vector3 Position
 		{
@@ -66,5 +99,9 @@ namespace CellUnity
 				//Debug.Log(force);
 			}
 		}
+
+		public Molecule CollectionNext = null;
+		public Molecule CollectionPrevious = null;
+		public MoleculeCollection Collection = null;
 	}
 }

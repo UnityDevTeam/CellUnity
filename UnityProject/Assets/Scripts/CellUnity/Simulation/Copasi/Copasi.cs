@@ -28,7 +28,7 @@ namespace CellUnity.Simulation.Copasi
 			model.setQuantityUnit(CUnit.nMol);
 			
 			// create a compartment with the name cell
-			compartment = model.createCompartment("cell"); // TODO: remove static value
+			compartment = model.createCompartment("cell");
 
 			changedObjects = new ObjectStdVector();
 		}
@@ -320,7 +320,7 @@ namespace CellUnity.Simulation.Copasi
 			try
 			{
 				dataModel.exportSBML("model.xml", true, 2, 3);
-				// TODO: it is not possible to export the global quantities to SBML, the export fails. has to be fixed
+				// Attention: it is not possible to export the global quantities to SBML, the export fails
 			}
 			catch
 			{

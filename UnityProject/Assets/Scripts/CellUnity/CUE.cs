@@ -31,8 +31,8 @@ namespace CellUnity
 			}
 		}
 
-		private MoleculeCollection molecules = new MoleculeCollection();
-		public MoleculeCollection Molecules { get { return molecules; } }
+		private MoleculeManager molecules = new MoleculeManager();
+		public MoleculeManager Molecules { get { return molecules; } }
 
 		private ReactionManager reactionManager = new ReactionManager();
 		public ReactionManager ReactionManager { get { return reactionManager; } }

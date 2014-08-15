@@ -1,29 +1,51 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace CellUnity.Reaction
 {
 	public class ReactionPrep {
 
-		public ReactionPrep(ReactionType t, Molecule[] molecules)
+		public ReactionPrep(ReactionType t)
 		{
 			this.reactionType = t;
-			this.molecules = molecules;
-			this.ready = new bool[molecules.Length];
-			for (int i = 0; i < molecules.Length; i++) {
-				ready[i] = false;
-				molecules[i].ReactionPrep = this;
+
+			int reagentsCount = t.Reagents.Length;
+			this.ready = new bool[reagentsCount];
+			this.molecules = new List<Molecule> (reagentsCount);
+
+			for (int i = 0; i < ready.Length; i++)
+			{
+				ready[i] = false;	
 			}
 		}
 
+		public void AddMolecule(Molecule molecule)
+		{
+			molecules.Add (molecule);
+			molecule.AssignReactionPrep(this);
+		}
+
+		public void Release()
+		{
+			foreach (var m in molecules)
+			{
+				m.ClearReactionPrep();
+			}
+
+			molecules.Clear ();
+		}
+
+		public int MoleculeCount { get {  return molecules.Count - 1; } }
+
 		private ReactionType reactionType;
-		private Molecule[] molecules;
+		private List<Molecule> molecules;
 		private bool[] ready;
 		
 		private bool performed = false;
 		
 		public ReactionType ReactionType { get{ return reactionType; } }
-		public Molecule[] Molecules { get { return molecules; } }
+		public Molecule[] Molecules { get { return molecules.ToArray(); } }
 		
 		public Vector3 GetExpectedReactionLocation()
 		{
@@ -46,7 +68,7 @@ namespace CellUnity.Reaction
 		{
 			bool allReady = true;
 		
-			for (int i = 0; i < molecules.Length; i++) {
+			for (int i = 0; i < molecules.Count; i++) {
 				if (molecule == molecules[i])
 				{
 					ready[i] = true;

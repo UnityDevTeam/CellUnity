@@ -34,7 +34,7 @@ namespace CellUnity.Reaction
 			float centerSum = 0;
 		
 			foreach (Molecule m in reactionPrep.Molecules) {
-				m.ReactionPrep = null;
+				m.ClearReactionPrep();
 				
 				center += m.Position * m.Species.Size;
 				centerSum += m.Species.Size;
@@ -87,20 +87,16 @@ namespace CellUnity.Reaction
 		{
 			CUE cue = CUE.GetInstance ();
 
-			MoleculeSpecies[] reagents = reaction.Reagents;
-			Molecule[] molecules; 
-			
-			if (cue.Molecules.FindMolecuelsForReaction(reagents, out molecules))
+			ReactionPrep reactionPrep = new ReactionPrep(reaction);
+			if (cue.Molecules.FindMolecuelsForReaction(reactionPrep))
 			{
-				ReactionPrep reactionPrep = new ReactionPrep(reaction, molecules);
-				
-				if (molecules.Length == 0)
+				if (reactionPrep.MoleculeCount == 0)
 				{
 					reactionPrep.Ready(null);
 				}
-				if (molecules.Length == 1)
+				if (reactionPrep.MoleculeCount == 1)
 				{
-					reactionPrep.Ready(molecules[0]); // necessary if only one reagent in reaction
+					reactionPrep.Ready(reactionPrep.Molecules[0]); // necessary if only one reagent in reaction
 				}
 
 				return true;
@@ -108,13 +104,14 @@ namespace CellUnity.Reaction
 			else
 			{ 
 				// not sufficient molecules for reaction
+				reactionPrep.Release();
 
 				if (queueIfNotPossible)
 				{
 					// --> queue Reaction for later
 
-					ShortKeyDict<ReactionType, int>.Entry entry = openReactions.Find(reaction);
-					if (entry == null)
+					ShortKeyDict<ReactionType, int>.Entry entry;
+					if (!openReactions.Find (reaction, out entry))
 					{
 						entry = openReactions.Set(reaction, 0);
 					}
