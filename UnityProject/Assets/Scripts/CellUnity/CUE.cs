@@ -154,11 +154,6 @@ namespace CellUnity
 			return instance;
 		}
 
-		public float ScaleNm(float nm)
-		{
-			return nm * 4;
-		}
-
 		public override string ToString ()
 		{
 			return GetInstanceID().ToString()+" / ms:"+ID.ToString();

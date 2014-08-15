@@ -253,7 +253,7 @@ namespace CellUnity.Simulation.Copasi
 			}
 			else
 			{
-				throw new System.Exception("Error. Could not find a kinetic law that conatins the term \"Constant\".");
+				throw new System.Exception("Error. Could not find a kinetic law that conatins the term \"mass action\".");
 			}
 		}
 

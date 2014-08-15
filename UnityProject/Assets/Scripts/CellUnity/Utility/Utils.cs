@@ -2,7 +2,7 @@ using System;
 
 namespace CellUnity.Utility
 {
-	static class Utils {
+	public static class Utils {
 
 		private static readonly int[] primes = new int[] { 1, 7, 11, 13, 17, 19, 23, 29, 31 };
 		public static int Hash(params object[] objs)
@@ -53,6 +53,23 @@ namespace CellUnity.Utility
 				return true;
 			}
 			else { return false; }
+		}
+
+		public static float ScaleFromNm(float nm)
+		{
+			return nm * 4;
+		}
+
+		public static float ScaleToNm(float unityUnit)
+		{
+			return unityUnit / 4;
+		}
+
+		public static float GetSphereRadius(float volumeNanoliter)
+		{
+			float V = volumeNanoliter * 1e15f; // nanoliter -> nm³ so we have r in nm in the end
+			float r = UnityEngine.Mathf.Pow( 3*V / (4*UnityEngine.Mathf.PI) , 1f/3f );
+			return r;
 		}
 	}
 }

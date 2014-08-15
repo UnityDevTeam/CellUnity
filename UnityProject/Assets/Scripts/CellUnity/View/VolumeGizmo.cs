@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using CellUnity;
+using CellUnity.Utility;
 
 public class VolumeGizmo : MonoBehaviour {
 
@@ -15,14 +16,14 @@ public class VolumeGizmo : MonoBehaviour {
 	}
 
 	void OnDrawGizmos() {
-		
-		CUE cue = CUE.GetInstance();
 
 		Gizmos.color = new Color (0, 0, 1, 0.5f);
 
-		float V = cue.Volume; // nanoliter
-		float r = Mathf.Pow( 3*V / (4*Mathf.PI) , 1f/3f );
-		Gizmos.DrawSphere(Vector3.zero, cue.ScaleNm(r));
+		CUE cue = CUE.GetInstance();
+
+		float r = Utils.GetSphereRadius (cue.Volume);
+
+		Gizmos.DrawSphere(Vector3.zero, Utils.ScaleFromNm(r));
 
 	}
 }

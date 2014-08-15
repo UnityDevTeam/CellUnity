@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using CellUnity.Utility;
 
 namespace CellUnity.Model.Pdb
 {
@@ -82,7 +83,7 @@ namespace CellUnity.Model.Pdb
 
 			CUE cue = CUE.GetInstance ();
 
-			float scale = cue.ScaleNm(atom.Element.Radius);
+			float scale = Utils.ScaleFromNm(atom.Element.Radius);
 			sphere.transform.localScale = new Vector3 (scale, scale, scale);
 			sphere.transform.position = new Vector3 (atom.X, atom.Y, atom.Z);
 			Material m = Resources.Load<Material> ("Atoms/Material" + atom.Element.Symbol);

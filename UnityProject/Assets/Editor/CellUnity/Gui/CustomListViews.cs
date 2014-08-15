@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CellUnity;
 using CellUnity.Reaction;
+using CellUnity.Utility;
 
 public class MoleculeSpeciesListView : ListView<MoleculeSpecies>
 {
@@ -14,16 +15,17 @@ public class MoleculeSpeciesListView : ListView<MoleculeSpecies>
 			return;
 		}
 
+		CUE cue = CUE.GetInstance ();
+
 		item.Name = EditorGUILayout.TextField ("Name", item.Name);
-		item.InitialQuantity = EditorGUILayout.IntField("Initial Quantity", item.InitialQuantity);
-		item.Mass = EditorGUILayout.FloatField("Mass", item.Mass);
-		EditorGUILayout.LabelField("Size", item.Size.ToString());
+		item.InitialQuantity = EditorGUILayout.IntField("Initial Quantity [1]", item.InitialQuantity);
+		item.Mass = EditorGUILayout.FloatField("Mass [u]", item.Mass);
+		EditorGUILayout.LabelField("~Size [nm]", Utils.ScaleToNm(item.Size).ToString());
 		//EditorGUILayout.LabelField("ID", item.GetInstanceID().ToString());
 
 		EditorUtility.SetDirty (item);
 
 		if (GUILayout.Button ("remove")) {
-			CUE cue = CUE.GetInstance();
 			cue.RemoveSpecies(item);
 
 			EditorUtility.SetDirty(cue);
@@ -54,7 +56,7 @@ public class ReactionTypeListView : ListView<ReactionType>
 		
 		EditorGUILayout.EndHorizontal ();
 		
-		item.Rate = EditorGUILayout.FloatField("Rate", item.Rate);
+		item.Rate = EditorGUILayout.FloatField("Rate [nl/(nmol*s)]", item.Rate);
 
 		EditorUtility.SetDirty (item);
 

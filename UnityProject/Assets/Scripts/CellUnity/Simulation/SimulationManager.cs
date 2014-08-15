@@ -100,7 +100,7 @@ namespace CellUnity.Simulation
 
 		private void SimulateStep()
 		{
-			Debug.Log ("Step " + nextStep.ToLongTimeString ());
+			Debug.Log ("Step");
 
 			CUE cue = CUE.GetInstance ();
 

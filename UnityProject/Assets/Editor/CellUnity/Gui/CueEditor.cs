@@ -6,6 +6,7 @@ using CellUnity.Model;
 using CellUnity.Model.Pdb;
 using CellUnity.Dispensing;
 using CellUnity.Simulation;
+using CellUnity.Utility;
 
 [CustomEditor(typeof(CUE))]
 public class CueEditor : Editor 
@@ -101,9 +102,10 @@ public class CueEditor : Editor
 		
 		GUILayout.Label ("Simulation", EditorStyles.boldLabel);
 
-		cue.Volume = Mathf.Max (0, EditorGUILayout.FloatField("Volume:", (float)cue.Volume));
-		cue.SimulationStep = Mathf.Max (0, EditorGUILayout.FloatField("Simulation Interval:", (float)cue.SimulationStep));
-		cue.VisualizationStep = Mathf.Max (0, EditorGUILayout.FloatField("Visualization Interval:", (float)cue.VisualizationStep));
+		cue.Volume = Mathf.Max (0, EditorGUILayout.FloatField("Volume [nl]:", (float)cue.Volume));
+		EditorGUILayout.LabelField("Radius [nm]", Utils.GetSphereRadius(cue.Volume).ToString());
+		cue.SimulationStep = Mathf.Max (0, EditorGUILayout.FloatField("Simulation Step [s]:", (float)cue.SimulationStep));
+		cue.VisualizationStep = Mathf.Max (0, EditorGUILayout.FloatField("Visualization Step [s]:", (float)cue.VisualizationStep));
 		
 		GUILayout.BeginHorizontal ();
 		
@@ -157,8 +159,8 @@ public class CueEditor : Editor
 
 		Space ();
 
-		if (GUILayout.Button ("Reset")) {
-			cue.ResetData();
-		}
+		//if (GUILayout.Button ("Reset")) {
+		//	cue.ResetData();
+		//}
 	}
 }

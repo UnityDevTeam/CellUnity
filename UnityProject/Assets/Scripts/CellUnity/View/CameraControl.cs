@@ -7,7 +7,13 @@ namespace CellUnity.View
 	
 		// Use this for initialization
 		void Start () {
-		
+			GameObject lightGameObject = new GameObject("CamLight");
+			Light light = lightGameObject.AddComponent<Light>();
+			lightGameObject.transform.position = Camera.main.transform.position;
+			lightGameObject.transform.parent = Camera.main.transform;
+
+			light.intensity = 2f;
+			light.range = 20f;
 		}
 		
 		private float horizontalSpeed = 2.0F;
