@@ -221,7 +221,7 @@ namespace CellUnity.Simulation
 				
 					for (ulong i = 0; i < item.Count; i++)
 					{
-						cue.ReactionManager.InitiateReaction(item.ReactionType);	
+						cue.ReactionManager.InitiateReaction(item.ReactionType, true);	
 					}
 				}
 				

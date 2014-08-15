@@ -62,7 +62,7 @@ public class ReactionTypeListView : ListView<ReactionType>
 
 		if (Application.isPlaying) {
 			if (GUILayout.Button ("start reaction")) {
-				cue.ReactionManager.InitiateReaction(item);
+				cue.ReactionManager.InitiateReaction(item, true);
 			}
 		}
 

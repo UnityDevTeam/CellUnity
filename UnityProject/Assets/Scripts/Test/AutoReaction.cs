@@ -17,7 +17,7 @@ public class AutoReaction : MonoBehaviour {
 		foreach (var reaction in cue.ReactionTypes) {
 			try
 			{
-				cue.ReactionManager.InitiateReaction(reaction);	
+				cue.ReactionManager.InitiateReaction(reaction, false);	
 			}
 			catch { }
 		}

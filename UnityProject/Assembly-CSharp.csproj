@@ -73,6 +73,7 @@
      <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationStep.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulatorScript.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Utility\DelayedDrag.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\Utility\ShortKeyDict.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Utility\Utils.cs" />
      <Compile Include="Assets\Scripts\CellUnity\View\CameraControl.cs" />
      <Compile Include="Assets\Scripts\CellUnity\View\VolumeGizmo.cs" />

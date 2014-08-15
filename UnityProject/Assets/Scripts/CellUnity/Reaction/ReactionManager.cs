@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using CellUnity.Reaction;
+using CellUnity.Utility;
 
 namespace CellUnity.Reaction
 {
@@ -22,15 +23,8 @@ namespace CellUnity.Reaction
 				reactionPrep.Ready(m2);
 			}
 		}
-		
-		private GameObject CreateProduct(MoleculeSpecies productSpecies, Vector3 position, Vector3 velocity)
-		{
-			GameObject product = null;
-		
 
-			
-			return product;
-		}
+		private ShortKeyDict<ReactionType, int> openReactions = new ShortKeyDict<ReactionType, int>();
 
 		public void PerformReaction(ReactionPrep reactionPrep)
 		{
@@ -85,9 +79,11 @@ namespace CellUnity.Reaction
 			
 			float intensity = 2f * (float)System.Math.Sqrt(productSizeSum);
 			flash.GetComponent<LightFlash>().FinalIntensity = intensity;
+
+			TryPerformOpenReaction ();
 		}
 
-		public void InitiateReaction(ReactionType reaction)
+		public bool InitiateReaction(ReactionType reaction, bool queueIfNotPossible)
 		{
 			CUE cue = CUE.GetInstance ();
 
@@ -106,9 +102,48 @@ namespace CellUnity.Reaction
 				{
 					reactionPrep.Ready(molecules[0]); // necessary if only one reagent in reaction
 				}
+
+				return true;
 			}
 			else
-			{ Debug.Log("not sufficent Molecules for "+reaction.ToString()); }
+			{ 
+				// not sufficient molecules for reaction
+
+				if (queueIfNotPossible)
+				{
+					// --> queue Reaction for later
+
+					ShortKeyDict<ReactionType, int>.Entry entry = openReactions.Find(reaction);
+					if (entry == null)
+					{
+						entry = openReactions.Set(reaction, 0);
+					}
+
+					entry.Value++;
+				}
+
+				return false;
+			}
+		}
+
+		private void TryPerformOpenReaction()
+		{
+			ShortKeyDict<ReactionType, int>.Entry entry = null;
+			while (openReactions.GetNext(entry, out entry))
+			{
+				while (entry.Value > 0)
+				{
+					if (InitiateReaction(entry.Key, false))
+					{
+						entry.Value--;
+						if (entry.Value == 0)
+						{
+							openReactions.Remove(entry.Key);
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 }
