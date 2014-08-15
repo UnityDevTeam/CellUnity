@@ -1,11 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\Reaction\LightFlash.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\Model\Pdb\PdbParser.cs">
     <Files>
-      <File FileName="Assets\Scripts\CellUnity\Simulation\SimulationManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" Line="68" Column="27" />
-      <File FileName="Assets\Editor\Test.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CellUnity\Reaction\LightFlash.cs" Line="47" Column="66" />
+      <File FileName="Assets\Scripts\CellUnity\Simulation\SimulationManager.cs" Line="103" Column="20" />
+      <File FileName="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" Line="109" Column="1" />
+      <File FileName="Assets\Scripts\CellUnity\Simulation\Copasi\Copasi.cs" Line="256" Column="21" />
+      <File FileName="Assets\Editor\CellUnity\Gui\CueEditor.cs" Line="164" Column="5" />
+      <File FileName="Assets\Editor\CellUnity\Gui\CustomListViews.cs" Line="51" Column="10" />
+      <File FileName="Assets\Scripts\CellUnity\CUE.cs" Line="155" Column="4" />
+      <File FileName="Assets\Scripts\CellUnity\View\VolumeGizmo.cs" Line="26" Column="52" />
+      <File FileName="c:\Users\daniel\Projects\CellUnity\UnityProject\Assets\Scripts\CellUnity\Model\Pdb\PdbImport.cs" Line="4" Column="1" />
+      <File FileName="Assets\Scripts\CellUnity\Model\Pdb\PdbParser.cs" Line="20" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
