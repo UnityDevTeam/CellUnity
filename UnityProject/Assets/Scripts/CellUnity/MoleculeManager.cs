@@ -104,13 +104,18 @@ namespace CellUnity
 			if (species.Length > 0)
 			{
 				Molecule m;
+				Molecule firstMolecule;
+
 				if (FindRandomMoleculeForReaction(species[0], out m))
-				{ reactionPrep.AddMolecule(m); }
+				{
+					reactionPrep.AddMolecule(m);
+					firstMolecule = m;
+				}
 				else
 				{ return false; }
 
 				for (int i = 1; i < species.Length; i++) {
-					if (FindRandomMoleculeForReaction(species[i], out m)) 
+					if (FindNearestMoleculeForReaction(firstMolecule, species[i], out m)) 
 					{ reactionPrep.AddMolecule(m); }
 					else
 					{ return false; }
@@ -122,7 +127,7 @@ namespace CellUnity
 
 		private bool FindNearestMoleculeForReaction(Molecule reference, MoleculeSpecies species, out Molecule molecule)
 		{
-			Vector3 position = reference.transform.position;
+			Vector3 position = reference.Position;
 
 			float minDistance = float.MaxValue;
 
@@ -134,7 +139,7 @@ namespace CellUnity
 				MoleculeSet ms = entry.Value;
 				
 				foreach (var m in ms.Free) {
-					float distance = Vector3.Distance(position, m.transform.position);
+					float distance = Vector3.Distance(position, m.Position);
 					if ((distance < minDistance) && (reference != m))
 					{
 						minDistance = distance;

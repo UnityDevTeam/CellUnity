@@ -25,6 +25,8 @@ public class CueEditor : Editor
 	
 	private static Dispenser dispenser = new Dispenser();
 
+	private static bool linkDispenserVolumeToSimulationVolume = true;
+
 	public static void CueGui(CUE cue) {
 
 		EditorGUILayout.LabelField ("ID", cue.ID.ToString());
@@ -77,10 +79,13 @@ public class CueEditor : Editor
 		
 		Space ();
 		GUILayout.Label ("Placing", EditorStyles.boldLabel);
-		
-		//EditorGUILayout.FloatField("Radius:", 10);
-		
+
 		dispenser.Radius = EditorGUILayout.FloatField("Radius [nm]:", dispenser.Radius);
+		linkDispenserVolumeToSimulationVolume = EditorGUILayout.Toggle ("Link to Simulation:", linkDispenserVolumeToSimulationVolume);
+		if (linkDispenserVolumeToSimulationVolume)
+		{
+			dispenser.Radius = Utils.GetSphereRadius(cue.Volume);
+		}
 		
 		if (GUILayout.Button ("Remove all Molecules")) {
 			cue.RemoveMolecules();
