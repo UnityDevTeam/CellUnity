@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CellUnity.Reaction;
 using CellUnity.Simulation;
+using CellUnity.Utility;
 
 namespace CellUnity
 {
@@ -39,6 +40,9 @@ namespace CellUnity
 		
 		private SimulationManager simulationManager = new SimulationManager();
 		public SimulationManager SimulationManager { get { return simulationManager; } }
+
+		private ScriptManager scriptManager = new ScriptManager();
+		public ScriptManager ScriptManager { get { return scriptManager; } }
 
 		[SerializeField]
 		private List<MoleculeSpecies> species;

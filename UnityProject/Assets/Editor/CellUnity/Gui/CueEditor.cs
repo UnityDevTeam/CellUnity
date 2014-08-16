@@ -100,6 +100,13 @@ public class CueEditor : Editor
 		GUILayout.Label ("Simulation", EditorStyles.boldLabel);
 
 		cue.Volume = Mathf.Max (0, EditorGUILayout.FloatField("Volume [nl]:", (float)cue.Volume));
+		bool volumeGizom = EditorGUILayout.Toggle ("Volume Visible:", cue.ScriptManager.HasScript<CellUnity.View.VolumeGizmo> ());
+		if (volumeGizom)
+		{ cue.ScriptManager.GetOrAddScript<CellUnity.View.VolumeGizmo>(); }
+		else
+		{ cue.ScriptManager.RemoveScript<CellUnity.View.VolumeGizmo>(); }
+
+
 		EditorGUILayout.LabelField("Radius [nm]", Utils.GetSphereRadius(cue.Volume).ToString());
 		cue.SimulationStep = Mathf.Max (0, EditorGUILayout.FloatField("Simulation Step [s]:", (float)cue.SimulationStep));
 		cue.VisualizationStep = Mathf.Max (0, EditorGUILayout.FloatField("Visualization Step [s]:", (float)cue.VisualizationStep));

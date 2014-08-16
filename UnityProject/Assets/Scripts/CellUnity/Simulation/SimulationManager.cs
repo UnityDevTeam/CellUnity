@@ -37,12 +37,7 @@ namespace CellUnity.Simulation
 				simulator.Reload();
 			}
 
-			SimulatorScript simulatorScript = GameObject.FindObjectOfType<SimulatorScript>();
-			if (simulatorScript == null)
-			{
-				GameObject simulatorScriptGameObject = new GameObject("SimulatorScript");
-				simulatorScriptGameObject.AddComponent<CellUnity.Simulation.SimulatorScript>();
-			}
+			cue.ScriptManager.GetOrAddScript<CellUnity.Simulation.SimulatorScript>();
 			
 			simulationThread = new Thread(new ThreadStart(RunSimulation));
 			simulationThread.IsBackground = true;
