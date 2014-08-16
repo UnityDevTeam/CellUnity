@@ -88,7 +88,7 @@ namespace CellUnity
 		void FixedUpdate() {
 			ReactionPrep r = ReactionPrep;
 
-			if (r != null) 
+			if (r != null && r.Active) 
 			{
 				Vector3 destination = r.GetExpectedReactionLocation();
 

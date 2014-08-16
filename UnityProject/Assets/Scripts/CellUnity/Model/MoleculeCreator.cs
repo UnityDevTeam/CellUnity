@@ -32,7 +32,8 @@ namespace CellUnity.Model
 				center += obj.transform.position;
 
 				if (obj.collider != null) {
-					obj.collider.enabled = false; // TODO: not only disable but destroy collider
+					obj.collider.enabled = false;
+					CellUnity.Utility.ScriptManager.RemoveComponent(obj.collider);
 				}
 			}
 

@@ -36,7 +36,9 @@ namespace CellUnity.Reaction
 			molecules.Clear ();
 		}
 
-		public int MoleculeCount { get {  return molecules.Count - 1; } }
+		public bool Active { get { return (molecules.Count == ready.Length) && !performed; } }
+
+		public int MoleculeCount { get {  return molecules.Count; } }
 
 		private ReactionType reactionType;
 		private List<Molecule> molecules;
