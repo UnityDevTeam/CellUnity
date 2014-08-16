@@ -55,6 +55,16 @@ namespace CellUnity.Utility
 			else { return false; }
 		}
 
+		public static bool ArrayContains<T>(T[] array, T element)
+			where T : class
+		{
+			foreach (var item in array) {
+				if (item == element) { return true; }
+			}
+
+			return false;
+		}
+
 		public static float ScaleFromNm(float nm)
 		{
 			return nm * 4;

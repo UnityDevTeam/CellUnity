@@ -15,10 +15,10 @@ namespace CellUnity
 
 		private class MoleculeSet
 		{
-			public MoleculeSet()
+			public MoleculeSet(MoleculeSpecies species)
 			{
-				Free = new MoleculeCollection();
-				Reacting = new MoleculeCollection();
+				Free = new MoleculeCollection(species.Name + " free");
+				Reacting = new MoleculeCollection(species.Name + " reacting");
 			}
 
 			public MoleculeCollection Free { get; private set; }
@@ -31,7 +31,7 @@ namespace CellUnity
 			ShortKeyDict<MoleculeSpecies, MoleculeSet>.Entry entry;
 			if (!collection.Find (molecule.Species, out entry))
 			{
-				entry = collection.Set(molecule.Species, new MoleculeSet());
+				entry = collection.Set(molecule.Species, new MoleculeSet(molecule.Species));
 			}
 
 			entry.Value.Free.Add (molecule);
@@ -97,6 +97,26 @@ namespace CellUnity
 			else { return 0; }
 		}
 
+		public bool FindMolecuelsForReaction(ReactionPrep reactionPrep, Molecule referenceMolecule)
+		{
+			List<MoleculeSpecies> species = new List<MoleculeSpecies>(reactionPrep.ReactionType.Reagents);
+
+			reactionPrep.AddMolecule (referenceMolecule);
+
+			if (!species.Remove(referenceMolecule.Species))
+			{ throw new System.Exception("Species of referenceMolecule isn't needed in reaction"); }
+
+			Molecule m;
+			for (int i = 0; i < species.Count; i++) {
+				if (FindNearestMoleculeForReaction(referenceMolecule, species[i], out m)) 
+				{ reactionPrep.AddMolecule(m); }
+				else
+				{ return false; }
+			}
+
+			return true;
+		}
+
 		public bool FindMolecuelsForReaction(ReactionPrep reactionPrep)
 		{
 			MoleculeSpecies[] species = reactionPrep.ReactionType.Reagents;
@@ -104,22 +124,13 @@ namespace CellUnity
 			if (species.Length > 0)
 			{
 				Molecule m;
-				Molecule firstMolecule;
 
 				if (FindRandomMoleculeForReaction(species[0], out m))
 				{
-					reactionPrep.AddMolecule(m);
-					firstMolecule = m;
+					return FindMolecuelsForReaction(reactionPrep, m);
 				}
 				else
 				{ return false; }
-
-				for (int i = 1; i < species.Length; i++) {
-					if (FindNearestMoleculeForReaction(firstMolecule, species[i], out m)) 
-					{ reactionPrep.AddMolecule(m); }
-					else
-					{ return false; }
-				}
 			}
 			
 			return true;

@@ -6,9 +6,12 @@ namespace CellUnity
 {
 	public class MoleculeCollection : IEnumerable<Molecule>
 	{
-		public MoleculeCollection ()
+		public MoleculeCollection (string name)
 		{
+			this.name = name;
 		}
+
+		private string name;
 
 		private Molecule root = null;
 		private Molecule last = null;
@@ -19,7 +22,9 @@ namespace CellUnity
 		public void Add(Molecule molecule)
 		{
 			if (molecule.Collection != null)
-			{ throw new System.Exception("molecule already bleongs to another collection (Add called for "+ToString()+", actually is in "+molecule.Collection.ToString()+")"); }
+			{
+				throw new System.Exception("molecule already bleongs to another collection (Add called for "+ToString()+", actually is in "+molecule.Collection.ToString()+")");
+			}
 
 			if (root == null)
 			{
@@ -47,7 +52,9 @@ namespace CellUnity
 		public void Remove(Molecule molecule)
 		{
 			if (molecule.Collection != this)
-			{ throw new System.Exception("molecule already bleongs to another collection (Remove called for "+ToString()+", actually is in "+molecule.Collection.ToString()+")"); }
+			{
+				throw new System.Exception("molecule already bleongs to another collection (Remove called for "+ToString()+", actually is in "+molecule.Collection.ToString()+")");
+			}
 
 			if (molecule == root && molecule == last)
 			{
@@ -149,6 +156,10 @@ namespace CellUnity
 			return new Enumerator (this);
 		}
 
+		public override string ToString ()
+		{
+			return name;
+		}
 	}
 }
 

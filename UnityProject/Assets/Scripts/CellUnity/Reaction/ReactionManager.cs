@@ -24,16 +24,55 @@ namespace CellUnity.Reaction
 			}
 		}
 
+		private Molecule selectedMolecule;
+		private ReactionType selectedReaction;
+
+		public Molecule SelectedMolecule
+		{
+			get 
+			{
+				if (selectedMolecule != null && selectedMolecule.Collection == null) // means that the Molecule has been deleted
+				{ SelectedMolecule = null; }
+
+				return selectedMolecule;
+			}
+			set
+			{
+				if (value != selectedMolecule)
+				{
+					selectedMolecule = value;
+					selectedReaction = null;
+				}
+			}
+		}
+
+		public ReactionType SelectedReaction
+		{
+			get { return selectedReaction; }
+			set
+			{
+				if (value != selectedReaction)
+				{
+					selectedReaction = value;
+				}
+			}
+		}
+
 		private ShortKeyDict<ReactionType, int> openReactions = new ShortKeyDict<ReactionType, int>();
 
 		public void PerformReaction(ReactionPrep reactionPrep)
 		{
+			bool selectedInvolved = false;
+
 			// calculate center
 			
 			Vector3 center = Vector3.zero;
 			float centerSum = 0;
 		
 			foreach (Molecule m in reactionPrep.Molecules) {
+
+				selectedInvolved |= (m == SelectedMolecule);
+
 				m.ClearReactionPrep();
 				
 				center += m.Position * m.Species.Size;
@@ -74,8 +113,21 @@ namespace CellUnity.Reaction
 				product.rigidbody.velocity = productVelocity;
 
 				productPosition += new Vector3(product.Species.Size * 1.2f, 0, 0); // so products don't touch
+
+				if (selectedInvolved)
+				{
+					selectedInvolved = false;
+					
+					SelectedMolecule = product;
+				}
 			}			
-			
+
+			if (selectedInvolved)
+			{
+				selectedInvolved = false;
+				SelectedMolecule = null;
+			}
+
 			// flash
 			
 			GameObject flash = (GameObject)GameObject.Instantiate(LightFlash.GetPrefabObject(), Vector3.Lerp(center, Camera.main.gameObject.transform.position, 0.5f), Quaternion.identity);
@@ -91,8 +143,25 @@ namespace CellUnity.Reaction
 			CUE cue = CUE.GetInstance ();
 
 			ReactionPrep reactionPrep = new ReactionPrep(reaction);
-			if (cue.Molecules.FindMolecuelsForReaction(reactionPrep))
+
+			bool moleculesFound;
+
+			// Select molecules
+
+			if (selectedMolecule != null && selectedReaction != null && selectedReaction == reaction && selectedMolecule.ReactionPrep == null) // Prefer selected molecule if suitable
 			{
+				moleculesFound = cue.Molecules.FindMolecuelsForReaction(reactionPrep, selectedMolecule);
+			}
+			else
+			{
+				// select random molecules
+				moleculesFound = cue.Molecules.FindMolecuelsForReaction(reactionPrep);
+			}
+
+			if (moleculesFound)
+			{
+				// Ready reactions for 0 to 1 reagents because Collision is never called for these molecules
+
 				if (reactionPrep.MoleculeCount == 0)
 				{
 					reactionPrep.Ready(null);
@@ -107,7 +176,8 @@ namespace CellUnity.Reaction
 			else
 			{ 
 				// not sufficient molecules for reaction
-				reactionPrep.Release();
+
+				reactionPrep.Release(); // remove ReactonPrep from Molecules
 
 				if (queueIfNotPossible)
 				{

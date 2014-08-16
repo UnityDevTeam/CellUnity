@@ -40,7 +40,10 @@ namespace CellUnity
 		}
 		
 		void OnMouseDown() {
-			Camera.main.transform.parent = gameObject.transform;
+
+			CUE cue = CUE.GetInstance ();
+			cue.ReactionManager.SelectedMolecule = this;
+			cue.ScriptManager.GetOrAddScript<CellUnity.View.MoleculeSelectScript> ().enabled = true;
 		}
 
 		[System.NonSerialized]
@@ -61,10 +64,10 @@ namespace CellUnity
 		{
 			if (this.reactionPrep != null)
 			{
-				this.reactionPrep = null;
-
 				CUE cue = CUE.GetInstance ();
 				cue.Molecules.ClearReactionPrep (this);
+
+				this.reactionPrep = null;
 			}
 		}
 

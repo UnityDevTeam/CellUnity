@@ -62,15 +62,18 @@ namespace CellUnity.Utility
 			where T : Component
 		{
 			T script = GetScript<T> ();
-			RemoveComponent (script);
+			if (script != null)
+			{
+				RemoveComponent (script);
+			}
 		}
 
 		public static void RemoveComponent(Component component)
 		{
 			if (Application.isEditor)
-			{ MonoBehaviour.DestroyImmediate (component); }
+			{ Component.DestroyImmediate (component); }
 			else
-			{ MonoBehaviour.Destroy (component); }
+			{ Component.Destroy (component); }
 		}
 	}
 }

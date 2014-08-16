@@ -30,7 +30,7 @@ namespace CellUnity.Reaction
 		{
 			foreach (var m in molecules)
 			{
-				m.ClearReactionPrep();
+				m.ReleaseReactionPrep();
 			}
 
 			molecules.Clear ();
