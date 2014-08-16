@@ -1,19 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\Molecule.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" Line="97" Column="35" />
-      <File FileName="Assets\Editor\CellUnity\Gui\CustomListViews.cs" Line="65" Column="1" />
-      <File FileName="Assets\Scripts\CellUnity\MoleculeManager.cs" Line="120" Column="1" />
-      <File FileName="Assets\Scripts\CellUnity\Reaction\ReactionPrep.cs" Line="39" Column="84" />
-      <File FileName="Assets\Scripts\CellUnity\Molecule.cs" Line="97" Column="31" />
+      <File FileName="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" Line="146" Column="6" />
+      <File FileName="Assets\Scripts\CellUnity\MoleculeManager.cs" Line="102" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Users\daniel\Projects\Unity\CellUnity\UnityProject\Assets\Scripts\CellUnity\CUE.cs" line="71" />
       <Breakpoint file="C:\Users\daniel\Projects\CellUnity\UnityProject\Assets\Editor\CellUnity\Gui\CustomListViews.cs" line="65" />
-      <Breakpoint file="C:\Users\daniel\Projects\CellUnity\UnityProject\Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" line="90" />
       <Breakpoint file="C:\Users\daniel\Projects\CellUnity\UnityProject\Assets\Scripts\CellUnity\MoleculeManager.cs" line="102" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

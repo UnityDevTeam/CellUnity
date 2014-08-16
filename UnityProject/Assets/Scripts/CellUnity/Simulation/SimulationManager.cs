@@ -205,7 +205,7 @@ namespace CellUnity.Simulation
 					if (stepsQueue.Count == 0) { break; }
 					step = stepsQueue.Dequeue();
 				}
-				
+
 				CUE cue = CUE.GetInstance();
 				
 				System.Text.StringBuilder info = new System.Text.StringBuilder(); // TODO: remove
@@ -219,7 +219,7 @@ namespace CellUnity.Simulation
 						cue.ReactionManager.InitiateReaction(item.ReactionType, true);	
 					}
 				}
-				
+
 				Debug.Log(info.ToString());
 			}
 		}
