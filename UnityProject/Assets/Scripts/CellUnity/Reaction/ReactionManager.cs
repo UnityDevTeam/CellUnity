@@ -67,10 +67,13 @@ namespace CellUnity.Reaction
 			Vector3 productVelocity = momentum / productMassSum;
 			
 			// create products
-			
+
+			Vector3 productPosition = center;
 			foreach (MoleculeSpecies productS in productSpecies) {
-				GameObject product = (GameObject)GameObject.Instantiate(productS.GetPrefabObject(), center, Quaternion.identity);
+				Molecule product = productS.CreateMolecule(productPosition);
 				product.rigidbody.velocity = productVelocity;
+
+				productPosition += new Vector3(product.Species.Size * 1.2f, 0, 0); // so products don't touch
 			}			
 			
 			// flash

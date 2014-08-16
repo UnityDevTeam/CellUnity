@@ -1,8 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CellUnity\Molecule.cs">
     <Files>
-      <File FileName="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" Line="91" Column="1" />
+      <File FileName="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" Line="97" Column="35" />
+      <File FileName="Assets\Editor\CellUnity\Gui\CustomListViews.cs" Line="65" Column="1" />
+      <File FileName="Assets\Scripts\CellUnity\MoleculeManager.cs" Line="120" Column="1" />
+      <File FileName="Assets\Scripts\CellUnity\Reaction\ReactionPrep.cs" Line="39" Column="84" />
+      <File FileName="Assets\Scripts\CellUnity\Molecule.cs" Line="97" Column="31" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -10,9 +14,11 @@
       <Breakpoint file="C:\Users\daniel\Projects\Unity\CellUnity\UnityProject\Assets\Scripts\CellUnity\CUE.cs" line="71" />
       <Breakpoint file="C:\Users\daniel\Projects\CellUnity\UnityProject\Assets\Editor\CellUnity\Gui\CustomListViews.cs" line="65" />
       <Breakpoint file="C:\Users\daniel\Projects\CellUnity\UnityProject\Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" line="90" />
+      <Breakpoint file="C:\Users\daniel\Projects\CellUnity\UnityProject\Assets\Scripts\CellUnity\MoleculeManager.cs" line="102" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="Assets\Scripts\CellUnity\Simulation\Copasi\Copasi.cs" line="227" offsetX="469" offsetY="3842" expression="function" liveUpdate="False" />
+    <Watch file="Assets\Scripts\CellUnity\MoleculeManager.cs" line="102" offsetX="653" offsetY="1717" expression="species" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>
