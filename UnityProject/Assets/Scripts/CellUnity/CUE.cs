@@ -23,6 +23,8 @@ namespace CellUnity
 			//hideFlags = HideFlags.HideInHierarchy;
 			Debug.Log ("CUE enabled "+ToString());
 
+			Volume = volume; // recalculate Radius
+
 			if (species == null) {
 				species = new List<MoleculeSpecies>();
 			}
@@ -49,7 +51,23 @@ namespace CellUnity
 		
 		public float SimulationStep = 1;
 		public float VisualizationStep = 1;
-		public float Volume = 0.00001f;
+
+		[SerializeField]
+		private float volume = 1e-16f;
+		private float unityRadius;
+
+		public float UnityRadius { get { return unityRadius; } }
+
+		public float Volume
+		{
+			get { return volume; }
+			set
+			{
+				this.volume = value;
+				this.unityRadius = Utils.ScaleFromNm(Utils.GetSphereRadius(this.volume));
+			}
+		}
+
 
 		[SerializeField]
 		public int ID = System.DateTime.Now.Millisecond;
@@ -152,6 +170,19 @@ namespace CellUnity
 		public void ResetData() {
 			reactionTypes.Clear ();
 			species.Clear ();
+		}
+
+		public void MakeCompartment()
+		{
+			//GameObject obj = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+			//obj.name = "Compartment";
+			GameObject obj = GameObject.Find ("Compartment");
+
+			float s = UnityRadius * 2;
+			obj.transform.position = Vector3.zero;
+			obj.transform.localScale = new Vector3 (s, s, s);
+
+			obj.collider.enabled = false;
 		}
 	}
 }

@@ -65,6 +65,7 @@ namespace CellUnity.View
 
 				if (GUILayout.Button("Follow"))
 			    {
+					m.rigidbody.velocity = Vector3.left;
 				}
 
 				if (GUILayout.Button("Deselect"))

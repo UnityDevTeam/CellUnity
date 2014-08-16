@@ -148,7 +148,12 @@ namespace CellUnity.Reaction
 
 			// Select molecules
 
-			if (selectedMolecule != null && selectedReaction != null && selectedReaction == reaction && selectedMolecule.ReactionPrep == null) // Prefer selected molecule if suitable
+			// Prefer selected molecule if suitable
+			if (
+				selectedMolecule != null && selectedReaction != null && // molecule and reaction must be selected
+				selectedReaction == reaction && 						// selected reaction must match current reaction
+				selectedMolecule.ReactionPrep == null					// selected molecule must not be already involved in a reaction
+				) 
 			{
 				moleculesFound = cue.Molecules.FindMolecuelsForReaction(reactionPrep, selectedMolecule);
 			}

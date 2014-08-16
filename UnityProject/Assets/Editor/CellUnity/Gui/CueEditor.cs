@@ -24,9 +24,7 @@ public class CueEditor : Editor
 	}
 	
 	private static Dispenser dispenser = new Dispenser();
-
-	private static bool linkDispenserVolumeToSimulationVolume = true;
-
+	
 	public static void CueGui(CUE cue) {
 
 		EditorGUILayout.LabelField ("ID", cue.ID.ToString());
@@ -80,12 +78,13 @@ public class CueEditor : Editor
 		Space ();
 		GUILayout.Label ("Placing", EditorStyles.boldLabel);
 
+		GUILayout.BeginHorizontal ();
 		dispenser.Radius = EditorGUILayout.FloatField("Radius [nm]:", dispenser.Radius);
-		linkDispenserVolumeToSimulationVolume = EditorGUILayout.Toggle ("Link to Simulation:", linkDispenserVolumeToSimulationVolume);
-		if (linkDispenserVolumeToSimulationVolume)
+		if (GUILayout.Button("f.Sim", GUILayout.MaxWidth(50)))
 		{
 			dispenser.Radius = Utils.GetSphereRadius(cue.Volume);
 		}
+		GUILayout.EndHorizontal ();
 		
 		if (GUILayout.Button ("Remove all Molecules")) {
 			cue.RemoveMolecules();
@@ -164,6 +163,11 @@ public class CueEditor : Editor
 		
 		if (GUILayout.Button ("Save Assets")) {
 			AssetDatabase.SaveAssets();
+		}
+
+		if (GUILayout.Button("Compartment"))
+	    {
+			cue.MakeCompartment();
 		}
 
 		Space ();
