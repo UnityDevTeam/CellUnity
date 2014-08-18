@@ -97,7 +97,7 @@ namespace CellUnity
 
 				Vector3 force = Vector3.Normalize(destination - Position);
 			
-				rigidbody.AddForce(force);
+				rigidbody.AddForce(force, ForceMode.Acceleration);
 			
 				//Debug.Log(force);
 			}

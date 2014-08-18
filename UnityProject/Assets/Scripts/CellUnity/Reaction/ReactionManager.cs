@@ -91,7 +91,7 @@ namespace CellUnity.Reaction
 			Vector3 momentum = Vector3.zero;
 			
 			foreach (Molecule m in reactionPrep.Molecules) {
-				momentum += m.rigidbody.velocity * m.Species.Mass;
+				momentum += m.rigidbody.velocity; //* m.Species.Mass;  // ignore mass (because it doesnt work properly when a very big and a very small molecule collide
 			}
 			
 			float productMassSum = 0;
@@ -103,7 +103,7 @@ namespace CellUnity.Reaction
 				productSizeSum += productS.Size;
 			}
 			
-			Vector3 productVelocity = momentum / productMassSum;
+			Vector3 productVelocity = momentum; // / productMassSum; // ignore mass (because it doesnt work properly when a very big and a very small molecule collide
 			
 			// create products
 
