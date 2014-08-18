@@ -63,8 +63,13 @@ namespace CellUnity
 			get { return volume; }
 			set
 			{
-				this.volume = value;
-				this.unityRadius = Utils.ScaleFromNm(Utils.GetSphereRadius(this.volume));
+				this.unityRadius = Utils.ScaleFromNm(Utils.GetSphereRadius(value));
+
+				if (value != this.volume)
+				{
+					this.volume = value;
+					MakeCompartment();
+				}
 			}
 		}
 
@@ -177,12 +182,14 @@ namespace CellUnity
 			//GameObject obj = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 			//obj.name = "Compartment";
 			GameObject obj = GameObject.Find ("Compartment");
+			if (obj != null)
+			{
+				float s = UnityRadius * 2;
+				obj.transform.position = Vector3.zero;
+				obj.transform.localScale = new Vector3 (s, s, s);
 
-			float s = UnityRadius * 2;
-			obj.transform.position = Vector3.zero;
-			obj.transform.localScale = new Vector3 (s, s, s);
-
-			obj.collider.enabled = false;
+				obj.collider.enabled = false;
+			}
 		}
 	}
 }

@@ -17,6 +17,9 @@ namespace CellUnity.View
 		void Update () {
 		
 		}
+
+		private bool following = false;
+		private Quaternion followMoleculeRotation;
 		
 		void OnGUI () {
 			
@@ -24,6 +27,15 @@ namespace CellUnity.View
 
 
 			Molecule m = cue.ReactionManager.SelectedMolecule;
+
+			if (following)
+			{
+				CameraControl.Follow = m.gameObject;
+			}
+			else
+			{
+				CameraControl.Follow = null;
+			}
 
 			if (m == null)
 			{
@@ -63,9 +75,9 @@ namespace CellUnity.View
 
 				GUILayout.BeginHorizontal();
 
-				if (GUILayout.Button("Follow"))
+				if (GUILayout.Button(following ? "Stay" : "Follow"))
 			    {
-					m.rigidbody.velocity = Vector3.left;
+					following = !following;
 				}
 
 				if (GUILayout.Button("Deselect"))
@@ -125,6 +137,7 @@ namespace CellUnity.View
 
 		private void Deselect()
 		{
+			CameraControl.Follow = null;
 			CUE cue = CUE.GetInstance ();
 			cue.ReactionManager.SelectedMolecule = null;
 			
