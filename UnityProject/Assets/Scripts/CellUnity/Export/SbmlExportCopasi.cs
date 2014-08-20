@@ -15,6 +15,8 @@ namespace CellUnity.Export
 		{
 			using (Copasi copasi = new Copasi())
 			{
+				copasi.UpdateCompartmentVolume(cue.Volume);
+
 				foreach (var item in cue.Species) {
 					copasi.AddSpecies(item);
 					copasi.UpdateSpeciesQuantity(

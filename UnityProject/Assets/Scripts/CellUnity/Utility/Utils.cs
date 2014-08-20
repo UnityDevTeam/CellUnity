@@ -67,12 +67,12 @@ namespace CellUnity.Utility
 
 		public static float ScaleFromNm(float nm)
 		{
-			return nm * 4;
+			return nm;
 		}
 
 		public static float ScaleToNm(float unityUnit)
 		{
-			return unityUnit / 4;
+			return unityUnit;
 		}
 
 		public static float GetSphereRadius(float volumeNanoliter)

@@ -81,9 +81,9 @@ namespace CellUnity.Model.Pdb
 		{
 			var sphere = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 
-			float scale = Utils.ScaleFromNm(atom.Element.Radius);
+			float scale = Utils.ScaleFromNm(atom.Element.VdWRadius);
 			sphere.transform.localScale = new Vector3 (scale, scale, scale);
-			sphere.transform.position = new Vector3 (atom.X, atom.Y, atom.Z);
+			sphere.transform.position = new Vector3 (Utils.ScaleFromNm(atom.X), Utils.ScaleFromNm(atom.Y), Utils.ScaleFromNm(atom.Z));
 			Material m = Resources.Load<Material> ("Atoms/Material" + atom.Element.Symbol);
 			if (m != null)
 			{ sphere.renderer.material = m; }

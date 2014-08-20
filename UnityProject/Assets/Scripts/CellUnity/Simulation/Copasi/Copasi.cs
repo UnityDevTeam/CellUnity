@@ -319,7 +319,7 @@ namespace CellUnity.Simulation.Copasi
 			// existing file with the same name and we want SBML L2V3
 			try
 			{
-				dataModel.exportSBML("model.xml", true, 2, 3);
+				dataModel.exportSBML(filename, true, 2, 3);
 				// Attention: it is not possible to export the global quantities to SBML, the export fails
 			}
 			catch
