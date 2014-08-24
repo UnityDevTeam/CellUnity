@@ -81,7 +81,7 @@ namespace CellUnity.Model.Pdb
 		{
 			var sphere = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 
-			float scale = Utils.ScaleFromNm(atom.Element.VdWRadius);
+			float scale = 2 * Utils.ScaleFromNm(atom.Element.VdWRadius); // *2 because scale describes indirectly the diameter
 			sphere.transform.localScale = new Vector3 (scale, scale, scale);
 			sphere.transform.position = new Vector3 (Utils.ScaleFromNm(atom.X), Utils.ScaleFromNm(atom.Y), Utils.ScaleFromNm(atom.Z));
 			Material m = Resources.Load<Material> ("Atoms/Material" + atom.Element.Symbol);
