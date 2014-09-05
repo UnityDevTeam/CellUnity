@@ -79,11 +79,12 @@
      <Compile Include="Assets\Scripts\CellUnity\Utility\ShortKeyDict.cs" />
      <Compile Include="Assets\Scripts\CellUnity\Utility\Utils.cs" />
      <Compile Include="Assets\Scripts\CellUnity\View\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\CellUnity\View\Diffusion.cs" />
      <Compile Include="Assets\Scripts\CellUnity\View\MoleculeSelectScript.cs" />
      <Compile Include="Assets\Scripts\CellUnity\View\VolumeGizmo.cs" />
      <Compile Include="Assets\Scripts\Test\AutoReaction.cs" />
-     <Compile Include="Assets\Scripts\Test\Diffusion.cs" />
      <Compile Include="Assets\Scripts\Test\MenuScript.cs" />
+     <Compile Include="Assets\Scripts\Test\ObjInfoBehaviourScript.cs" />
  <Reference Include="copasicsP">
  <HintPath>C:/Users/daniel/Projects/CellUnity/UnityProject/Assets/copasicsP.dll</HintPath>
  </Reference>

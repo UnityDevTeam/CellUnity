@@ -4,6 +4,12 @@ using System.Collections.Generic;
 
 namespace CellUnity
 {
+	/// <summary>
+	/// Doubly linked List of Molecules.
+	/// Uses the Molecule's CollectionNext, CollectionPrevious and Collection fields to link
+	/// each Molecule can only be assigned to one MoleculeCollection at a time. MoleculeCollections
+	/// are used in the MoleculeManager.
+	/// </summary>
 	public class MoleculeCollection : IEnumerable<Molecule>
 	{
 		public MoleculeCollection (string name)
@@ -11,14 +17,35 @@ namespace CellUnity
 			this.name = name;
 		}
 
+		/// <summary>
+		/// Name of the collection, for debug reasons
+		/// </summary>
 		private string name;
 
+		/// <summary>
+		/// first item of the list, null when no item is assigned
+		/// </summary>
 		private Molecule root = null;
+		/// <summary>
+		/// last item of the list, null when no item is assigned
+		/// </summary>
 		private Molecule last = null;
 
+		/// <summary>
+		/// field of Property Count
+		/// </summary>
 		private ulong count = 0;
+		/// <summary>
+		/// Gets the count of the items in the list.
+		/// </summary>
+		/// <value>The count.</value>
 		public ulong Count { get { return count; } }
 
+		/// <summary>
+		/// Add a molecule to the collection. Molecule must not be already in another
+		/// collection.
+		/// </summary>
+		/// <param name="molecule">Molecule to add</param>
 		public void Add(Molecule molecule)
 		{
 			if (molecule.Collection != null)
@@ -49,6 +76,10 @@ namespace CellUnity
 			count++;
 		}
 
+		/// <summary>
+		/// Removes a molecule from the collection.
+		/// </summary>
+		/// <param name="molecule">Molecule to remove. Molecule must be contained in this collection</param>
 		public void Remove(Molecule molecule)
 		{
 			if (molecule.Collection != this)
@@ -58,6 +89,8 @@ namespace CellUnity
 
 			if (molecule == root && molecule == last)
 			{
+				// count == 1
+
 				root = null;
 				last = null;
 
@@ -69,6 +102,8 @@ namespace CellUnity
 			}
 			else if (molecule == root)
 			{
+				// item is first item and count > 1
+
 				root = molecule.CollectionNext;
 				root.CollectionPrevious = null;
 
@@ -80,6 +115,8 @@ namespace CellUnity
 			}
 			else if (molecule == last)
 			{
+				// item is last item and count > 1
+
 				last = molecule.CollectionPrevious;
 				last.CollectionNext = null;
 
@@ -91,6 +128,8 @@ namespace CellUnity
 			}
 			else
 			{
+				// item is not first and not last, therefore count > 2
+
 				molecule.CollectionPrevious.CollectionNext = molecule.CollectionNext;
 				molecule.CollectionNext.CollectionPrevious = molecule.CollectionPrevious;
 
@@ -102,6 +141,9 @@ namespace CellUnity
 			}
 		}
 
+		/// <summary>
+		/// Enumertor of a molecule collection
+		/// </summary>
 		private class Enumerator : IEnumerator<Molecule>
 		{
 			public Enumerator(MoleculeCollection collection)

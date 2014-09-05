@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace CellUnity.Test
+namespace CellUnity.View
 {
 	public class Diffusion : MonoBehaviour {
 
@@ -15,7 +15,7 @@ namespace CellUnity.Test
 		
 		}
 
-		public float Intensity = 1f;
+		public float Intensity = 0.05f;
 
 		private float GetRandomValue()
 		{
@@ -25,7 +25,7 @@ namespace CellUnity.Test
 		void FixedUpdate()
 		{
 			Vector3 force = new Vector3 (GetRandomValue (), GetRandomValue (), GetRandomValue ());
-			rigidbody.AddForce(force);
+			rigidbody.AddForce(force, ForceMode.VelocityChange);
 		}
 	}
 }

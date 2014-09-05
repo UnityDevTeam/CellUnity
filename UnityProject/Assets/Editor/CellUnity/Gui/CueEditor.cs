@@ -166,11 +166,6 @@ public class CueEditor : Editor
 			AssetDatabase.SaveAssets();
 		}
 
-		if (GUILayout.Button("Compartment"))
-	    {
-			cue.MakeCompartment();
-		}
-
 		Space ();
 
 		//if (GUILayout.Button ("Reset")) {

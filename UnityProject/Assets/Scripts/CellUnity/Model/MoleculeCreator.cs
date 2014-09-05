@@ -14,6 +14,8 @@ namespace CellUnity.Model
 		public string name = null;
 		public float mass = 1f;
 
+		public float Diffusion = 0.05f;
+
 		public MoleculeSpecies Create()
 		{
 			findName ();
@@ -66,6 +68,9 @@ namespace CellUnity.Model
 			rigidbody.useGravity = false;
 			rigidbody.mass = mass;
 			sphereCollider.radius = colliderRadius;
+
+			View.Diffusion diffusion = mol.AddComponent<View.Diffusion> ();
+			diffusion.Intensity = Diffusion;
 
 			string assetPath = "Assets/Molecules/" + name + ".prefab";
 			UnityEngine.Object prefab = PrefabUtility.CreateEmptyPrefab(assetPath);

@@ -14,6 +14,9 @@ namespace CellUnity.Dispensing
 		public Vector3 Location = Vector3.zero;
 		public float Radius = 2;
 
+		public float DragDelay = 2;
+		public float InitialDrag = 1000;
+
 		private Queue<MoleculeSpecies> molecules = new Queue<MoleculeSpecies> ();
 		
 		public void AddMolecules(MoleculeSpecies species, int count)
@@ -30,12 +33,12 @@ namespace CellUnity.Dispensing
 			{
 				MoleculeSpecies s = molecules.Dequeue();
 
-				Vector3 l = Location + Random.insideUnitSphere * Utility.Utils.ScaleFromNm(Radius);
+				Vector3 l = Location + Random.insideUnitSphere * Utility.Utils.ScaleFromNm((Radius - s.Size));
 
 				Molecule m = s.CreateMolecule(l);
 				DelayedDrag delayedDrag = m.gameObject.AddComponent<DelayedDrag>();
-				delayedDrag.delay = 2;
-				delayedDrag.initialDrag = 1000;
+				delayedDrag.delay = DragDelay;
+				delayedDrag.initialDrag = InitialDrag;
 				delayedDrag.drag = Molecule.Drag;
 			}
 		}
