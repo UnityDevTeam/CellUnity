@@ -3,6 +3,9 @@ using System.Collections;
 
 namespace CellUnity.Model.Pdb
 {
+	/// <summary>
+	/// Represents an Atom in a PDB file
+	/// </summary>
 	public class Atom
 	{
 		/// <summary>
@@ -19,11 +22,27 @@ namespace CellUnity.Model.Pdb
 			this.Y = y;
 			this.Z = z;
 		}
-		
+
+		/// <summary>
+		/// Gets the x coordinate in nm.
+		/// </summary>
+		/// <value>x Value.</value>
 		public float X { get; private set; }
+		/// <summary>
+		/// Gets the y coordinate in nm.
+		/// </summary>
+		/// <value>y Value.</value>
 		public float Y { get; private set; }
+		/// <summary>
+		/// Gets the z coordinate in nm.
+		/// </summary>
+		/// <value>z Value.</value>
 		public float Z { get; private set; }
-		
+
+		/// <summary>
+		/// Gets the element of the Atom.
+		/// </summary>
+		/// <value>The element.</value>
 		public Element Element { get; private set; }
 		
 		public override string ToString()

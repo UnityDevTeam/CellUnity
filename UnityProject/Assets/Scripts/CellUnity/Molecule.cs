@@ -158,22 +158,7 @@ namespace CellUnity
 
 			CUE cue = CUE.GetInstance ();
 
-			if (Species != null)
-			{
-				float size = Species.Size;
-
-				float radius = cue.UnityRadius - size;
-				float distance = Vector3.Distance (Vector3.zero, Position);
-				if (distance > radius)
-				{
-					Vector3 p = Position / distance * radius;
-
-					Position = p;
-
-					rigidbody.velocity = -rigidbody.velocity; // todo: realistic reflection
-				}
-
-			}
+			cue.CheckCompartmentCollision (this);
 		}
 
 		/// <summary>

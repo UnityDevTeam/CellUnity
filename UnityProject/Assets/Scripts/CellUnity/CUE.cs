@@ -302,5 +302,29 @@ namespace CellUnity
 				obj.collider.enabled = false;
 			}
 		}
+
+		/// <summary>
+		/// Checks and handles the compartment wall collision of a molecule
+		/// </summary>
+		/// <param name="molecule">Molecule.</param>
+		public void CheckCompartmentCollision (Molecule molecule)
+		{
+			if (molecule.Species != null)
+			{
+				float size = molecule.Species.Size;
+
+				float radius = UnityRadius - size;
+				float distance = Vector3.Distance (Vector3.zero, molecule.Position);
+				if (distance > radius)
+				{
+					Vector3 p = molecule.Position / distance * radius;
+					
+					molecule.Position = p;
+
+					molecule.rigidbody.velocity = -molecule.rigidbody.velocity; // todo: realistic reflection
+				}
+				
+			}
+		}
 	}
 }
