@@ -137,7 +137,7 @@ namespace CellUnity.Reaction
 		public override bool Equals (object o)
 		{
 			ReactionType other;
-			if (Utils.TypeEquals<ReactionType> (this, o, out other)) {
+			if (Utils.TypeEquals<ReactionType> (o, out other)) {
 
 				return 
 					(GetInstanceID() == other.GetInstanceID()) &&

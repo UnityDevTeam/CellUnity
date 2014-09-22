@@ -3,7 +3,7 @@ using System.Collections;
 using CellUnity;
 using CellUnity.Utility;
 
-namespace CellUnity.View
+namespace CellUnity.Test
 {
 	public class VolumeGizmo : MonoBehaviour {
 

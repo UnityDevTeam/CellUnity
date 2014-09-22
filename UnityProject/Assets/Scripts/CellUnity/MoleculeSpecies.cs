@@ -102,7 +102,7 @@ namespace CellUnity
 		public override bool Equals (object o)
 		{
 			MoleculeSpecies other;
-			if (Utils.TypeEquals<MoleculeSpecies> (this, o, out other)) {
+			if (Utils.TypeEquals<MoleculeSpecies> (o, out other)) {
 				
 				return 
 					(GetInstanceID() == other.GetInstanceID()) &&

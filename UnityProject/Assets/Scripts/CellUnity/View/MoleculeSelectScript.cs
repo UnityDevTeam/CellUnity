@@ -6,6 +6,10 @@ using CellUnity.Utility;
 
 namespace CellUnity.View
 {
+	/// <summary>
+	/// Script that shows an info menu about the selected molecule and lets
+	/// the user select the next reaction
+	/// </summary>
 	public class MoleculeSelectScript : MonoBehaviour {
 
 		// Use this for initialization
@@ -25,9 +29,10 @@ namespace CellUnity.View
 			
 			CUE cue = CUE.GetInstance();
 
-
+			// Get selected molecule
 			Molecule m = cue.ReactionManager.SelectedMolecule;
 
+			// Set following
 			if (following)
 			{
 				CameraControl.Follow = m.gameObject;
@@ -37,6 +42,7 @@ namespace CellUnity.View
 				CameraControl.Follow = null;
 			}
 
+			// Draw menu or remove script if no moleule is selected
 			if (m == null)
 			{
 				RemoveScript();

@@ -3,6 +3,10 @@ using System.Collections;
 
 namespace CellUnity.View
 {
+	/// <summary>
+	/// Script that mimics diffusion (just for illustration, not a realistic
+	/// diffusion)
+	/// </summary>
 	public class Diffusion : MonoBehaviour {
 
 		// Use this for initialization
@@ -15,6 +19,9 @@ namespace CellUnity.View
 		
 		}
 
+		/// <summary>
+		/// The intensity of the diffusion
+		/// </summary>
 		public float Intensity = 0.05f;
 
 		private float GetRandomValue()
@@ -24,6 +31,7 @@ namespace CellUnity.View
 
 		void FixedUpdate()
 		{
+			// apply random force
 			Vector3 force = new Vector3 (GetRandomValue (), GetRandomValue (), GetRandomValue ());
 			rigidbody.AddForce(force, ForceMode.VelocityChange);
 		}
