@@ -6,14 +6,24 @@ using System.Text;
 
 namespace CellUnity.Reaction
 {
+	/// <summary>
+	/// Represents a reaction type.
+	/// </summary>
 	[System.Serializable]
 	public class ReactionType : ScriptableObject {
 
+		/// <summary>
+		/// Name of the Reaction
+		/// </summary>
 		public string Name = "";
 
 		[SerializeField]
 		private float rate = 1;
 
+		/// <summary>
+		/// Gets or sets the reaction rate in nl/(nmol*s)
+		/// </summary>
+		/// <value>The rate.</value>
 		public float Rate
 		{
 			get { return rate; }
@@ -29,6 +39,11 @@ namespace CellUnity.Reaction
 		[SerializeField]
 		private MoleculeSpecies[] reagents = new MoleculeSpecies[] {};
 
+		/// <summary>
+		/// Gets or sets the reagents.
+		/// Must not be null and must contain 1 or more species.
+		/// </summary>
+		/// <value>The reagents.</value>
 		public MoleculeSpecies[] Reagents
 		{
 			get { return reagents; }
@@ -43,6 +58,12 @@ namespace CellUnity.Reaction
 
 		[SerializeField]
 		private MoleculeSpecies[] products = new MoleculeSpecies[] {};
+
+		/// <summary>
+		/// Gets or sets the reaction products.
+		/// Must not be null.
+		/// </summary>
+		/// <value>The products.</value>
 		public MoleculeSpecies[] Products
 		{
 			get { return products; }
@@ -78,7 +99,7 @@ namespace CellUnity.Reaction
 				addPlus = true;
 			}
 			
-			s.Append(" \u2192 ");
+			s.Append(" \u2192 "); // arrow
 			
 			addPlus = false;
 			foreach (MoleculeSpecies product in Products) {
@@ -98,7 +119,11 @@ namespace CellUnity.Reaction
 			}
 			
 		}
-		
+
+		/// <summary>
+		/// Gets an unique name of the reaction that is never empty or null
+		/// </summary>
+		/// <returns>The auto name.</returns>
 		public string GetAutoName()
 		{
 			return Name + "reaction"+Mathf.Abs(this.GetInstanceID()).ToString();	

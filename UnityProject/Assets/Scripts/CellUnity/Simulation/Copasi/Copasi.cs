@@ -7,6 +7,10 @@ using CellUnity.Reaction;
 
 namespace CellUnity.Simulation.Copasi
 {
+	/// <summary>
+	/// CellUnity COPASI Wrapper.
+	/// Helps to convert between COPASI and CellUnity entitites
+	/// </summary>
 	public class Copasi : IDisposable
 	{
 		public Copasi ()
@@ -33,9 +37,16 @@ namespace CellUnity.Simulation.Copasi
 			changedObjects = new ObjectStdVector();
 		}
 
+		/// <summary>
+		/// Frees the COPASI Datamodel
+		/// </summary>
 		public void Dispose()
 		{
 			CCopasiRootContainer.removeDatamodel (dataModel);
+
+			copasiMetabBySpecies.Clear ();
+			copasiReactionByReactionType.Clear ();
+			copasiReactionFluxValueByReaction.Clear ();
 		}
 
 		private static bool initCopasiCalled = false;
@@ -114,6 +125,10 @@ namespace CellUnity.Simulation.Copasi
 		private Dictionary<ReactionType, CReaction> copasiReactionByReactionType = new Dictionary<ReactionType, CReaction> ();
 		private Dictionary<CReaction, CModelValue> copasiReactionFluxValueByReaction = new Dictionary<CReaction, CModelValue> ();
 
+		/// <summary>
+		/// Updates the compartment volume.
+		/// </summary>
+		/// <param name="volume">Volume in nl</param>
 		public void UpdateCompartmentVolume(double volume)
 		{
 			compartment.setInitialValue (volume);
@@ -121,6 +136,11 @@ namespace CellUnity.Simulation.Copasi
 			changedObjects.Add(obj);
 		}
 
+		/// <summary>
+		/// Adds a Species to COPASI
+		/// </summary>
+		/// <returns>COPASI Metabolite</returns>
+		/// <param name="species">Species.</param>
 		public CMetab AddSpecies(MoleculeSpecies species)
 		{
 			CCompartment compartment = this.compartment;
@@ -134,17 +154,31 @@ namespace CellUnity.Simulation.Copasi
 			return metab;
 		}
 
+		/// <summary>
+		/// Gets the COPASI Metabolite by Species
+		/// </summary>
+		/// <returns>The metab.</returns>
+		/// <param name="species">Species.</param>
 		public CMetab GetMetab(MoleculeSpecies species)
 		{
 			return copasiMetabBySpecies [species];
 		}
 
+		/// <summary>
+		/// Remove a species.
+		/// </summary>
+		/// <param name="species">Species to remove.</param>
 		public void RemoveSpecies(MoleculeSpecies species)
 		{
 			model.removeMetabolite (GetMetab (species));
 			copasiMetabBySpecies.Remove (species);
 		}
 
+		/// <summary>
+		/// Updates a species quantity.
+		/// </summary>
+		/// <param name="metab">Metab.</param>
+		/// <param name="quantity">Quantity.</param>
 		public void UpdateSpeciesQuantity(CMetab metab, double quantity)
 		{
 			metab.setInitialValue(quantity); // use setInitialValue for Number (not Concentration) see Doc 1.5.2.3 metabolites 
@@ -152,6 +186,11 @@ namespace CellUnity.Simulation.Copasi
 			changedObjects.Add(obj);
 		}
 
+		/// <summary>
+		/// Gets a COPASI Metab Array by a Species Array
+		/// </summary>
+		/// <returns>The metabs.</returns>
+		/// <param name="species">Species.</param>
 		private CMetab[] GetMetabs(MoleculeSpecies[] species)
 		{
 			CMetab[] result = new CMetab[species.Length];
@@ -164,6 +203,11 @@ namespace CellUnity.Simulation.Copasi
 			return result;
 		}
 
+		/// <summary>
+		/// Adds a reaction type to COPASI
+		/// </summary>
+		/// <returns>COPASI reaction.</returns>
+		/// <param name="reactionType">Reaction type.</param>
 		public CReaction AddReaction(ReactionType reactionType)
 		{
 			string name = reactionType.GetAutoName();
@@ -178,6 +222,13 @@ namespace CellUnity.Simulation.Copasi
 			return reaction;
 		}
 
+		/// <summary>
+		/// Updates a reaction.
+		/// </summary>
+		/// <param name="reaction">COPASI Reaction.</param>
+		/// <param name="reagents">Reagents.</param>
+		/// <param name="products">Products.</param>
+		/// <param name="rate">Rate.</param>
 		public void UpdateReaction(CReaction reaction, MoleculeSpecies[] reagents, MoleculeSpecies[] products, double rate)
 		{
 			// we can set these on the chemical equation of the reaction
@@ -257,11 +308,20 @@ namespace CellUnity.Simulation.Copasi
 			}
 		}
 
+		/// <summary>
+		/// Gets the COPASI reaction by a ReactionType
+		/// </summary>
+		/// <returns>COPASI reaction.</returns>
+		/// <param name="reaction">Reaction type.</param>
 		public CReaction GetReaction(ReactionType reaction)
 		{
 			return copasiReactionByReactionType [reaction];
 		}
-		
+
+		/// <summary>
+		/// Removes a reaction.
+		/// </summary>
+		/// <param name="reaction">Reaction.</param>
 		public void RemoveReaction(ReactionType reaction)
 		{
 			CReaction copasiReaction = GetReaction (reaction);
@@ -276,6 +336,11 @@ namespace CellUnity.Simulation.Copasi
 			}
 		}
 
+		/// <summary>
+		/// Adds a global quantity value for the particle flux of a reaction
+		/// </summary>
+		/// <returns>Modle Value</returns>
+		/// <param name="reaction">Reaction</param>
 		public CModelValue AddReactionParticleFluxValue(CReaction reaction)
 		{
 			// create global quantity value
@@ -297,6 +362,9 @@ namespace CellUnity.Simulation.Copasi
 			return modelValue;
 		}
 
+		/// <summary>
+		/// Compiles the model and updates the initial values.
+		/// </summary>
 		public void CompileAndUpdate()
 		{
 			// finally compile the model
@@ -312,6 +380,10 @@ namespace CellUnity.Simulation.Copasi
 			changedObjects = new ObjectStdVector();
 		}
 
+		/// <summary>
+		/// Exports the COPASI DataModel to a SBML file
+		/// </summary>
+		/// <param name="filename">Filename.</param>
 		public void ExportSbml(string filename)
 		{
 			// export the model to an SBML file
@@ -328,6 +400,10 @@ namespace CellUnity.Simulation.Copasi
 			}
 		}
 
+		/// <summary>
+		/// Saves the DataModel to a COPASI file.
+		/// </summary>
+		/// <param name="filename">Filename.</param>
 		public void SaveModel(string filename)
 		{
 			// save the model to a COPASI file

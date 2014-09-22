@@ -6,19 +6,29 @@ using CellUnity.Utility;
 
 namespace CellUnity.Reaction
 {
+	/// <summary>
+	/// The assignment of the ReactionManager is to initiate reactions and to perform
+	/// them when all reagents collide. Reactions are usually initiated by the
+	/// simulation manager.
+	/// </summary>
 	public class ReactionManager {
 
-		//void OnEnable ()
-		//{
-		//	hideFlags = HideFlags.HideInHierarchy;
-		//}
-
+		/// <summary>
+		/// Handle the collision of two molecules
+		/// </summary>
+		/// <param name="m1">molecule 1</param>
+		/// <param name="m2">molecule 2</param>
 		public void Collision(Molecule m1, Molecule m2)
 		{
+			// check if ReactionPrep of both molecules is not null and if the ReactionPrep equals
 			if ((m1.ReactionPrep != null) && (m1.ReactionPrep == m2.ReactionPrep))
 			{
+				// both molecules have the same ReactionPrep assigned and therefore
+				// belong to the same reaction
+
 				ReactionPrep reactionPrep = m1.ReactionPrep;
-				
+
+				// make the molecules ready for reacting
 				reactionPrep.Ready(m1);
 				reactionPrep.Ready(m2);
 			}
@@ -27,6 +37,12 @@ namespace CellUnity.Reaction
 		private Molecule selectedMolecule;
 		private ReactionType selectedReaction;
 
+		/// <summary>
+		/// Gets or sets the selected molecule.
+		/// A selected molecule is prefrerred for reactions.
+		/// When set SelectedReaction is set to null.
+		/// </summary>
+		/// <value>The selected molecule.</value>
 		public Molecule SelectedMolecule
 		{
 			get 
@@ -46,6 +62,12 @@ namespace CellUnity.Reaction
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the selected reaction.
+		/// A selected molecule and a selected reaction is defined,
+		/// the selected molecule is prefered for a this type of reaction
+		/// </summary>
+		/// <value>The selected reaction.</value>
 		public ReactionType SelectedReaction
 		{
 			get { return selectedReaction; }
@@ -58,8 +80,16 @@ namespace CellUnity.Reaction
 			}
 		}
 
+		/// <summary>
+		/// Queues reactions that could not be executed when initiated.
+		/// </summary>
 		private ShortKeyDict<ReactionType, int> openReactions = new ShortKeyDict<ReactionType, int>();
 
+		/// <summary>
+		/// Performs a reaction.
+		/// Called by the ReactionPrep when all molecules are ready.
+		/// </summary>
+		/// <param name="reactionPrep">Reaction prep.</param>
 		public void PerformReaction(ReactionPrep reactionPrep)
 		{
 			bool selectedInvolved = false;
@@ -135,9 +165,15 @@ namespace CellUnity.Reaction
 			float intensity = 2f * (float)System.Math.Sqrt(productSizeSum);
 			flash.GetComponent<LightFlash>().FinalIntensity = intensity;
 
-			TryPerformOpenReaction ();
+			TryInitiateOpenReactions ();
 		}
 
+		/// <summary>
+		/// Initiates a reaction.
+		/// </summary>
+		/// <returns><c>true</c>, if the reaction was initiated, <c>false</c> otherwise.</returns>
+		/// <param name="reaction">Reaction.</param>
+		/// <param name="queueIfNotPossible">If set to <c>true</c>, the reaction is queued and performed later if the reaction is not possible at the moment.</param>
 		public bool InitiateReaction(ReactionType reaction, bool queueIfNotPossible)
 		{
 			CUE cue = CUE.GetInstance ();
@@ -201,7 +237,10 @@ namespace CellUnity.Reaction
 			}
 		}
 
-		private void TryPerformOpenReaction()
+		/// <summary>
+		/// Tries to initiate queued reactions.
+		/// </summary>
+		private void TryInitiateOpenReactions()
 		{
 			ShortKeyDict<ReactionType, int>.Entry entry = null;
 			while (openReactions.GetNext(entry, out entry))

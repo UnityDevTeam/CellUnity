@@ -7,8 +7,14 @@ using CellUnity.Reaction;
 
 namespace CellUnity.Simulation.Copasi
 {
+	/// <summary>
+	/// COPASI Simulator for CellUnity
+	/// </summary>
 	public class CopasiSimulator : ISimulator
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CellUnity.Simulation.Copasi.CopasiSimulator"/> class.
+		/// </summary>
 		public CopasiSimulator()
 		{
 			copasi = new Copasi();
@@ -18,7 +24,11 @@ namespace CellUnity.Simulation.Copasi
 		private CUE cue;
 		private double currentTime;
 		private List<CopasiReactionGroup> reactionList = new List<CopasiReactionGroup> ();
-		
+
+		/// <summary>
+		/// Init Simulator with CUE
+		/// </summary>
+		/// <param name="cue">CUE</param>
 		public void Init(CUE cue)
 		{
 			this.cue = cue;
@@ -26,8 +36,13 @@ namespace CellUnity.Simulation.Copasi
 			Reload ();
 		}
 
+		/// <summary>
+		/// Reload data from CUE
+		/// </summary>
 		public void Reload()
 		{
+			// reset data
+
 			reactionList.Clear();
 
 			if (copasi != null)
@@ -70,6 +85,10 @@ namespace CellUnity.Simulation.Copasi
 			currentTime = 0;
 		}
 
+		/// <summary>
+		/// Simulate a Step and return data
+		/// </summary>
+		/// <param name="stepDuration">Step duration in seconds.</param>
 		public SimulationStep Step(double stepDuration)
 		{
 			CTrajectoryTask trajectoryTask = copasi.TrajectoryTask;
@@ -110,7 +129,10 @@ namespace CellUnity.Simulation.Copasi
 			
 			return new SimulationStep(reactionCount);
 		}
-		
+
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
 		public void Dispose()
 		{
 			if (copasi != null)

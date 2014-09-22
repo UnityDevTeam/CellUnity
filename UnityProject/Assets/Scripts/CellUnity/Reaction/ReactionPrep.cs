@@ -4,8 +4,17 @@ using System.Collections.Generic;
 
 namespace CellUnity.Reaction
 {
+	/// <summary>
+	/// Reaction Preparation.
+	/// Created when a reaction is initiated. Contains all necessary information
+	/// for a specific reaction.
+	/// </summary>
 	public class ReactionPrep {
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CellUnity.Reaction.ReactionPrep"/> class.
+		/// </summary>
+		/// <param name="t">Reaction Type</param>
 		public ReactionPrep(ReactionType t)
 		{
 			this.reactionType = t;
@@ -20,12 +29,20 @@ namespace CellUnity.Reaction
 			}
 		}
 
+		/// <summary>
+		/// Adds a molecule to the reaction prep.
+		/// AssignReactionPrep method of the molecule is called.
+		/// </summary>
+		/// <param name="molecule">Molecule.</param>
 		public void AddMolecule(Molecule molecule)
 		{
 			molecules.Add (molecule);
 			molecule.AssignReactionPrep(this);
 		}
 
+		/// <summary>
+		/// ReleaseReactionPrep method of all molecules is called.
+		/// </summary>
 		public void Release()
 		{
 			foreach (var m in molecules)
@@ -36,8 +53,17 @@ namespace CellUnity.Reaction
 			molecules.Clear ();
 		}
 
+		/// <summary>
+		/// True if all necessary molecules are added and the reaction is not
+		/// yet performed.
+		/// </summary>
+		/// <value><c>true</c> if active; otherwise, <c>false</c>.</value>
 		public bool Active { get { return (molecules.Count == ready.Length) && !performed; } }
 
+		/// <summary>
+		/// Number of molecules added.
+		/// </summary>
+		/// <value>The molecule count.</value>
 		public int MoleculeCount { get {  return molecules.Count; } }
 
 		private ReactionType reactionType;
@@ -45,10 +71,22 @@ namespace CellUnity.Reaction
 		private bool[] ready;
 		
 		private bool performed = false;
-		
+
+		/// <summary>
+		/// Gets the type of the reaction.
+		/// </summary>
+		/// <value>The type of the reaction.</value>
 		public ReactionType ReactionType { get{ return reactionType; } }
+		/// <summary>
+		/// Gets the molecules involved in the reaction
+		/// </summary>
+		/// <value>The molecules.</value>
 		public Molecule[] Molecules { get { return molecules.ToArray(); } }
-		
+
+		/// <summary>
+		/// Gets the expected location of the reaction, where all molecules collide.
+		/// </summary>
+		/// <returns>The expected reaction location.</returns>
 		public Vector3 GetExpectedReactionLocation()
 		{
 			Vector3 center = Vector3.zero;
@@ -65,7 +103,13 @@ namespace CellUnity.Reaction
 			
 			return center;
 		}
-		
+
+		/// <summary>
+		/// Set a molecule ready for reactiong.
+		/// Called when molecules collide with each other.
+		/// When all molecules are ready, cue.ReactionManager.PerformReaction is called.
+		/// </summary>
+		/// <param name="molecule">Molecule.</param>
 		public void Ready(Molecule molecule)
 		{
 			bool allReady = true;

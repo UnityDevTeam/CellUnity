@@ -1,93 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>10.0.20506</ProductVersion>
-	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{5B580621-09B4-68CB-B5F4-5B9DD210A60F}</ProjectGuid>
-	<OutputType>Library</OutputType>
-	<AppDesignerFolder>Properties</AppDesignerFolder>
-	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<FileAlignment>512</FileAlignment>
-	<BaseDirectory>Assets</BaseDirectory>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5B580621-09B4-68CB-B5F4-5B9DD210A60F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	<DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
-	<Optimize>false</Optimize>
-	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_4_5_3;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_5_3;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	<DebugType>pdbonly</DebugType>
-	<Optimize>true</Optimize>
-	<OutputPath>Temp\bin\Release\</OutputPath>
-	<DefineConstants>TRACE</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="System" />
-    <Reference Include="System.XML" />
-	<Reference Include="System.Core" />
-	<Reference Include="System.Xml.Linq" />
-	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
-	</Reference>
-	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
-	</Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:\Program Files %28x86%29\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\CellUnity\CUE.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Dispensing\Dispenser.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Export\SbmlExportCopasi.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Model\MoleculeCreator.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Atom.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Bond.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Element.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Molecule.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\PdbImport.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\PdbParser.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Molecule.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\MoleculeCollection.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\MoleculeManager.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\MoleculeSpecies.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Reaction\LightFlash.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionPrep.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionType.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\Copasi.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiReactionGroup.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Simulation\ISimulator.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Simulation\ReactionCount.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationManager.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationState.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationStep.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulatorScript.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Utility\DelayedDrag.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Utility\FLog.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Utility\ScriptManager.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Utility\ShortKeyDict.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\Utility\Utils.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\View\CameraControl.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\View\Diffusion.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\View\MoleculeSelectScript.cs" />
-     <Compile Include="Assets\Scripts\CellUnity\View\VolumeGizmo.cs" />
-     <Compile Include="Assets\Scripts\Test\AutoReaction.cs" />
-     <Compile Include="Assets\Scripts\Test\MenuScript.cs" />
-     <Compile Include="Assets\Scripts\Test\ObjInfoBehaviourScript.cs" />
- <Reference Include="copasicsP">
- <HintPath>C:/Users/daniel/Projects/CellUnity/UnityProject/Assets/copasicsP.dll</HintPath>
- </Reference>
+    <Compile Include="Assets\Scripts\CellUnity\CUE.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Dispensing\Dispenser.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Export\SbmlExportCopasi.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Model\MoleculeCreator.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Atom.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Bond.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Element.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\Molecule.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\PdbImport.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Model\Pdb\PdbParser.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Molecule.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\MoleculeCollection.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\MoleculeManager.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\MoleculeSpecies.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Reaction\LightFlash.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionManager.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionPrep.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Reaction\ReactionType.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\Copasi.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiReactionGroup.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Simulation\Copasi\CopasiSimulator.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Simulation\ISimulator.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Simulation\ReactionCount.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationManager.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationState.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulationStep.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Simulation\SimulatorScript.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Utility\DelayedDrag.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Utility\ScriptManager.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Utility\ShortKeyDict.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\Utility\Utils.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\View\CameraControl.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\View\Diffusion.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\View\MoleculeSelectScript.cs" />
+    <Compile Include="Assets\Scripts\CellUnity\View\VolumeGizmo.cs" />
+    <Compile Include="Assets\Scripts\Test\AutoReaction.cs" />
+    <Compile Include="Assets\Scripts\Test\MenuScript.cs" />
+    <Compile Include="Assets\Scripts\Test\ObjInfoBehaviourScript.cs" />
+    <Reference Include="copasicsP">
+      <HintPath>C:\Users\daniel\Projects\CellUnity\UnityProject\Assets\copasicsP.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -97,5 +95,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>

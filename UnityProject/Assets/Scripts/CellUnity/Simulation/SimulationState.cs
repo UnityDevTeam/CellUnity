@@ -1,8 +1,11 @@
 namespace CellUnity.Simulation
 {
-		public enum SimulationState
-		{
-			Stopped, Paused, Running
-		}
+	/// <summary>
+	/// Simulation state.
+	/// </summary>
+	public enum SimulationState
+	{
+		Stopped, Paused, Running
+	}
 }
 

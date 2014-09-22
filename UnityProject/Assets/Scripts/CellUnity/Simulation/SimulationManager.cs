@@ -6,15 +6,35 @@ using CellUnity.Reaction;
 
 namespace CellUnity.Simulation
 {
+	/// <summary>
+	/// Simulation manager.
+	/// The simulation is started and administered by the simulation manager.
+	/// The manager is also responsible for the data transfer with the simulator
+	/// as well as the utilization of the simulation results.
+	/// </summary>
 	public class SimulationManager
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CellUnity.Simulation.SimulationManager"/> class.
+		/// </summary>
 		public SimulationManager()
 		{
 			runInMainThread = true;
 		}
-		
+
+		/// <summary>
+		/// Simulator used by CellUnity
+		/// </summary>
 		private ISimulator simulator;
+		/// <summary>
+		/// Current state of the simulator
+		/// </summary>
 		private SimulationState state;
+		/// <summary>
+		/// Can only be set in constructor.
+		/// If true, the simulation is run in the main thread,
+		/// if false, a new thread is started for the simulation.
+		/// </summary>
 		private readonly bool runInMainThread;
 		
 		public void Reload()
@@ -49,11 +69,19 @@ namespace CellUnity.Simulation
 			else if (oldState == SimulationState.Paused)
 			{ Pause(); }
 			else if (oldState == SimulationState.Stopped)
-			{state = SimulationState.Stopped; }
+			{ state = SimulationState.Stopped; }
 		}
-		
+
+		/// <summary>
+		/// Gets the current state of the simulator.
+		/// </summary>
+		/// <value>Simulator state</value>
 		public SimulationState State { get { return state; } }
-		
+
+		/// <summary>
+		/// Starts the simulation.
+		/// Can only be called in Play Mode
+		/// </summary>
 		public void Start()
 		{
 			if (!Application.isPlaying) 
@@ -82,6 +110,9 @@ namespace CellUnity.Simulation
 			}
 		}
 
+		/// <summary>
+		/// Pauses the Simulation.
+		/// </summary>
 		public void Pause()
 		{
 			if (state == SimulationState.Stopped)
@@ -95,7 +126,10 @@ namespace CellUnity.Simulation
 				Debug.Log("Simulation pause");
 			}
 		}
-		
+
+		/// <summary>
+		/// Stops the Simulation.
+		/// </summary>
 		public void Stop()
 		{
 			if ((state == SimulationState.Running || state == SimulationState.Paused) && simulationThread != null)
@@ -113,6 +147,9 @@ namespace CellUnity.Simulation
 			}
 		}
 
+		/// <summary>
+		/// Simulates one step.
+		/// </summary>
 		private void SimulateStep()
 		{
 			Debug.Log ("Step");
@@ -124,6 +161,9 @@ namespace CellUnity.Simulation
 			nextStep = nextStep.AddSeconds(cue.VisualizationStep);
 		}
 
+		/// <summary>
+		/// Can be called every frame. Runs a Simulation Step if necessary.
+		/// </summary>
 		public void MainThreadRunSimulation()
 		{
 			if (state == SimulationState.Paused)
@@ -143,25 +183,34 @@ namespace CellUnity.Simulation
 			}
 		}
 
+		/// <summary>
+		/// Time that indicates when the next simulation step is simulated.
+		/// </summary>
 		DateTime nextStep;
 
+		/// <summary>
+		/// Simulation Thread Method.
+		/// </summary>
 		private void RunSimulation()
 		{
 			try
 			{
 				while (true)
 				{
+					// Free CPU by call Thread.Sleep
 					while (nextStep > DateTime.Now) {
 						int sleepTime = System.Math.Max (0, (int)((nextStep - DateTime.Now).TotalMilliseconds * 0.95));
 						Thread.Sleep(sleepTime);
 					}
 
+					// Wait while Simulation is paused
 					while (state == SimulationState.Paused)
 					{
 						Thread.Sleep(500);
 						nextStep = DateTime.Now;
 					}
 
+					// Simulate Step
 					SimulateStep();
 				}
 			}
@@ -178,11 +227,24 @@ namespace CellUnity.Simulation
 			}
 		}
 
+		/// <summary>
+		/// Simulation thread.
+		/// </summary>
 		private Thread simulationThread;
-		
+
+		/// <summary>
+		/// Queue which holds simulation results
+		/// </summary>
 		private Queue<SimulationStep> stepsQueue = new Queue<SimulationStep>();
+		/// <summary>
+		/// Thread lock object of the stepsQueue.
+		/// </summary>
 		private readonly object stepsQueueLock = new object();
-		
+
+		/// <summary>
+		/// Enqueue a Simulation Result. Thread-safe.
+		/// </summary>
+		/// <param name="step">Simulation Result.</param>
 		private void EnqueueStep(SimulationStep step)
 		{
 			lock (stepsQueueLock)
@@ -190,7 +252,11 @@ namespace CellUnity.Simulation
 				stepsQueue.Enqueue(step);
 			}
 		}
-		
+
+		/// <summary>
+		/// Should be called every frame.
+		/// Processes Simulation results and initiates reactions.
+		/// </summary>
 		public void Update()
 		{
 			if (runInMainThread)
@@ -198,6 +264,7 @@ namespace CellUnity.Simulation
 				MainThreadRunSimulation();
 			}
 
+			// Process Simulation Results
 			while (true) {
 				SimulationStep step;
 				lock (stepsQueueLock)
